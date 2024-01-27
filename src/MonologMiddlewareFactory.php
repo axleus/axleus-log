@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Log;
+namespace Axleus\Log;
 
 use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;

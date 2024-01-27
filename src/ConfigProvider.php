@@ -2,7 +2,7 @@
 // todo: migrate this module to axleus/axleus-core
 declare(strict_types=1);
 
-namespace Log;
+namespace Axleus\Log;
 
 use Psr\Log\LoggerInterface;
 

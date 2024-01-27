@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Log\Processor;
+namespace Axleus\Log\Processor;
 
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Log;
+namespace Axleus\Log;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterInterface;

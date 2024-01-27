@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Log;
+namespace Axleus\Log;
 
 use Mezzio\Authentication\UserInterface;
 use Monolog\Logger;
