@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log;
 
-use Log\Processor\RamseyUuidProcessor;
+use Axleus\Log\Processor\RamseyUuidProcessor;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
 use Psr\Container\ContainerInterface;
