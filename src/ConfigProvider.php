@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
  */
 class ConfigProvider
 {
-    public const TABLE_NAME = 'log';
     /**
      * Returns the configuration array
      *
@@ -26,7 +25,7 @@ class ConfigProvider
             'dependencies' => $this->getDependencies(),
             'middleware_pipeline' => $this->getPipelineConfig(),
             'templates'    => $this->getTemplates(),
-            'log'          => $this->getRepositoryConfig(),
+            SettingsProvider::class => (new SettingsProvider)(),
         ];
     }
 
@@ -56,13 +55,6 @@ class ConfigProvider
                 ],
                 'priority'   => 9000,
             ],
-        ];
-    }
-
-    public function getRepositoryConfig(): array
-    {
-        return [
-            'table' => self::TABLE_NAME,
         ];
     }
 
