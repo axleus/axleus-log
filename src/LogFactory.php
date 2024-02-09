@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log;
 
+use Axleus\Log\Processor\LaminasI18nProcessor;
 use Axleus\Log\Processor\RamseyUuidProcessor;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -22,6 +23,8 @@ final class LogFactory
         $logger->pushProcessor($processor);
         $processor = new PsrLogMessageProcessor(null, false);
         $logger->pushProcessor($processor);
+        $logger->pushProcessor($container->get(LaminasI18nProcessor::class));
+
         return $logger;
     }
 }

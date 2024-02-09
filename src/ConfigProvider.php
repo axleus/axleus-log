@@ -42,6 +42,7 @@ class ConfigProvider
                 LoggerInterface::class   => LogFactory::class,
                 MonologMiddleware::class => MonologMiddlewareFactory::class,
                 RepositoryHandler::class => RepositoryHandlerFactory::class,
+                Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
             ],
         ];
     }

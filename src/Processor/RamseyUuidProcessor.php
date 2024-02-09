@@ -17,7 +17,7 @@ final class RamseyUuidProcessor implements ProcessorInterface
      * @return LogRecord
      * @throws UnsupportedOperationException
      */
-    public function __invoke(LogRecord $record)
+    public function __invoke(LogRecord $record): LogRecord
     {
         $record->extra['uuid'] = (Uuid::uuid7($record->datetime))->toString();
         return $record;
