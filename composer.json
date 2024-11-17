@@ -10,10 +10,14 @@
     "authors": [
         {
             "name": "Joey Smith",
-            "email": "jsmith@webinertia.net",
-            "homepage": "https://github.com/axleus"
+            "email": "jsmith@webinertia.net"
         }
     ],
+    "support": {
+        "issues": "https://github.com/axleus/axleus-log/issues",
+        "forum": "https://github.com/orgs/axleus/discussions",
+        "chat": "https://discord.gg/9TxQ74EPsG"
+    },
     "suggest": {
     },
     "require": {
