@@ -15,11 +15,8 @@
     ],
     "homepage": "https://github.com/orgs/axleus/discussions",
     "support": {
-        "issues": "https://github.com/axleus/axleus-log/issues",
-        "forum": "https://github.com/orgs/axleus/discussions",
+        "issues": "https://github.com/axleus/axleus-htmx/issues",
         "chat": "https://discord.gg/9TxQ74EPsG"
-    },
-    "suggest": {
     },
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
