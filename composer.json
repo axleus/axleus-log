@@ -27,7 +27,7 @@
         "ramsey/uuid": "^4.7"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.5",
+        "laminas/laminas-coding-standard": "^3.0",
         "phpunit/phpunit": "^10.2",
         "psalm/plugin-phpunit": "^0.18.4",
         "roave/security-advisories": "dev-master",
