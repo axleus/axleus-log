@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Log\Repository;
+namespace Axleus\Log\Handler;
 
 use Laminas\Db\TableGateway\TableGatewayInterface;
 use Monolog\Level;
@@ -10,7 +10,7 @@ use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
 
 // todo: refactor this to use the adapter and a insert instance
-final class RepositoryHandler extends AbstractProcessingHandler
+final class LaminasDbHandler extends AbstractProcessingHandler
 {
     public function __construct(
         private TableGatewayInterface $gateway,

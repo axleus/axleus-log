@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Axleus\Log\Repository;
+namespace Axleus\Log\Handler;
 
 use Axleus\Db;
 use Axleus\Log\ConfigProvider;
@@ -13,30 +13,26 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-final class RepositoryHandlerFactory
+final class LaminasDbHandlerFactory
 {
     /**
-     *
      * @param ContainerInterface $container
-     * @return RepositoryHandler
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function __invoke(ContainerInterface $container): RepositoryHandler
+    public function __invoke(ContainerInterface $container): LaminasDbHandler
     {
         /** @var array{log: array{table: string}} */
         $config = $container->get('config');
-        if (
-            ! empty($config[ConfigProvider::APP_SETTINGS_KEY])
-            && ! empty($config[ConfigProvider::APP_SETTINGS_KEY][ConfigProvider::class])
+        if (! empty($config[ConfigProvider::class])
         ) {
-            $config = $config[ConfigProvider::APP_SETTINGS_KEY][ConfigProvider::class];
+            $config = $config[ConfigProvider::class];
         }
         /** @var Adapter */
         $adapter = $container->get(AdapterInterface::class);
 
         //$table = $config['log']['table'];
-        return new RepositoryHandler(
+        return new LaminasDbHandler(
             new TableGateway(
                 new Db\Sql\TableIdentifier(
                     $config['table'],
