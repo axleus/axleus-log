@@ -8,41 +8,37 @@ use Psr\Log\LoggerInterface;
 
 class ConfigProvider
 {
-    public final const APP_SETTINGS_KEY = 'app_settings';
-
     public function __invoke(): array
     {
         return [
             'dependencies'           => $this->getDependencies(),
             //'middleware_pipeline'    => $this->getPipelineConfig(),
             'templates'              => $this->getTemplates(),
-            static::APP_SETTINGS_KEY => $this->getAppSettings(),
+            static::class            => $this->getAxleusConfig(),
         ];
     }
 
-    public function getAppSettings(): array
+    public function getAxleusConfig(): array
     {
         return [
-            static::class => [
-                'channel'       => 'app',
-                'table'         => 'log',
-                'table_prefix'  => null,
-            ],
+            'channel'      => 'app',
+            'table'        => 'log',
+            'table_prefix' => null,
         ];
     }
 
     public function getDependencies(): array
     {
         return [
-            'invokables' => [
-                Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
-            ],
             'factories'  => [
+                Listener\MvcErrorListener::class      => Listener\MvcErrorListenerFactory::class,
                 LoggerInterface::class                => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
-                Repository\RepositoryHandler::class   => Repository\RepositoryHandlerFactory::class,
-                // uncomment this to provide translation support
-                //Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
+                Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
+                Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
+            ],
+            'invokables' => [
+                Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
             ],
         ];
     }
