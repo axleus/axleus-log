@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Axleus\Log\Container;
 
 use Axleus\Log\ConfigProvider;
+use Axleus\Log\LogChannel;
 use Axleus\Log\Handler\LaminasDbHandler;
 use Axleus\Log\Processor;
 use Laminas\Translator\TranslatorInterface;

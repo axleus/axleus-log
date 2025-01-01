@@ -12,6 +12,7 @@ class ConfigProvider
     {
         return [
             'dependencies'           => $this->getDependencies(),
+            'listeners'              => $this->getListenerrs(),
             //'middleware_pipeline'    => $this->getPipelineConfig(),
             'templates'              => $this->getTemplates(),
             static::class            => $this->getAxleusConfig(),
@@ -21,7 +22,8 @@ class ConfigProvider
     public function getAxleusConfig(): array
     {
         return [
-            'channel'      => 'app',
+            'log_errors'   => true,
+            'channel'      => LogChannel::App->value,
             'table'        => 'log',
             'table_prefix' => null,
         ];
@@ -32,6 +34,7 @@ class ConfigProvider
         return [
             'factories'  => [
                 Listener\MvcErrorListener::class      => Listener\MvcErrorListenerFactory::class,
+                Listener\Psr3LogListener::class       => Listener\Psr3LogListenerFactory::class,
                 LoggerInterface::class                => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
                 Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
@@ -40,6 +43,13 @@ class ConfigProvider
             'invokables' => [
                 Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
             ],
+        ];
+    }
+
+    public function getListenerrs(): array
+    {
+        return [
+            Listener\Psr3LogListener::class,
         ];
     }
 
