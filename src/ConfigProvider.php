@@ -22,6 +22,7 @@ class ConfigProvider
     public function getAxleusConfig(): array
     {
         return [
+            'log_errors'   => true,
             'channel'      => LogChannel::App->value,
             'table'        => 'log',
             'table_prefix' => null,
