@@ -39,7 +39,9 @@ final class LaminasDbHandlerFactory
                     $config['table_prefix']
                 ),
                 $adapter
-            )
+            ),
+            $config['table'], // for refactor
+            $container->get('config')['authentication']['username'] ?? 'email' // support mezzio-authentication-session
         );
     }
 }

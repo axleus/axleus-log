@@ -14,6 +14,8 @@ final class LaminasDbHandler extends AbstractProcessingHandler
 {
     public function __construct(
         private TableGatewayInterface $gateway,
+        private string $table,
+        private string $extraAuthIdentifier = 'email',
         protected Level $level = Level::Debug,
         protected bool $bubble = true
     ) {
@@ -28,12 +30,12 @@ final class LaminasDbHandler extends AbstractProcessingHandler
     protected function write(LogRecord $record): void
     {
         $message = [
-            'channel' => $record['channel'],
-            'level'   => $record['level_name'],
-            'uuid'    => $record['extra']['uuid'] ?? null,
-            'message' => $record->formatted,
-            'time'    => $record->datetime->format('U'),
-            'email'   => $record['extra']['email'] ?? null,
+            'channel'        => $record['channel'],
+            'level'          => $record['level_name'],
+            'uuid'           => $record['extra']['uuid'] ?? null,
+            'message'        => $record->formatted,
+            'time'           => $record->datetime->format('U'),
+            'userIdentifier' => $record['extra'][$this->extraAuthIdentifier] ?? null, // 'email' needs to change to userId
         ];
         // todo wrap this in a try catch
         $this->gateway->insert($message);

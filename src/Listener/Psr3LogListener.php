@@ -9,24 +9,29 @@ use Laminas\EventManager\EventManagerInterface;
 use Monolog\Level;
 use Psr\Log\LogLevel;
 
-final class LogEventListener extends AbstractListenerAggregate
+final class Psr3LogListener extends AbstractListenerAggregate
 {
+    public function __construct(
+        private LoggerInterface $logger,
+        private ?AuthenticationService $auth = null
+    ) {}
+
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
+        $this->listeners[] = $events->attach(LogLevel::ALERT, [$this, 'onLog']);
+        $this->listeners[] = $events->attach(LogLevel::CRITICAL, [$this, 'onLog']);
         $this->listeners[] = $events->attach(LogLevel::DEBUG, [$this, 'onLog']);
+        $this->listeners[] = $events->attach(LogLevel::EMERGENCY, [$this, 'onLog']);
+        $this->listeners[] = $events->attach(LogLevel::ERROR, [$this, 'onLog']);
         $this->listeners[] = $events->attach(LogLevel::INFO, [$this, 'onLog']);
         $this->listeners[] = $events->attach(LogLevel::WARNING, [$this, 'onLog']);
-        $this->listeners[] = $events->attach(LogLevel::ERROR, [$this, 'onLog']);
-        $this->listeners[] = $events->attach(LogLevel::CRITICAL, [$this, 'onLog']);
-        $this->listeners[] = $events->attach(LogLevel::ALERT, [$this, 'onLog']);
-        $this->listeners[] = $events->attach(LogLevel::EMERGENCY, [$this, 'onLog']);
     }
 
     public function onLog($event): void
     {
         $message = $event->getParam('message');
-        $level = $event->getParam('level');
+        $level   = $event->getParam('level');
         $context = $event->getParam('context');
-        echo sprintf('[%s] %s: %s', $level, $message, json_encode($context)) . PHP_EOL;
+        $this->logger->log($level, $message, $context);
     }
 }

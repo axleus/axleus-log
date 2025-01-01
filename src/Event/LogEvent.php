@@ -33,8 +33,7 @@ class LogEvent extends Event
 
     public function getLevel(): Level
     {
-        $level = Level::Debug;
-        return $this->getParam('level', $level->toPsrLogLevel());
+        return $this->getParam('level', Level::Debug);
     }
 
     public function setMessage(string $message): self
