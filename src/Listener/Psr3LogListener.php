@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 final class Psr3LogListener extends AbstractListenerAggregate
 {
     private array $identifiers = [
-        AbstractActionController::class,
+        AbstractController::class,
         MiddlewareInterface::class,
         RequestHandlerInterface::class,
     ];
