@@ -45,16 +45,14 @@ final class Psr3LogListener extends AbstractListenerAggregate
 
     public function onLog(EventInterface $event): void
     {
-        $logger = $this->logger;
-        $message = $event->getParam('message');
-        $context = $event->getParam('context', []);
-        /** @var Level */
-        $level   = $event->getParam('level');
-        /** @var LogChannel */
         $channel = $event->getParam('channel', LogChannel::App);
         if ($channel !== LogChannel::App) {
-            $logger = $this->logger->withName($channel->value);
+            $this->logger = $this->logger->withName($channel->value);
         }
-        $logger->log($level->toPsrLogLevel(), $message, $context);
+        $this->logger->log(
+            $event->getParam('level')->toPsrLogLevel(),
+            $event->getParam('message'),
+            $event->getParam('context', []),
+        );
     }
 }
