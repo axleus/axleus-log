@@ -24,7 +24,7 @@ final class LogFactory
             $config = $config[ConfigProvider::class];
         }
 
-        $logger = new Logger($config['channel']);
+        $logger = new Logger($config['channel']->value);
         /** @var LaminasDbHandler */
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);

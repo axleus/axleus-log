@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Axleus\Log\Event;
 
 use Axleus\Log\ConfigProvider;
+use Axleus\Log\LogChannel;
 use Laminas\EventManager\Event;
 use Monolog\Level;
 use Psr\Log\LogLevel;
 
 class LogEvent extends Event
 {
+    public final const EVENT_LOG           = 'log';
     public final const EVENT_LOG_DEBUG     = LogLevel::DEBUG;
     public final const EVENT_LOG_INFO      = LogLevel::INFO;
     public final const EVENT_LOG_WARNING   = LogLevel::WARNING;
@@ -58,17 +60,19 @@ class LogEvent extends Event
         return $this->getParam('extra', []);
     }
 
-    public function setChannel(string $channel): self
+    public function setChannel(LogChannel $channel): self
     {
         $this->setParam('channel', $channel);
         return $this;
     }
 
-    public function getChannel(): string
+    public function getChannel(): LogChannel
     {
+        $fromConfig = (new ConfigProvider())->getAxleusConfig()['channel'];
+
         return $this->getParam(
             'channel',
-            (new ConfigProvider())->getAxleusConfig()['channel']
+            LogChannel::tryFrom()
         );
     }
 
