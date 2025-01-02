@@ -10,7 +10,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractController;
 use Mezzio\Authentication\AuthenticationInterface;
 use Monolog\Level;
 use Psr\Http\Server\MiddlewareInterface;
