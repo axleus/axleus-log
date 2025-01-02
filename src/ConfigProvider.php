@@ -12,7 +12,7 @@ class ConfigProvider
     {
         return [
             'dependencies'           => $this->getDependencies(),
-            'listeners'              => $this->getListenerrs(),
+            'listeners'              => $this->getListeners(),
             //'middleware_pipeline'    => $this->getPipelineConfig(),
             'templates'              => $this->getTemplates(),
             static::class            => $this->getAxleusConfig(),
@@ -23,7 +23,7 @@ class ConfigProvider
     {
         return [
             'log_errors'   => true,
-            'channel'      => LogChannel::App->value,
+            'channel'      => LogChannel::App,
             'table'        => 'log',
             'table_prefix' => null,
         ];
@@ -46,7 +46,7 @@ class ConfigProvider
         ];
     }
 
-    public function getListenerrs(): array
+    public function getListeners(): array
     {
         return [
             Listener\Psr3LogListener::class,

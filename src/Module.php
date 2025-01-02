@@ -14,6 +14,7 @@ final class Module
             'service_manager'     => $provider->getDependencies(),
             'listeners' => [
                 Listener\MvcErrorListener::class,
+                Listener\Psr3LogListener::class,
             ],
         ];
     }
