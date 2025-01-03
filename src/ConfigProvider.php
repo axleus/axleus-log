@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log;
 
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Log\LoggerInterface;
 
 class ConfigProvider
@@ -11,6 +12,7 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'environment'            => Environment::Mezzio,
             'dependencies'           => $this->getDependencies(),
             'listeners'              => $this->getListeners(),
             //'middleware_pipeline'    => $this->getPipelineConfig(),
@@ -32,6 +34,11 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
+            'delegators' => [
+                ErrorHandler::class => [
+                    Container\MezzioErrorHandlerDelegator::class,
+                ],
+            ],
             'factories'  => [
                 Listener\MvcErrorListener::class      => Listener\MvcErrorListenerFactory::class,
                 Listener\Psr3LogListener::class       => Listener\Psr3LogListenerFactory::class,
