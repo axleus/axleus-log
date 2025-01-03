@@ -11,6 +11,7 @@ final class Module
         $provider = new ConfigProvider();
         return [
             ConfigProvider::class => $provider->getAxleusConfig(),
+            'environment'         => Environment::Mvc,
             'service_manager'     => $provider->getDependencies(),
             'listeners' => [
                 Listener\MvcErrorListener::class,
