@@ -34,9 +34,12 @@ class MonologMiddleware implements MiddlewareInterface
 
         $this->logger->pushProcessor(function (LogRecord $record) use ($userInterface) {
             /** @var non-empty-string */
-            $record['extra']['email'] = $userInterface->getIdentity();
+            $record['extra']['email'] = $userInterface?->getIdentity();
             return $record;
         });
+
+        // attach the logger to the request
+        $request = $request->withAttribute(LoggerInterface::class, $this->logger);
         return $handler->handle($request);
     }
 }

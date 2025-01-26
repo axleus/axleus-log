@@ -12,12 +12,12 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'environment'            => Environment::Mezzio,
-            'dependencies'           => $this->getDependencies(),
-            'listeners'              => $this->getListeners(),
-            //'middleware_pipeline'    => $this->getPipelineConfig(),
-            'templates'              => $this->getTemplates(),
-            static::class            => $this->getAxleusConfig(),
+            'log_env'             => Environment::Mezzio,
+            'dependencies'        => $this->getDependencies(),
+            'listeners'           => $this->getListeners(),
+            //'middleware_pipeline' => $this->getPipelineConfig(),
+            'templates'           => $this->getTemplates(),
+            static::class         => $this->getAxleusConfig(),
         ];
     }
 
@@ -67,7 +67,7 @@ class ConfigProvider
                 'middleware' => [
                     Middleware\MonologMiddleware::class,
                 ],
-                'priority'   => 9000,
+                //'priority'   => 9000,
             ],
         ];
     }
