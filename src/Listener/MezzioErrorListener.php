@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
-use Axleus\Log\LogChannel;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
