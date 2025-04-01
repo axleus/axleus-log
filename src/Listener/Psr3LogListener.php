@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\LogChannel;
 use Laminas\EventManager\AbstractListenerAggregate;
-use Laminas\EventManager\EventInterface;
-use Laminas\EventManager\EventManagerInterface;
 use Laminas\Mvc\Controller\AbstractController;
-use Monolog\Level;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;

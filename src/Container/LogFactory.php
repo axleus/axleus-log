@@ -30,7 +30,7 @@ final class LogFactory
             $channel = LogChannel::App->value;
         }
 
-        $logger = new Logger($channel);
+        $logger           = new Logger($channel);
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);
 
