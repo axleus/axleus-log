@@ -13,7 +13,7 @@ uncomment the following in the ConfigProvider class.
 'middleware_pipeline' => $this->getPipelineConfig(),
 ```
 
-To enable error logging in Mezzio simply provide the following top level config key from any ConfigProvider.
+To enable error logging in Mezzio or MVC simply provide the following top level config key from any ConfigProvider.
 
 ```php
 return [
@@ -21,14 +21,6 @@ return [
         'log_errors' => true,
     ],
 ];
-```
-
-## Laminas MVC Integration
-
-To provide error logging in Laminas MVC simply uncomment the listener in the Module.php file.
-
-```php
-Listener\MvcErrorListener::class,
 ```
 
 ## Default Channels
