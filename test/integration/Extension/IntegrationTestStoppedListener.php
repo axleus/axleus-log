@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace LaminasIntegrationTest\Db\Mysql\Extension;
+namespace AxleusTestIntegration\Log\Extension;
 
-use LaminasIntegrationTest\Db\Mysql\Platform\FixtureLoader;
+use AxleusTest\Log\Platform\FixtureLoader;
 use PHPUnit\Event\TestSuite\Finished;
 use PHPUnit\Event\TestSuite\FinishedSubscriber;
 

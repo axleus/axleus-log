@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaminasIntegrationTest\Db\Mysql\Platform;
+namespace AxleusTestIntegration\Log\Platform;
 
 // phpcs:ignore WebimpressCodingStandard.NamingConventions.Interface.Suffix
 interface FixtureLoader

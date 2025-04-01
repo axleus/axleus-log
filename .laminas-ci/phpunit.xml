@@ -7,7 +7,7 @@
     colors="true">
 
     <extensions>
-        <bootstrap class="LaminasIntegrationTest\Db\Mysql\Extension\ListenerExtension" />
+        <bootstrap class="AxleusTestIntegration\Log\Extension\ListenerExtension" />
     </extensions>
     <testsuites>
         <testsuite name="unit test">

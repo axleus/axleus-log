@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaminasIntegrationTest\Db\Mysql\Platform;
+namespace AxleusTestIntegration\Log\Platform;
 
 use Exception;
 use PDO;

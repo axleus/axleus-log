@@ -60,7 +60,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "AxleusTest\\Log\\": "test/"
+            "AxleusTest\\Log\\": "test/unit/",
+            "AxleusTestIntegration\\Log\\": "test/integration/"
         }
     },
     "scripts": {
