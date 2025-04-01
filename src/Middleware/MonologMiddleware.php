@@ -13,33 +13,10 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
-class MonologMiddleware implements MiddlewareInterface
+final class MonologMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private LoggerInterface|Logger $logger
     ) {
-    }
-
-    /**
-     * @psalm-suppress all
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
-    {
-        // todo: abstract this to detect which config is being used, mezzio-authentication or axleus-usermanager
-        /** @var UserInterface */
-        $userInterface = $request->getAttribute(UserInterface::class);
-
-        $this->logger->pushProcessor(function (LogRecord $record) use ($userInterface) {
-            /** @var non-empty-string */
-            $record['extra']['email'] = $userInterface?->getIdentity();
-            return $record;
-        });
-
-        // attach the logger to the request
-        $request = $request->withAttribute(LoggerInterface::class, $this->logger);
-        return $handler->handle($request);
     }
 }

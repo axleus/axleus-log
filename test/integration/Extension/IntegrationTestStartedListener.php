@@ -9,8 +9,6 @@ use AxleusTest\Log\Platform\MysqlFixtureLoader;
 use PHPUnit\Event\TestSuite\Started;
 use PHPUnit\Event\TestSuite\StartedSubscriber;
 
-use function getenv;
-
 final class IntegrationTestStartedListener implements StartedSubscriber
 {
     /** @var FixtureLoader[] */

@@ -13,7 +13,7 @@ final class Module
             ConfigProvider::class => $provider->getAxleusConfig(),
             'environment'         => Runtime::Mvc,
             'service_manager'     => $provider->getDependencies(),
-            'listeners' => [
+            'listeners'           => [
                 //Listener\MvcErrorListener::class,
                 Listener\Psr3LogListener::class,
             ],

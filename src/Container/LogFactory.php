@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Axleus\Log\Container;
 
 use Axleus\Log\ConfigProvider;
-use Axleus\Log\LogChannel;
 use Axleus\Log\Handler\LaminasDbHandler;
+use Axleus\Log\LogChannel;
 use Axleus\Log\Processor;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Logger;
@@ -18,7 +18,7 @@ final class LogFactory
 {
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
-        /** @var array{log: array{table: string}} */
+        /** @var array $config*/
         $config = $container->get('config');
         if (! empty($config[ConfigProvider::class])) {
             $config = $config[ConfigProvider::class];
@@ -31,7 +31,6 @@ final class LogFactory
         }
 
         $logger = new Logger($channel);
-        /** @var LaminasDbHandler */
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);
 

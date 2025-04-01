@@ -9,7 +9,6 @@
       <code><![CDATA[Listener\Psr3LogListener]]></code>
       <code><![CDATA[Middleware\MonologMiddleware]]></code>
       <code><![CDATA[Middleware\MonologMiddleware]]></code>
-      <code><![CDATA[Processor\LaminasI18nProcessor]]></code>
     </MissingDependency>
     <MixedArrayOffset>
       <code><![CDATA[[
@@ -29,19 +28,8 @@
     </UndefinedMethod>
   </file>
   <file src="src/Container/LogFactory.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$config['channel']]]></code>
-      <code><![CDATA[$config['enable_translatator']]]></code>
-      <code><![CDATA[$config['enable_uuid']]]></code>
-      <code><![CDATA[$config[ConfigProvider::class]]]></code>
-    </InvalidArrayOffset>
-    <MissingDependency>
-      <code><![CDATA[Processor\LaminasI18nProcessor]]></code>
-    </MissingDependency>
     <MixedArgument>
       <code><![CDATA[$config['channel']]]></code>
-      <code><![CDATA[$container->get(Processor\LaminasI18nProcessor::class)]]></code>
-      <code><![CDATA[Processor\LaminasI18nProcessor::class]]></code>
       <code><![CDATA[TranslatorInterface::class]]></code>
     </MixedArgument>
     <PossiblyNullArgument>
@@ -130,18 +118,9 @@
     </UnusedVariable>
   </file>
   <file src="src/Handler/LaminasDbHandlerFactory.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$config[ConfigProvider::class]]]></code>
-    </InvalidArrayOffset>
     <MixedArgument>
       <code><![CDATA[$container->get('config')['authentication']['username'] ?? 'email']]></code>
     </MixedArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$config['table']]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$config['table']]]></code>
-    </PossiblyUndefinedArrayOffset>
     <UnnecessaryVarAnnotation>
       <code><![CDATA[AdapterInterface]]></code>
     </UnnecessaryVarAnnotation>
@@ -247,9 +226,6 @@
     <MissingDependency>
       <code><![CDATA[MonologMiddleware]]></code>
     </MissingDependency>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$container]]></code>
-    </PossiblyUnusedParam>
   </file>
   <file src="src/Module.php">
     <MissingDependency>
@@ -259,17 +235,7 @@
       <code><![CDATA[Module]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Processor/LaminasI18nProcessor.php">
-    <UndefinedClass>
-      <code><![CDATA[TranslatorAwareInterface]]></code>
-    </UndefinedClass>
-  </file>
   <file src="src/Processor/LaminasI18nProcessorFactory.php">
-    <MissingDependency>
-      <code><![CDATA[$processor]]></code>
-      <code><![CDATA[$processor]]></code>
-      <code><![CDATA[LaminasI18nProcessor]]></code>
-    </MissingDependency>
     <MixedArgument>
       <code><![CDATA[TranslatorInterface::class]]></code>
       <code><![CDATA[TranslatorInterface::class]]></code>
@@ -278,7 +244,6 @@
       <code><![CDATA[TranslatorInterface::class]]></code>
     </MixedOperand>
     <UndefinedClass>
-      <code><![CDATA[ServiceNotFoundException]]></code>
       <code><![CDATA[TranslatorInterface]]></code>
       <code><![CDATA[TranslatorInterface]]></code>
       <code><![CDATA[TranslatorInterface]]></code>

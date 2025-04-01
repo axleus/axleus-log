@@ -28,11 +28,11 @@ final class LaminasDbHandler extends AbstractProcessingHandler
             'uuid'           => $record['extra']['uuid'] ?? null,
             'message'        => $record->formatted,
             'time'           => $record->datetime->format('U'),
-            'userIdentifier' => $record['extra'][$this->extraAuthIdentifier] ?? null, // 'email' needs to change to userId
+            'userIdentifier' => $record['extra'][$this->extraAuthIdentifier] ?? null,
         ];
-        $sql    = new Sql($this->adapterInterface, $this->table);
-        $insert = $sql->insert();
+        $sql     = new Sql($this->adapterInterface, $this->table);
+        $insert  = $sql->insert();
         $insert->values($message);
-        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        $sql->prepareStatementForSqlObject($insert)->execute();
     }
 }
