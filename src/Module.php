@@ -11,10 +11,10 @@ final class Module
         $provider = new ConfigProvider();
         return [
             ConfigProvider::class => $provider->getAxleusConfig(),
-            'environment'         => Environment::Mvc,
+            'environment'         => Runtime::Mvc,
             'service_manager'     => $provider->getDependencies(),
             'listeners' => [
-                Listener\MvcErrorListener::class,
+                //Listener\MvcErrorListener::class,
                 Listener\Psr3LogListener::class,
             ],
         ];

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
-use Laminas\Authentication\AuthenticationService;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
 
@@ -14,9 +13,6 @@ final class Psr3LogListenerFactory
     {
         return new Psr3LogListener(
             $container->get(LoggerInterface::class),
-            $container->has(AuthenticationService::class)
-            ? $container->get(AuthenticationService::class)
-            : null,
         );
     }
 }
