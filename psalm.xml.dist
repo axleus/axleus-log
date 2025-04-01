@@ -47,12 +47,6 @@
             </errorLevel>
         </UnusedClass>
 
-        <ClassMustBeFinal>
-            <errorLevel type="suppress">
-                <directory name="test" />
-            </errorLevel>
-        </ClassMustBeFinal>
-
         <MissingConstructor>
             <errorLevel type="suppress">
                 <directory name="test" />
