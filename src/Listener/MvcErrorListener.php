@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
+use Axleus\Log\LogChannel;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
@@ -21,7 +22,7 @@ final class MvcErrorListener extends AbstractListenerAggregate
 
     public function attach(EventManagerInterface $events, $priority = 1): void
     {
-        if (! $this->config['log_errors']) {
+        if (true !== $this->config['log_errors']) {
             return;
         }
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'onBootstrap']);
@@ -44,7 +45,7 @@ final class MvcErrorListener extends AbstractListenerAggregate
     {
         $exception = $event->getParam('exception');
         if ($exception) {
-            $logger = $this->logger->withName('error');
+            $logger = $this->logger->withName(LogChannel::Error->value);
             $logger->error($exception->getMessage(), ['exception' => $exception]);
         }
     }

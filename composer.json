@@ -4,6 +4,9 @@
     "license": "BSD-3-Clause",
     "keywords": [
         "axleus",
+        "laminas-db",
+        "mezzio",
+        "laminas",
         "psr 3",
         "monolog"
     ],
@@ -15,12 +18,23 @@
     ],
     "homepage": "https://github.com/orgs/axleus/discussions",
     "support": {
-        "issues": "https://github.com/axleus/axleus-htmx/issues",
+        "issues": "https://github.com/axleus/axleus-log/issues",
         "chat": "https://discord.gg/9TxQ74EPsG"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "laminas/laminas-component-installer": true,
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-        "axleus/axleus-db": "dev-master",
+        "laminas/laminas-db": "^2.21.0",
         "laminas/laminas-hydrator": "^4.15.0",
         "laminas/laminas-component-installer": "^3.2",
         "monolog/monolog": "^3.4",
@@ -35,6 +49,7 @@
     },
     "extra": {
         "laminas": {
+            "component": "Axleus\\Log",
             "config-provider": "Axleus\\Log\\ConfigProvider"
         }
     },
@@ -60,16 +75,5 @@
         "test": "phpunit --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "test-integration": "phpunit --colors=always --testsuite \"integration test\""
-    },
-    "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "8.1.99"
-        },
-        "allow-plugins": {
-            "laminas/laminas-component-installer": true,
-            "composer/package-versions-deprecated": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
     }
 }

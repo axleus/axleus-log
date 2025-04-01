@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log;
 
-enum Environment: string
+enum Runtime: string
 {
     case Mezzio = 'mezzio';
     case Mvc    = 'mvc';

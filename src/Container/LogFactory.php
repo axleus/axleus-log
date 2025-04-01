@@ -24,15 +24,25 @@ final class LogFactory
             $config = $config[ConfigProvider::class];
         }
 
-        $logger = new Logger($config['channel']->value);
+        if (isset($config['channel'])) {
+            $channel = LogChannel::tryFrom($config['channel'])->value;
+        } else {
+            $channel = LogChannel::App->value;
+        }
+
+        $logger = new Logger($channel);
         /** @var LaminasDbHandler */
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);
-        $processor = new Processor\RamseyUuidProcessor();
-        $logger->pushProcessor($processor);
+
+        if ($config['enable_uuid']) {
+            $logger->pushProcessor(new Processor\RamseyUuidProcessor());
+        }
+
         $processor = new PsrLogMessageProcessor(null, false);
         $logger->pushProcessor($processor);
-        if ($container->has(TranslatorInterface::class)) {
+
+        if ($config['enable_translatator'] && $container->has(TranslatorInterface::class)) {
             $logger->pushProcessor($container->get(Processor\LaminasI18nProcessor::class));
         }
 

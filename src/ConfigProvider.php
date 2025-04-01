@@ -1,5 +1,5 @@
 <?php
-// todo: migrate this module to axleus/axleus-core
+
 declare(strict_types=1);
 
 namespace Axleus\Log;
@@ -12,7 +12,7 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'log_env'             => Environment::Mezzio,
+            'runtime'             => Runtime::Mezzio,
             'dependencies'        => $this->getDependencies(),
             'listeners'           => $this->getListeners(),
             //'middleware_pipeline' => $this->getPipelineConfig(),
@@ -24,10 +24,12 @@ class ConfigProvider
     public function getAxleusConfig(): array
     {
         return [
-            'log_errors'   => true,
-            'channel'      => LogChannel::App,
-            'table'        => 'log',
-            'table_prefix' => null,
+            'log_errors'        => false,
+            'channel'           => 'app',
+            'table'             => 'log',
+            'enable_auth'       => false,
+            'enable_uuid'       => false,
+            'enable_translator' => false,
         ];
     }
 
@@ -50,13 +52,6 @@ class ConfigProvider
             'invokables' => [
                 Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
             ],
-        ];
-    }
-
-    public function getListeners(): array
-    {
-        return [
-            Listener\Psr3LogListener::class,
         ];
     }
 

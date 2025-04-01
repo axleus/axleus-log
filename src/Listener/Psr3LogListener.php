@@ -6,12 +6,10 @@ namespace Axleus\Log\Listener;
 
 use Axleus\Log\Event\LogEvent;
 use Axleus\Log\LogChannel;
-use Laminas\Authentication\AuthenticationService;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Mvc\Controller\AbstractController;
-use Mezzio\Authentication\AuthenticationInterface;
 use Monolog\Level;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,8 +24,7 @@ final class Psr3LogListener extends AbstractListenerAggregate
     ];
 
     public function __construct(
-        private LoggerInterface $logger,
-        private AuthenticationInterface|AuthenticationService|null $auth = null
+        private LoggerInterface $logger
     ) {}
 
     public function attach(EventManagerInterface $events, $priority = 1): void
