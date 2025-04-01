@@ -13,7 +13,7 @@ uncomment the following in the ConfigProvider class.
 'middleware_pipeline' => $this->getPipelineConfig(),
 ```
 
-To enable error logging in Mezzio or MVC simply provide the following top level config key from any ConfigProvider.
+To enable error logging in Mezzio or MVC simply provide the following top level config key from any ConfigProvider or config file.
 
 ```php
 return [
