@@ -7,29 +7,29 @@ namespace Axleus\Log;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Log\LoggerInterface;
 
-final class ConfigProvider
+class ConfigProvider
 {
     public function __invoke(): array
     {
         return [
-            'runtime'      => Runtime::Mezzio,
-            'dependencies' => $this->getDependencies(),
-            //'listeners'    => $this->getListeners(),
+            'dependencies'        => $this->getDependencies(),
+            'listeners'           => $this->getListeners(),
+            'log_runtime'         => Runtime::Mezzio->value,
             //'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'   => $this->getTemplates(),
-            static::class => $this->getAxleusConfig(),
+            'templates'           => $this->getTemplates(),
+            static::class         => $this->getAxleusConfig(),
         ];
     }
 
     public function getAxleusConfig(): array
     {
         return [
-            'log_errors'        => false,
-            'channel'           => 'app',
-            'table'             => 'log',
-            'enable_auth'       => false,
-            'enable_uuid'       => false,
-            'enable_translator' => false,
+            'channel'             => LogChannel::App->value,
+
+            'log_errors'          => false,
+            'process_uuid'        => false,
+            'process_translation' => false,
+            'table'               => 'log',
         ];
     }
 
@@ -55,11 +55,30 @@ final class ConfigProvider
         ];
     }
 
+    public function getListeners(): array
+    {
+        return [
+            Listener\Psr3LogListener::class,
+        ];
+    }
+
+    public function getPipelineConfig(): array
+    {
+        return [
+            [
+                'middleware' => [
+                    Middleware\MonologMiddleware::class,
+                ],
+                //'priority'   => 9000,
+            ],
+        ];
+    }
+
     public function getTemplates(): array
     {
         return [
             'paths' => [
-                'log' => [__DIR__ . '/../templates/'],
+                'log'    => [__DIR__ . '/../templates/'],
             ],
         ];
     }

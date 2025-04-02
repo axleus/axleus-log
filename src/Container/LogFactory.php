@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Axleus\Log\Container;
 
 use Axleus\Log\ConfigProvider;
-use Axleus\Log\Handler\LaminasDbHandler;
 use Axleus\Log\LogChannel;
+use Axleus\Log\Handler\LaminasDbHandler;
 use Axleus\Log\Processor;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Logger;
@@ -16,41 +16,23 @@ use Psr\Log\LoggerInterface;
 
 final class LogFactory
 {
-    /**
-     * @var array{
-     *  channel: string,
-     *  enable_uuid: bool,
-     *  enable_translatator: bool
-     * } $config
-     */
-    private array $config;
-
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
-        /** @var array $config*/
+        /** @var array{log: array{table: string}} */
         $config = $container->get('config');
         if (! empty($config[ConfigProvider::class])) {
-            $this->config = $config[ConfigProvider::class];
+            $config = $config[ConfigProvider::class];
         }
-
-        if (isset($config['channel'])) {
-            $channel = LogChannel::tryFrom($this->config['channel'])->value;
-        } else {
-            $channel = LogChannel::App->value;
-        }
-
-        $logger           = new Logger($channel);
+        $channel = LogChannel::tryFrom($config['channel']);
+        $logger  = new Logger($channel->value);
+        /** @var LaminasDbHandler */
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);
-
-        if ($this->config['enable_uuid']) {
-            $logger->pushProcessor(new Processor\RamseyUuidProcessor());
-        }
-
+        $processor = new Processor\RamseyUuidProcessor();
+        $logger->pushProcessor($processor);
         $processor = new PsrLogMessageProcessor(null, false);
         $logger->pushProcessor($processor);
-
-        if ($this->config['enable_translatator'] && $container->has(TranslatorInterface::class)) {
+        if ($container->has(TranslatorInterface::class)) {
             $logger->pushProcessor($container->get(Processor\LaminasI18nProcessor::class));
         }
 

@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
+use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 use Throwable;
 
 final class MezzioErrorListener
 {
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private LoggerInterface $logger) {}
 
     public function __invoke(
         Throwable $e,
