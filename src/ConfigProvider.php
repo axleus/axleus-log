@@ -14,7 +14,7 @@ final class ConfigProvider
         return [
             'runtime'      => Runtime::Mezzio,
             'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getListeners(),
+            //'listeners'    => $this->getListeners(),
             //'middleware_pipeline' => $this->getPipelineConfig(),
             'templates'   => $this->getTemplates(),
             static::class => $this->getAxleusConfig(),
