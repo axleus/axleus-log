@@ -12,6 +12,9 @@ use Ramsey\Uuid\Uuid;
 final class RamseyUuidProcessor implements ProcessorInterface
 {
     /**
+     *
+     * @param LogRecord $record
+     * @return LogRecord
      * @throws UnsupportedOperationException
      */
     public function __invoke(LogRecord $record): LogRecord

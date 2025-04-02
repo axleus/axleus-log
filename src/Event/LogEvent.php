@@ -10,8 +10,7 @@ use Laminas\EventManager\Event;
 use Monolog\Level;
 use Psr\Log\LogLevel;
 
-// phpcs:disable Generic.CodeAnalysis.UnnecessaryFinalModifier
-final class LogEvent extends Event
+class LogEvent extends Event
 {
     public final const EVENT_LOG           = 'log';
     public final const EVENT_LOG_DEBUG     = LogLevel::DEBUG;
@@ -22,14 +21,12 @@ final class LogEvent extends Event
     public final const EVENT_LOG_ALERT     = LogLevel::ALERT;
     public final const EVENT_LOG_EMERGENCY = LogLevel::EMERGENCY;
 
-    public function __construct(
-        Level $name = Level::Debug,
-        object|string|null $target = null,
-        array $params = []
-    ) {
+    public function __construct(Level $name = Level::Debug, $target = null, array $params = [])
+    {
         parent::__construct($name->toPsrLogLevel(), null, $params);
     }
 
+    // todo improve this method
     public function setLevel(Level $level): self
     {
         $this->setParam('level', $level->toPsrLogLevel());
@@ -75,7 +72,7 @@ final class LogEvent extends Event
 
         return $this->getParam(
             'channel',
-            LogChannel::tryFrom()
+            LogChannel::tryFrom($fromConfig)
         );
     }
 

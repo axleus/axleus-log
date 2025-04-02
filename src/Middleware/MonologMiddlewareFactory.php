@@ -10,15 +10,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-final class MonologMiddlewareFactory
+class MonologMiddlewareFactory
 {
     /**
+     *
+     * @param ContainerInterface $container
+     * @return MonologMiddleware
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
     public function __invoke(ContainerInterface $container): MonologMiddleware
     {
-        /** @var Logger $logger */
+        /** @var Logger */
         $logger = $container->get(LoggerInterface::class);
         return new MonologMiddleware($logger);
     }
