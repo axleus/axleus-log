@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
-use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 final class Psr3LogListenerFactory
 {

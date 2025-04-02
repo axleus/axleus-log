@@ -7,17 +7,17 @@ namespace Axleus\Log;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Log\LoggerInterface;
 
-class ConfigProvider
+final class ConfigProvider
 {
     public function __invoke(): array
     {
         return [
-            'runtime'             => Runtime::Mezzio,
-            'dependencies'        => $this->getDependencies(),
-            'listeners'           => $this->getListeners(),
+            'runtime'      => Runtime::Mezzio,
+            'dependencies' => $this->getDependencies(),
+            //'listeners'    => $this->getListeners(),
             //'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'           => $this->getTemplates(),
-            static::class         => $this->getAxleusConfig(),
+            'templates'   => $this->getTemplates(),
+            static::class => $this->getAxleusConfig(),
         ];
     }
 
@@ -55,23 +55,11 @@ class ConfigProvider
         ];
     }
 
-    public function getPipelineConfig(): array
-    {
-        return [
-            [
-                'middleware' => [
-                    Middleware\MonologMiddleware::class,
-                ],
-                //'priority'   => 9000,
-            ],
-        ];
-    }
-
     public function getTemplates(): array
     {
         return [
             'paths' => [
-                'log'    => [__DIR__ . '/../templates/'],
+                'log' => [__DIR__ . '/../templates/'],
             ],
         ];
     }

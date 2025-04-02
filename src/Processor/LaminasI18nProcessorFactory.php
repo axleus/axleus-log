@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Processor;
 
-use Laminas\Translator\TranslatorInterface;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\Translator\TranslatorInterface;
 use Monolog\Processor\ProcessorInterface;
 use Psr\Container\ContainerInterface;
 
@@ -16,7 +16,6 @@ final class LaminasI18nProcessorFactory
         if (! $container->has(TranslatorInterface::class)) {
             throw new ServiceNotFoundException(TranslatorInterface::class . ' was not found in the container');
         }
-        /** @var LaminasI18nProcessor*/
         $processor = new LaminasI18nProcessor();
         $processor->setTranslator($container->get(TranslatorInterface::class));
         return $processor;

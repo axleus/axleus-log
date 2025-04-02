@@ -13,15 +13,10 @@ use function getenv;
 use function print_r;
 use function sprintf;
 
-/** @api */
 final class MysqlFixtureLoader implements FixtureLoader
 {
     private string $fixtureFile = __DIR__ . '/../TestFixtures/mysql.sql';
 
-    /**
-     *
-     * @var ?PDO
-     */
     private ?PDO $pdo = null;
 
     public function createDatabase(): void
@@ -67,7 +62,7 @@ final class MysqlFixtureLoader implements FixtureLoader
 
     protected function connect(): void
     {
-        $dsn = 'mysql:host=';
+        $dsn      = 'mysql:host=';
         $hostname = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_HOSTNAME');
         Assert::string($hostname, 'The hostname must be a string');
         $dsn .= $hostname;
