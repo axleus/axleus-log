@@ -10,6 +10,7 @@ use Laminas\EventManager\Event;
 use Monolog\Level;
 use Psr\Log\LogLevel;
 
+// phpcs:disable Generic.CodeAnalysis.UnnecessaryFinalModifier
 final class LogEvent extends Event
 {
     public final const EVENT_LOG           = 'log';

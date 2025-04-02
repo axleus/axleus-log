@@ -10,9 +10,7 @@ use Psr\Container\ContainerInterface;
 
 final class LaminasDbHandlerFactory
 {
-    /**
-     * @var array{table: string} $config
-     */
+    /** @var array{table: string} $config */
     private array $config;
 
     public function __invoke(ContainerInterface $container): LaminasDbHandler
