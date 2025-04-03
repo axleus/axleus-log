@@ -25,7 +25,6 @@ class ConfigProvider
     {
         return [
             'channel'             => LogChannel::App->value,
-
             'log_errors'          => false,
             'process_uuid'        => false,
             'process_translation' => false,
