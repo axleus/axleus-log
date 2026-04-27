@@ -43,7 +43,7 @@
         "laminas/laminas-coding-standard": "^3.0",
         "laminas/laminas-eventmanager": "^3.14",
         "laminas/laminas-i18n": "^2.22",
-        "phpunit/phpunit": "^11.0",
+        "phpunit/phpunit": "^11.5.50",
         "psalm/plugin-phpunit": "^0.19.0",
         "roave/security-advisories": "dev-master",
         "vimeo/psalm": "^6.0"
