@@ -6,7 +6,12 @@ namespace Axleus\Log;
 
 enum LogChannel: string
 {
-    case App   = 'app';
-    case Error = 'error';
-    case User  = 'user';
+    case Audit     = 'audit';
+    case Analytics = 'analytics';
+    case App       = 'app';
+    case Debug     = 'debug';
+    case Error     = 'error';
+    case System    = 'system';
+    case User      = 'user';
+    case Security  = 'security';
 }

@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
-final class MezzioErrorListener
+final readonly class MezzioErrorListener
 {
     public function __construct(private LoggerInterface $logger) {}
 

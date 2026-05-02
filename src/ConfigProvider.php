@@ -17,15 +17,14 @@ class ConfigProvider
             'log_runtime'         => Runtime::Mezzio->value,
             //'middleware_pipeline' => $this->getPipelineConfig(),
             'templates'           => $this->getTemplates(),
-            static::class         => $this->getAxleusConfig(),
+            static::class         => $this->getDefaultConfig(),
         ];
     }
 
-    public function getAxleusConfig(): array
+    public function getDefaultConfig(): array
     {
         return [
             'channel'             => LogChannel::App->value,
-
             'log_errors'          => false,
             'process_uuid'        => false,
             'process_translation' => false,
@@ -42,11 +41,11 @@ class ConfigProvider
                 ],
             ],
             'factories'  => [
-                Listener\MvcErrorListener::class      => Listener\MvcErrorListenerFactory::class,
                 Listener\Psr3LogListener::class       => Listener\Psr3LogListenerFactory::class,
                 LoggerInterface::class                => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
                 Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
+                Handler\PhpDbHandler::class           => Handler\PhpDbHandlerFactory::class,
                 Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
             ],
             'invokables' => [

@@ -24,7 +24,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.1.99"
+            "php": "8.4.99"
         },
         "allow-plugins": {
             "laminas/laminas-component-installer": true,
@@ -33,20 +33,23 @@
         }
     },
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
         "laminas/laminas-hydrator": "^4.15.0",
         "laminas/laminas-component-installer": "^3.2",
         "monolog/monolog": "^3.4",
         "ramsey/uuid": "^4.7"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^3.0",
         "laminas/laminas-eventmanager": "^3.14",
         "laminas/laminas-i18n": "^2.22",
-        "phpunit/phpunit": "^11.0",
+        "laminas/laminas-servicemanager": "^3.23.0 || ^4.0.0",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^13.0",
+        "phly/phly-event-dispatcher": "^1.5.0",
         "psalm/plugin-phpunit": "^0.19.0",
         "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^6.0"
+        "webware/coding-standard": "^0.1.0"
     },
     "extra": {
         "laminas": {
