@@ -1,0 +1,631 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Class Axleus\\Log\\Listener\\Psr3LogListener not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Class Axleus\\Log\\Listener\\Psr3LogListenerFactory not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Class Laminas\\Stratigility\\Middleware\\ErrorHandler not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:__invoke\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:getDefaultConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:getDependencies\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:getListeners\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:getPipelineConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Log\\ConfigProvider\:\:getTemplates\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Cannot access offset ''channel'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Container/LogFactory.php
+
+		-
+			message: '#^Cannot access property \$value on Axleus\\Log\\LogChannel\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Container/LogFactory.php
+
+		-
+			message: '#^Offset ''Axleus\\\\Log\\\\ConfigProvider'' does not exist on array\{log\: array\{table\: string\}\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Container/LogFactory.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Monolog\\Logger\:\:pushProcessor\(\) expects callable\(Monolog\\LogRecord\)\: Monolog\\LogRecord, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Container/LogFactory.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Axleus\\Log\\LogChannel\:\:tryFrom\(\) expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Container/LogFactory.php
+
+		-
+			message: '#^Cannot access offset ''Axleus\\\\Log\\\\ConfigProvider'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Cannot access offset ''log_errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Cannot call method attachListener\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Cannot call method withName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Method Axleus\\Log\\Container\\MezzioErrorHandlerDelegator\:\:__invoke\(\) has invalid return type Laminas\\Stratigility\\Middleware\\ErrorHandler\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Method Axleus\\Log\\Container\\MezzioErrorHandlerDelegator\:\:__invoke\(\) should return Laminas\\Stratigility\\Middleware\\ErrorHandler but returns mixed\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Parameter \#1 \$logger of class Axleus\\Log\\Listener\\MezzioErrorListener constructor expects Psr\\Log\\LoggerInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Container/MezzioErrorHandlerDelegator.php
+
+		-
+			message: '#^Call to an undefined method Axleus\\Log\\ConfigProvider\:\:getAxleusConfig\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Cannot access offset ''channel'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Class Axleus\\Log\\Event\\LogEvent extends generic class Laminas\\EventManager\\Event but does not specify its types\: TTarget, TParams$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Constructor of class Axleus\\Log\\Event\\LogEvent has an unused parameter \$target\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:__construct\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getChannel\(\) should return Axleus\\Log\\LogChannel but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getContext\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getContext\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getExtra\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getExtra\(\) should return array but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getLevel\(\) should return Monolog\\Level but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getMessage\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:getUuid\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:setContext\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Method Axleus\\Log\\Event\\LogEvent\:\:setExtra\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Axleus\\Log\\LogChannel\:\:tryFrom\(\) expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Event/LogEvent.php
+
+		-
+			message: '#^Call to method insert\(\) on an unknown class Laminas\\Db\\Sql\\Sql\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Call to method prepareStatementForSqlObject\(\) on an unknown class Laminas\\Db\\Sql\\Sql\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Cannot access offset ''uuid'' on array\<mixed\>\|DateTimeImmutable\|int\|string\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Cannot access offset string on array\|DateTimeImmutable\|int\|string\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Cannot call method execute\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Cannot call method values\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Instantiated class Laminas\\Db\\Sql\\Sql not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Parameter \$adapterInterface of method Axleus\\Log\\Handler\\LaminasDbHandler\:\:__construct\(\) has invalid type Laminas\\Db\\Adapter\\AdapterInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Property Axleus\\Log\\Handler\\LaminasDbHandler\:\:\$adapterInterface has unknown class Laminas\\Db\\Adapter\\AdapterInterface as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandler.php
+
+		-
+			message: '#^Cannot access offset ''authentication'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Cannot access offset ''table'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Cannot access offset ''username'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Class Laminas\\Db\\Adapter\\AdapterInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Offset ''Axleus\\\\Log\\\\ConfigProvider'' does not exist on array\{log\: array\{table\: string\}\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^PHPDoc tag @var contains unknown class Laminas\\Db\\Adapter\\AdapterInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Parameter \#2 \$table of class Axleus\\Log\\Handler\\LaminasDbHandler constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Parameter \#3 \$extraAuthIdentifier of class Axleus\\Log\\Handler\\LaminasDbHandler constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/LaminasDbHandlerFactory.php
+
+		-
+			message: '#^Call to method insert\(\) on an unknown class PhpDb\\Sql\\Sql\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Call to method prepareStatementForSqlObject\(\) on an unknown class PhpDb\\Sql\\Sql\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Cannot call method execute\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Cannot call method values\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Instantiated class PhpDb\\Sql\\Sql not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Parameter \$adapter of method Axleus\\Log\\Handler\\PhpDbHandler\:\:__construct\(\) has invalid type PhpDb\\Adapter\\AdapterInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Property Axleus\\Log\\Handler\\PhpDbHandler\:\:\$sql has unknown class PhpDb\\Sql\\Sql as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandler.php
+
+		-
+			message: '#^Cannot access offset ''Axleus\\\\Log\\\\ConfigProvider'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Cannot access offset ''authentication'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Cannot access offset ''table'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Cannot access offset ''username'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Class PhpDb\\Adapter\\AdapterInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^PHPDoc tag @var contains unknown class PhpDb\\Adapter\\AdapterInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Parameter \#2 \$table of class Axleus\\Log\\Handler\\PhpDbHandler constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Parameter \#3 \$extraAuthIdentifier of class Axleus\\Log\\Handler\\PhpDbHandler constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/PhpDbHandlerFactory.php
+
+		-
+			message: '#^Call to an undefined method Psr\\Log\\LoggerInterface\:\:withName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Cannot access property \$value on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Cannot call method attach\(\) on Laminas\\EventManager\\SharedEventManagerInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Cannot call method toPsrLogLevel\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Class Laminas\\Mvc\\Controller\\AbstractController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Class Psr\\Http\\Server\\MiddlewareInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Class Psr\\Http\\Server\\RequestHandlerInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Method Axleus\\Log\\Listener\\Psr3LogLaminasListener\:\:onLog\(\) has parameter \$event with generic interface Laminas\\EventManager\\EventInterface but does not specify its types\: TTarget, TParams$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Method Psr\\Log\\LoggerInterface\:\:log\(\) invoked with 4 parameters, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Parameter \#2 \$message of method Psr\\Log\\LoggerInterface\:\:log\(\) expects string\|Stringable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Parameter \#3 \$context of method Psr\\Log\\LoggerInterface\:\:log\(\) expects array\<mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Property Axleus\\Log\\Listener\\Psr3LogLaminasListener\:\:\$identifiers type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Property Axleus\\Log\\Listener\\Psr3LogLaminasListener\:\:\$logger \(Psr\\Log\\LoggerInterface\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Property Laminas\\EventManager\\AbstractListenerAggregate\:\:\$listeners \(array\<callable\(\)\: mixed\>\) does not accept non\-empty\-array\<\(callable\(\)\: mixed\)\|null\>\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: src/Listener/Psr3LogLaminasListener.php
+
+		-
+			message: '#^Parameter \#1 \$logger of class Axleus\\Log\\Listener\\Psr3LogLaminasListener constructor expects Psr\\Log\\LoggerInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Psr3LogLaminasListenerFactory.php
+
+		-
+			message: '#^Call to an undefined method Psr\\Log\\LoggerInterface\:\:pushProcessor\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Call to method getIdentity\(\) on an unknown class Mezzio\\Authentication\\UserInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Call to method handle\(\) on an unknown class Psr\\Http\\Server\\RequestHandlerInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Cannot access offset ''email'' on array\<mixed\>\|DateTimeImmutable\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Class Mezzio\\Authentication\\UserInterface not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Method Axleus\\Log\\Middleware\\MonologMiddleware\:\:process\(\) should return Psr\\Http\\Message\\ResponseInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^PHPDoc tag @var above assignment does not specify variable name\.$#'
+			identifier: varTag.noVariable
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^PHPDoc tag @var contains unknown class Mezzio\\Authentication\\UserInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Parameter \$handler of method Axleus\\Log\\Middleware\\MonologMiddleware\:\:process\(\) has invalid type Psr\\Http\\Server\\RequestHandlerInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Mezzio\\Authentication\\UserInterface\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Middleware/MonologMiddleware.php
+
+		-
+			message: '#^Cannot call method translate\(\) on Laminas\\I18n\\Translator\\TranslatorInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Processor/LaminasI18nProcessor.php
+
+		-
+			message: '#^Parameter \#1 \$translator of method Axleus\\Log\\Processor\\LaminasI18nProcessor\:\:setTranslator\(\) expects Laminas\\I18n\\Translator\\TranslatorInterface\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Processor/LaminasI18nProcessorFactory.php
+
+		-
+			message: '#^Call to method createDatabase\(\) on an unknown class AxleusTest\\Log\\Platform\\FixtureLoader\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStartedListener.php
+
+		-
+			message: '#^Call to method createDatabase\(\) on an unknown class AxleusTest\\Log\\Platform\\MysqlFixtureLoader\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStartedListener.php
+
+		-
+			message: '#^Instantiated class AxleusTest\\Log\\Platform\\MysqlFixtureLoader not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStartedListener.php
+
+		-
+			message: '#^Property AxleusTestIntegration\\Log\\Extension\\IntegrationTestStartedListener\:\:\$fixtureLoaders \(array\<AxleusTest\\Log\\Platform\\FixtureLoader\>\) does not accept array\<AxleusTest\\Log\\Platform\\FixtureLoader\|AxleusTest\\Log\\Platform\\MysqlFixtureLoader\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: test/integration/Extension/IntegrationTestStartedListener.php
+
+		-
+			message: '#^Property AxleusTestIntegration\\Log\\Extension\\IntegrationTestStartedListener\:\:\$fixtureLoaders has unknown class AxleusTest\\Log\\Platform\\FixtureLoader as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStartedListener.php
+
+		-
+			message: '#^Call to method dropDatabase\(\) on an unknown class AxleusTest\\Log\\Platform\\FixtureLoader\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStoppedListener.php
+
+		-
+			message: '#^Property AxleusTestIntegration\\Log\\Extension\\IntegrationTestStoppedListener\:\:\$fixtureLoaders has unknown class AxleusTest\\Log\\Platform\\FixtureLoader as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: test/integration/Extension/IntegrationTestStoppedListener.php
+
+		-
+			message: '#^Cannot call method errorInfo\(\) on PDO\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: test/integration/Platform/MysqlFixtureLoader.php
+
+		-
+			message: '#^Cannot call method exec\(\) on PDO\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: test/integration/Platform/MysqlFixtureLoader.php

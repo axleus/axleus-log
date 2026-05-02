@@ -2,10 +2,20 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log\Processor;
 
-use Laminas\Translator\TranslatorInterface;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\Translator\TranslatorInterface;
 use Monolog\Processor\ProcessorInterface;
 use Psr\Container\ContainerInterface;
 
@@ -16,9 +26,11 @@ final class LaminasI18nProcessorFactory
         if (! $container->has(TranslatorInterface::class)) {
             throw new ServiceNotFoundException(TranslatorInterface::class . ' was not found in the container');
         }
-        /** @var LaminasI18nProcessor*/
+
+        /** @var LaminasI18nProcessor */
         $processor = new LaminasI18nProcessor();
         $processor->setTranslator($container->get(TranslatorInterface::class));
+
         return $processor;
     }
 }

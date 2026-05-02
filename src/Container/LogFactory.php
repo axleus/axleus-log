@@ -2,11 +2,21 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log\Container;
 
 use Axleus\Log\ConfigProvider;
-use Axleus\Log\LogChannel;
 use Axleus\Log\Handler\LaminasDbHandler;
+use Axleus\Log\LogChannel;
 use Axleus\Log\Processor;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Logger;
@@ -25,6 +35,7 @@ final class LogFactory
         }
         $channel = LogChannel::tryFrom($config['channel']);
         $logger  = new Logger($channel->value);
+
         /** @var LaminasDbHandler */
         $laminasDbHandler = $container->get(LaminasDbHandler::class);
         $logger->pushHandler($laminasDbHandler);

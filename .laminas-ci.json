@@ -1,18 +1,20 @@
 {
-    "ignore_php_platform_requirements": {
-        "8.1": true,
-        "8.2": true,
-        "8.3": true,
-        "8.4": true
-    },
-    "exclude": [
+    "additional_checks": [
         {
-            "name": "PHPUnit",
-            "php": "8.1"
+            "name": "PhpStan",
+            "job": {
+                "php": "8.4",
+                "dependencies": "latest",
+                "command": "composer require --dev phpstan/phpstan && vendor/bin/phpstan analyse"
+            }
         },
         {
-            "name": "PHPUnit",
-            "php": "8.4"
+            "name": "PHP CS Fixer",
+            "job": {
+                "php": "8.4",
+                "dependencies": "latest",
+                "command": "composer require --dev friendsofphp/php-cs-fixer && vendor/bin/php-cs-fixer check"
+            }
         }
     ]
 }

@@ -1,4 +1,4 @@
-/.phpcs-cache
+/.php-cs-fixer.cache
 /.phpunit.cache
 /.phpunit.result.cache
 /phpunit.xml

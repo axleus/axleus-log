@@ -701,19 +701,19 @@ The current `withName()` pattern clones the logger. If per-channel processors ar
 
 ### Static Analysis
 
-- **Psalm** (`vimeo/psalm`) with `--shepherd` and `--stats` flags; baseline tracked in `psalm-baseline.xml`.
 - **PHPStan** (`phpstan/phpstan` + `phpstan-phpunit`) at strict levels.
 
 ### Coding Standards
 
-- **PHP_CodeSniffer** with the `webware/coding-standard` ruleset (`phpcs.xml`).
-- Auto-fixable violations: `phpcbf` (composer `cs-fix` script).
+- **php-cs-fixer** with the `webware/coding-standard` ruleset configured in `.php-cs-fixer.dist.php`.
+- Applied rule sets: `@Webware/copyright-header` and `@Webware/coding-standard-1.0`.
+- Auto-fixable: run `php-cs-fixer fix` (composer `cs-fix` script).
 
 ### CI Quality Gates (`composer check`)
 
 ```
-cs-check → cs-fix (phpcs)
-static-analysis (psalm)
+cs-check → cs-fix (php-cs-fixer)
+static-analysis (phpstan)
 test (phpunit unit suite)
 ```
 
@@ -742,6 +742,9 @@ Items marked ✅ are addressed by the [0.1.0 refactoring plan](../plan/refactor-
 | `LogEvent::getChannel()` | Instantiates `new ConfigProvider()` at runtime | ✅ TASK-007 |
 | `LogFactory` | `process_uuid` / `process_translation` flags not honoured | ✅ TASK-028 |
 | `phpunit.xml.dist` | Schema targets PHPUnit 11.4 but requirement is ^13.0 | ✅ TASK-029 |
+| `phpcs.xml` | Legacy PHP_CodeSniffer config — tool is not used; style enforced by `php-cs-fixer` | ✅ TASK-031 |
+| `psalm.xml.dist` / `psalm-baseline.xml` | Psalm config files — `vimeo/psalm` replaced by PHPStan | ✅ TASK-032 |
+| `composer.json` scripts | `cs-check`/`cs-fix` pointed to phpcs/phpcbf; `static-analysis` pointed to `psalm` | ✅ TASK-033 |
 | `ConfigProvider` | Config key `ConfigProvider::class` should reflect what it configures | ✅ TASK-001 |
 | `Runtime::Mvc` | MVC case defined but never wired; Laminas MVC being retired | ✅ TASK-009 |
 
@@ -777,6 +780,9 @@ Full scope defined in [plan/refactor-axleus-log-0.1.0.md](../plan/refactor-axleu
 | `MonologMiddleware`: configurable auth attribute key | Fix | Phase 5 |
 | `LogFactory`: honour `process_uuid` / `process_translation` flags | Fix | Phase 5 |
 | `phpunit.xml.dist`: fix PHPUnit schema URL to 13.0 | Chore | Phase 5 |
+| Delete `phpcs.xml` (PHP_CodeSniffer no longer used) | Chore | Phase 5 |
+| Delete `psalm.xml.dist` and `psalm-baseline.xml` (Psalm → PHPStan) | Chore | Phase 5 |
+| `composer.json`: remove `vimeo/psalm`; update scripts to `php-cs-fixer` and `phpstan` | Dependency | Phase 5 |
 
 ### 0.2.0 (Tentative)
 

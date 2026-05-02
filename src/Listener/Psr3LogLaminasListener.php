@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log\Listener;
 
 use Axleus\Log\Event\LogEvent;
@@ -25,7 +35,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
     ];
 
     public function __construct(
-        private LoggerInterface|Logger $logger
+        private LoggerInterface|Logger $logger,
     ) {}
 
     public function attach(EventManagerInterface $events, $priority = 1): void
@@ -46,7 +56,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
     public function onLog(EventInterface $event): void
     {
         $channel = $event->getParam('channel', LogChannel::App);
-        
+
         if ($channel !== LogChannel::App) {
             $this->logger = $this->logger->withName($channel->value);
         }

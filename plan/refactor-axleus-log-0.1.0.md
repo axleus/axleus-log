@@ -38,7 +38,7 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 - **CON-002**: `phly/phly-event-dispatcher` must be added as a `require` dependency (not dev-only) because the PSR-14 listener ships in `src/`.
 - **CON-003**: `psr/event-dispatcher` is a transitive dependency of `phly/phly-event-dispatcher`; do not add it explicitly to `composer.json`.
 - **CON-004**: Breaking changes in config key and event system are acceptable for a minor version bump (0.0.x → 0.1.0). A CHANGELOG entry and migration note in the README are required.
-- **GUD-001**: All new classes must follow the `webware/coding-standard` rules enforced by `phpcs.xml`.
+- **GUD-001**: All new classes must follow the `webware/coding-standard` rules enforced by `.php-cs-fixer.dist.php` (`@Webware/coding-standard-1.0` rule set via `php-cs-fixer`).
 - **GUD-002**: All new factories must follow the existing pattern: read `$config[LoggerInterface::class]` from the container's `config` service.
 - **PAT-001**: Constructor injection only — no service-locator usage inside domain classes.
 - **PAT-002**: PSR-14 listener must be a standalone callable class, not a closure, to allow container resolution and testing.
@@ -119,6 +119,9 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 | TASK-028 | `src/Container/LogFactory.php`: wrap `$logger->pushProcessor($uuidProcessor)` in an `if ($config['process_uuid'])` guard. Wrap the `LaminasI18nProcessor` push in an `if ($config['process_translation'])` guard (the existing container check can remain as an additional guard). | | |
 | TASK-029 | `phpunit.xml.dist`: update `xsi:noNamespaceSchemaLocation` from `https://schema.phpunit.de/11.4/phpunit.xsd` to `https://schema.phpunit.de/13.0/phpunit.xsd` to match the `phpunit/phpunit: ^13.0` requirement. | | |
 | TASK-030 | `src/ConfigProvider.php`: add default values for the new `process_uuid` and `process_translation` flags to the `getLoggerConfig()` return array to ensure they are always present with documented defaults. | | |
+| TASK-031 | Delete `phpcs.xml` from the repository root. PHP_CodeSniffer is no longer used; all code style enforcement is via `php-cs-fixer` with `.php-cs-fixer.dist.php`. | ✅ | |  
+| TASK-032 | Delete `psalm.xml.dist` and `psalm-baseline.xml` from the repository root. Psalm (`vimeo/psalm`) is replaced by PHPStan as the sole static analysis tool. | ✅ | |
+| TASK-033 | `composer.json`: remove `vimeo/psalm` and `psalm/plugin-phpunit` from `require-dev`; update `scripts.cs-check` to `php-cs-fixer fix --dry-run --diff`, `scripts.cs-fix` to `php-cs-fixer fix`, and `scripts.static-analysis` to `phpstan analyse`. | ✅ | |
 
 ---
 
@@ -139,6 +142,7 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 - **DEP-003**: `laminas/laminas-eventmanager: ^3.14` — remains in `require-dev` only; used in tests and for the deprecated `Psr3LogLaminasListener`.
 - **DEP-004**: `php-db/phpdb` and associated driver packages — must be registered in the host application container. Not a direct `composer.json` dependency of this component.
 - **DEP-005**: `laminas/laminas-db` — must be registered in the host application container when `LaminasDbHandler` is used. Not a direct `composer.json` dependency of this component.
+- **DEP-006**: Remove `vimeo/psalm` and `psalm/plugin-phpunit` from `require-dev`; update `scripts.static-analysis` from `"psalm --shepherd --stats"` to `"phpstan analyse"`. Psalm is replaced by PHPStan as the sole static analysis tool.
 
 ---
 
@@ -161,6 +165,9 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 - **FILE-015**: `phpunit.xml.dist` — update PHPUnit schema URL to 13.0.
 - **FILE-016**: `composer.json` — move `phly/phly-event-dispatcher` from `require-dev` to `require`.
 - **FILE-017**: `docs/Project_Architecture_Blueprint.md` — update for 0.1.0 scope (separate update, see blueprint).
+- **FILE-018**: `phpcs.xml` — **deleted**. PHP_CodeSniffer is no longer used; code style is enforced entirely by `.php-cs-fixer.dist.php`.
+- **FILE-019**: `psalm.xml.dist` — **deleted**. Psalm is replaced by PHPStan as the sole static analysis tool.
+- **FILE-020**: `psalm-baseline.xml` — **deleted**. Psalm baseline is no longer relevant after removing `vimeo/psalm`.
 
 ---
 
@@ -173,8 +180,8 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 - **TEST-005**: Unit test for `MonologMiddleware` — verify the auth attribute key is read from config, with correct fallback to `UserInterface::class`.
 - **TEST-006**: Integration test for `LaminasDbHandler` — verify the `user_identifier` column (snake_case) is populated correctly after the column rename.
 - **TEST-007**: Integration test for `PhpDbHandler` — verify `context` JSON column is populated and `user_identifier` is set.
-- **TEST-008**: Verify static analysis (`psalm`, `phpstan`) passes with zero new errors on all modified files.
-- **TEST-009**: Verify `phpcs` passes on all new and modified files against `webware/coding-standard`.
+- **TEST-008**: Verify static analysis (`phpstan`) passes with zero new errors on all modified files.
+- **TEST-009**: Verify `php-cs-fixer --dry-run` reports no violations on all new and modified files against the `.php-cs-fixer.dist.php` ruleset (`@Webware/coding-standard-1.0`).
 
 ---
 

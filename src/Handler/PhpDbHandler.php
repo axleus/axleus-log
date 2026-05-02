@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
@@ -12,8 +22,8 @@ use PhpDb\Sql\Sql;
 use function json_encode;
 
 use const JSON_THROW_ON_ERROR;
-use const JSON_UNESCAPED_UNICODE;
 use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 final class PhpDbHandler extends AbstractProcessingHandler
 {
@@ -23,7 +33,7 @@ final class PhpDbHandler extends AbstractProcessingHandler
         AdapterInterface $adapter,
         private readonly string $table,
         private readonly string $extraAuthIdentifier = 'email',
-        protected bool $bubble = true
+        protected bool $bubble = true,
     ) {
         parent::__construct();
         $this->sql = new Sql($adapter, $this->table);
