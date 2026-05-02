@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log\Handler;
 
 use Laminas\Db\Adapter\AdapterInterface;
@@ -16,9 +26,8 @@ final class LaminasDbHandler extends AbstractProcessingHandler
         private AdapterInterface $adapterInterface,
         private string $table,
         private string $extraAuthIdentifier = 'email',
-        protected bool $bubble = true
-    ) {
-    }
+        protected bool $bubble = true,
+    ) {}
 
     protected function write(LogRecord $record): void
     {

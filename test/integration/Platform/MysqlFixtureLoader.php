@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace AxleusTestIntegration\Log\Platform;
 
 use Exception;
@@ -25,25 +35,16 @@ final class MysqlFixtureLoader implements FixtureLoader
 
         /** @var string $database */
         $database = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_DATABASE');
-        if (false === $this->pdo->exec("CREATE DATABASE IF NOT EXISTS $database")) {
-            throw new Exception(sprintf(
-                "I cannot create the MySQL %s test database: %s",
-                $database,
-                print_r($this->pdo->errorInfo(), true)
-            ));
+        if (false === $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$database}")) {
+            throw new Exception(sprintf('I cannot create the MySQL %s test database: %s', $database, print_r($this->pdo->errorInfo(), true)));
         }
 
-        $this->pdo->exec("USE $database");
+        $this->pdo->exec("USE {$database}");
         $sql = file_get_contents($this->fixtureFile);
         Assert::notFalse($sql, 'The SQL must be a string');
         Assert::stringNotEmpty($sql, 'The SQL must be a string');
         if (false === $this->pdo->exec($sql)) {
-            throw new Exception(sprintf(
-                "I cannot create the table for %s database. Check the %s file. %s ",
-                $database,
-                $this->fixtureFile,
-                print_r($this->pdo->errorInfo(), true)
-            ));
+            throw new Exception(sprintf('I cannot create the table for %s database. Check the %s file. %s ', $database, $this->fixtureFile, print_r($this->pdo->errorInfo(), true)));
         }
 
         $this->disconnect();
@@ -55,7 +56,7 @@ final class MysqlFixtureLoader implements FixtureLoader
 
         $database = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_DATABASE');
         Assert::string($database, 'The database must be a string');
-        $this->pdo->exec("DROP DATABASE IF EXISTS $database");
+        $this->pdo->exec("DROP DATABASE IF EXISTS {$database}");
 
         $this->disconnect();
     }

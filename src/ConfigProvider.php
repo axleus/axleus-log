@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Log;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
@@ -12,20 +22,19 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies'        => $this->getDependencies(),
-            'listeners'           => $this->getListeners(),
-            'log_runtime'         => Runtime::Mezzio->value,
-            //'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'           => $this->getTemplates(),
-            static::class         => $this->getAxleusConfig(),
+            'dependencies' => $this->getDependencies(),
+            'listeners'    => $this->getListeners(),
+            'log_runtime'  => Runtime::Mezzio->value,
+            // 'middleware_pipeline' => $this->getPipelineConfig(),
+            'templates'    => $this->getTemplates(),
+            static::class  => $this->getDefaultConfig(),
         ];
     }
 
-    public function getAxleusConfig(): array
+    public function getDefaultConfig(): array
     {
         return [
             'channel'             => LogChannel::App->value,
-
             'log_errors'          => false,
             'process_uuid'        => false,
             'process_translation' => false,
@@ -42,11 +51,11 @@ class ConfigProvider
                 ],
             ],
             'factories'  => [
-                Listener\MvcErrorListener::class      => Listener\MvcErrorListenerFactory::class,
                 Listener\Psr3LogListener::class       => Listener\Psr3LogListenerFactory::class,
                 LoggerInterface::class                => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
                 Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
+                Handler\PhpDbHandler::class           => Handler\PhpDbHandlerFactory::class,
                 Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
             ],
             'invokables' => [
@@ -69,7 +78,7 @@ class ConfigProvider
                 'middleware' => [
                     Middleware\MonologMiddleware::class,
                 ],
-                //'priority'   => 9000,
+                // 'priority'   => 9000,
             ],
         ];
     }
@@ -78,7 +87,7 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'log'    => [__DIR__ . '/../templates/'],
+                'log' => [__DIR__ . '/../templates/'],
             ],
         ];
     }
