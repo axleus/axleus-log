@@ -70,11 +70,11 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-009 | Delete `src/Runtime.php`. The `Runtime` enum's only remaining intended case (`Mezzio`) is no longer needed once MVC is removed; runtime is always Mezzio. | | |
-| TASK-010 | In `src/ConfigProvider.php`: remove the `'log_runtime' => Runtime::Mezzio->value` entry from the `__invoke()` return array. Remove `use Axleus\Log\Runtime;` import. | | |
-| TASK-011 | In `src/Listener/Psr3LogLaminasListener.php`: remove `Laminas\Mvc\Controller\AbstractController` from the `$identifiers` array and the corresponding `use` import. The listener now only attaches to `MiddlewareInterface` and `RequestHandlerInterface` identifiers. | | |
-| TASK-012 | Evaluate whether `Psr3LogLaminasListener` should be kept at all given PSR-14 adoption (Phase 3). If the PSR-14 listener fully replaces it, mark `Psr3LogLaminasListener` as `@deprecated` with a note pointing to the PSR-14 equivalent. Full removal is a candidate for 0.2.0. | | |
-| TASK-013 | Remove `Laminas\Mvc\Controller\AbstractController` from `composer.json` suggestions or dev dependencies if it was added explicitly. Confirm `laminas/laminas-eventmanager` stays in `require-dev` only. | | |
+| TASK-009 | Delete `src/Runtime.php`. The `Runtime` enum's only remaining intended case (`Mezzio`) is no longer needed once MVC is removed; runtime is always Mezzio. | ✅ | 2026-05-02 |
+| TASK-010 | In `src/ConfigProvider.php`: remove the `'log_runtime' => Runtime::Mezzio->value` entry from the `__invoke()` return array. Remove `use Axleus\Log\Runtime;` import. | ✅ | 2026-05-02 |
+| TASK-011 | In `src/Listener/Psr3LogLaminasListener.php`: remove `Laminas\Mvc\Controller\AbstractController` from the `$identifiers` array and the corresponding `use` import. The listener now only attaches to `MiddlewareInterface` and `RequestHandlerInterface` identifiers. | ✅ | 2026-05-02 |
+| TASK-012 | Evaluate whether `Psr3LogLaminasListener` should be kept at all given PSR-14 adoption (Phase 3). If the PSR-14 listener fully replaces it, mark `Psr3LogLaminasListener` as `@deprecated` with a note pointing to the PSR-14 equivalent. Full removal is a candidate for 0.2.0. | ✅ | 2026-05-02 |
+| TASK-013 | Remove `Laminas\Mvc\Controller\AbstractController` from `composer.json` suggestions or dev dependencies if it was added explicitly. Confirm `laminas/laminas-eventmanager` stays in `require-dev` only. | ✅ | 2026-05-02 |
 
 ---
 

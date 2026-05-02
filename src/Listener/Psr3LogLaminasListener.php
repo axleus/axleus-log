@@ -19,17 +19,18 @@ use Axleus\Log\LogChannel;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Mvc\Controller\AbstractController;
 use Monolog\Level;
 use Monolog\Logger;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated since 0.1.0; will be removed in 0.2.0. Use Psr3LogPsr14Listener instead.
+ */
 final class Psr3LogLaminasListener extends AbstractListenerAggregate
 {
     private array $identifiers = [
-        AbstractController::class,
         MiddlewareInterface::class,
         RequestHandlerInterface::class,
     ];
