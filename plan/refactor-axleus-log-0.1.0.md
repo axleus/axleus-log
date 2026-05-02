@@ -2,15 +2,15 @@
 goal: Refactor axleus-log to v0.1.0 — PSR-14 support, config key migration, MVC removal, dual DB adapter, and technical debt resolution
 version: 0.1.0
 date_created: 2026-05-01
-last_updated: 2026-05-01
+last_updated: 2026-05-02
 owner: axleus
-status: 'Planned'
+status: 'In Progress'
 tags: [refactor, architecture, feature, chore]
 ---
 
 # Introduction
 
-![Status: Planned](https://img.shields.io/badge/status-Planned-blue)
+![Status: In Progress](https://img.shields.io/badge/status-In%20Progress-yellow)
 
 This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-log`. The changes fall into five areas:
 
@@ -84,13 +84,13 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-014 | Add `phly/phly-event-dispatcher: ^1.5.0` to `require` (not `require-dev`) in `composer.json`. | | |
-| TASK-015 | Refactor `src/Event/LogEvent.php`: remove `extends Laminas\EventManager\Event`, add `implements Psr\EventDispatcher\StoppableEventInterface`. Add `private bool $propagationStopped = false` property. Implement `isPropagationStopped(): bool` and `stopPropagation(): void`. Keep all existing typed accessor methods (`setLevel`, `getMessage`, etc.) as they form the public API. Remove the `Laminas\EventManager\Event` import and parent constructor call. | | |
-| TASK-016 | Create `src/Listener/Psr3LogPsr14Listener.php`. This class: accepts `LoggerInterface` via constructor injection; implements a PSR-14-compatible `__invoke(LogEvent $event): void` method that reads `level`, `message`, `context`, `channel` from the event and calls `$this->logger->log(...)`, switching channel via `withName()` when needed. | | |
-| TASK-017 | Create `src/Listener/Psr3LogPsr14ListenerFactory.php`. Reads `LoggerInterface` from the container and constructs `Psr3LogPsr14Listener`. | | |
-| TASK-018 | Register `Psr3LogPsr14Listener` in `ConfigProvider::getDependencies()` under `factories`. | | |
-| TASK-019 | Update `ConfigProvider::getListeners()` to return `Psr3LogPsr14Listener::class` alongside (or in place of) the Laminas listener, coordinating with TASK-012. | | |
-| TASK-020 | Update `src/Event/LogEvent.php` constructor signature: remove the `Level $name` Monolog parameter; replace with `LogChannel $channel = LogChannel::App` and `Level $level = Level::Debug`. The event name for PSR-14 purposes is the FQCN of the event class itself (no string event name needed). | | |
+| TASK-014 | Add `phly/phly-event-dispatcher: ^1.5.0` to `require` (not `require-dev`) in `composer.json`. | ✅ | 2026-05-02 |
+| TASK-015 | Refactor `src/Event/LogEvent.php`: remove `extends Laminas\EventManager\Event`, add `implements Psr\EventDispatcher\StoppableEventInterface`. Add `private bool $propagationStopped = false` property. Implement `isPropagationStopped(): bool` and `stopPropagation(): void`. Keep all existing typed accessor methods (`setLevel`, `getMessage`, etc.) as they form the public API. Remove the `Laminas\EventManager\Event` import and parent constructor call. | ✅ | 2026-05-02 |
+| TASK-016 | Create `src/Listener/Psr3LogPsr14Listener.php`. This class: accepts `LoggerInterface` via constructor injection; implements a PSR-14-compatible `__invoke(LogEvent $event): void` method that reads `level`, `message`, `context`, `channel` from the event and calls `$this->logger->log(...)`, switching channel via `withName()` when needed. | ✅ | 2026-05-02 |
+| TASK-017 | Create `src/Listener/Psr3LogPsr14ListenerFactory.php`. Reads `LoggerInterface` from the container and constructs `Psr3LogPsr14Listener`. | ✅ | 2026-05-02 |
+| TASK-018 | Register `Psr3LogPsr14Listener` in `ConfigProvider::getDependencies()` under `factories`. | ✅ | 2026-05-02 |
+| TASK-019 | Update `ConfigProvider::getListeners()` to return `Psr3LogPsr14Listener::class` alongside (or in place of) the Laminas listener, coordinating with TASK-012. | ✅ | 2026-05-02 |
+| TASK-020 | Update `src/Event/LogEvent.php` constructor signature: remove the `Level $name` Monolog parameter; replace with `LogChannel $channel = LogChannel::App` and `Level $level = Level::Debug`. The event name for PSR-14 purposes is the FQCN of the event class itself (no string event name needed). | ✅ | 2026-05-02 |
 
 ---
 
@@ -119,9 +119,9 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 | TASK-028 | `src/Container/LogFactory.php`: wrap `$logger->pushProcessor($uuidProcessor)` in an `if ($config['process_uuid'])` guard. Wrap the `LaminasI18nProcessor` push in an `if ($config['process_translation'])` guard (the existing container check can remain as an additional guard). | | |
 | TASK-029 | `phpunit.xml.dist`: update `xsi:noNamespaceSchemaLocation` from `https://schema.phpunit.de/11.4/phpunit.xsd` to `https://schema.phpunit.de/13.0/phpunit.xsd` to match the `phpunit/phpunit: ^13.0` requirement. | | |
 | TASK-030 | `src/ConfigProvider.php`: add default values for the new `process_uuid` and `process_translation` flags to the `getLoggerConfig()` return array to ensure they are always present with documented defaults. | | |
-| TASK-031 | Delete `phpcs.xml` from the repository root. PHP_CodeSniffer is no longer used; all code style enforcement is via `php-cs-fixer` with `.php-cs-fixer.dist.php`. | ✅ | |  
-| TASK-032 | Delete `psalm.xml.dist` and `psalm-baseline.xml` from the repository root. Psalm (`vimeo/psalm`) is replaced by PHPStan as the sole static analysis tool. | ✅ | |
-| TASK-033 | `composer.json`: remove `vimeo/psalm` and `psalm/plugin-phpunit` from `require-dev`; update `scripts.cs-check` to `php-cs-fixer fix --dry-run --diff`, `scripts.cs-fix` to `php-cs-fixer fix`, and `scripts.static-analysis` to `phpstan analyse`. | ✅ | |
+| TASK-031 | Delete `phpcs.xml` from the repository root. PHP_CodeSniffer is no longer used; all code style enforcement is via `php-cs-fixer` with `.php-cs-fixer.dist.php`. | ✅ | 2026-05-02 |
+| TASK-032 | Delete `psalm.xml.dist` and `psalm-baseline.xml` from the repository root. Psalm (`vimeo/psalm`) is replaced by PHPStan as the sole static analysis tool. | ✅ | 2026-05-02 |
+| TASK-033 | `composer.json`: remove `vimeo/psalm` and `psalm/plugin-phpunit` from `require-dev`; update `scripts.cs-check` to `php-cs-fixer fix --dry-run --diff`, `scripts.cs-fix` to `php-cs-fixer fix`, and `scripts.static-analysis` to `phpstan analyse`. | ✅ | 2026-05-02 |
 
 ---
 
@@ -168,13 +168,15 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 - **FILE-018**: `phpcs.xml` — **deleted**. PHP_CodeSniffer is no longer used; code style is enforced entirely by `.php-cs-fixer.dist.php`.
 - **FILE-019**: `psalm.xml.dist` — **deleted**. Psalm is replaced by PHPStan as the sole static analysis tool.
 - **FILE-020**: `psalm-baseline.xml` — **deleted**. Psalm baseline is no longer relevant after removing `vimeo/psalm`.
+- **FILE-021**: `src/Container/ListenerProviderAggregateFactory.php` — **new file**. Builds `ListenerProviderAggregate` from `'listeners'` and `'listener_providers'` config keys, compatible with `webware/commandbus-event` conventions.
+- **FILE-022**: `test/unit/ConfigProviderTest.php` — extended with PSR-14 alias, listener key, and `getListeners()` format assertions.
 
 ---
 
 ## 6. Testing
 
-- **TEST-001**: Unit test for `LogEvent` — verify `isPropagationStopped()` returns `false` by default; returns `true` after `stopPropagation()`; all accessor methods return correct values.
-- **TEST-002**: Unit test for `Psr3LogPsr14Listener` — verify `__invoke(LogEvent)` calls `$logger->log()` with the correct level, message, and context; verify `withName()` is called when the channel differs from `LogChannel::App`.
+- **TEST-001**: Unit test for `LogEvent` — verify `isPropagationStopped()` returns `false` by default; returns `true` after `stopPropagation()`; all accessor methods return correct values. ✅ `test/unit/Event/LogEventTest.php`
+- **TEST-002**: Unit test for `Psr3LogPsr14Listener` — verify `__invoke(LogEvent)` calls `$logger->log()` with the correct level, message, and context; verify `withName()` is called when the channel differs from `LogChannel::App`; verify renamed logger is used for the actual `log()` call. ✅ `test/unit/Listener/Psr3LogPsr14ListenerTest.php`
 - **TEST-003**: Unit test for `LogFactory` — verify that when `process_uuid = false`, `RamseyUuidProcessor` is NOT pushed; when `process_translation = false`, `LaminasI18nProcessor` is NOT pushed.
 - **TEST-004**: Unit test for `LaminasDbHandlerFactory` and `PhpDbHandlerFactory` — verify each resolves its own adapter FQCN and reads config under `LoggerInterface::class`.
 - **TEST-005**: Unit test for `MonologMiddleware` — verify the auth attribute key is read from config, with correct fallback to `UserInterface::class`.

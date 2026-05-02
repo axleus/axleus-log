@@ -37,6 +37,7 @@
         "laminas/laminas-hydrator": "^4.15.0",
         "laminas/laminas-component-installer": "^3.2",
         "monolog/monolog": "^3.4",
+        "phly/phly-event-dispatcher": "^1.5.0",
         "ramsey/uuid": "^4.7"
     },
     "require-dev": {
@@ -46,7 +47,6 @@
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^13.0.0",
-        "phly/phly-event-dispatcher": "^1.5.0",
         "roave/security-advisories": "dev-master",
         "webware/coding-standard": "^0.1.0"
     },

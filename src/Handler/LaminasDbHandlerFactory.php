@@ -22,20 +22,19 @@ final class LaminasDbHandlerFactory
 {
     public function __invoke(ContainerInterface $container): LaminasDbHandler
     {
-        /** @var array{log: array{table: string}} */
         $config = $container->get('config');
         if (! empty($config[LoggerInterface::class])) {
             $config = $config[LoggerInterface::class];
         }
 
+        // laminas-db registers its adapter under Laminas\Db\Adapter\AdapterInterface::class
         /** @var AdapterInterface */
         $adapter = $container->get(AdapterInterface::class);
 
-        // $table = $config['log']['table'];
         return new LaminasDbHandler(
             $adapter,
             $config['table'],
-            $container->get('config')['authentication']['username'] ?? 'email' // support mezzio-authentication-session
+            $container->get('config')['authentication']['username'] ?? 'email'
         );
     }
 }

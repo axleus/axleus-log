@@ -14,14 +14,13 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Event;
 
-use Axleus\Log\ConfigProvider;
 use Axleus\Log\LogChannel;
-use Laminas\EventManager\Event;
 use Monolog\Level;
+use Override;
+use Psr\EventDispatcher\StoppableEventInterface;
 use Psr\Log\LogLevel;
-// todo (TASK-007): remove ConfigProvider dependency — inject default channel via constructor
 
-class LogEvent extends Event
+class LogEvent implements StoppableEventInterface
 {
     final public const EVENT_LOG = 'log';
 
@@ -39,86 +38,105 @@ class LogEvent extends Event
 
     final public const EVENT_LOG_EMERGENCY = LogLevel::EMERGENCY;
 
-    public function __construct(Level $name = Level::Debug, $target = null, array $params = [])
-    {
-        parent::__construct($name->toPsrLogLevel(), null, $params);
+    private bool $propagationStopped = false;
+
+    private Level $level;
+
+    private string $message = '';
+
+    private array $extra = [];
+
+    private string $uuid = '';
+
+    private array $context = [];
+
+    public function __construct(
+        private LogChannel $channel = LogChannel::App,
+        Level $level = Level::Debug,
+    ) {
+        $this->level = $level;
     }
 
-    // todo improve this method
+    #[Override]
+    public function isPropagationStopped(): bool
+    {
+        return $this->propagationStopped;
+    }
+
+    public function stopPropagation(): void
+    {
+        $this->propagationStopped = true;
+    }
+
     public function setLevel(Level $level): self
     {
-        $this->setParam('level', $level->toPsrLogLevel());
+        $this->level = $level;
 
         return $this;
     }
 
     public function getLevel(): Level
     {
-        return $this->getParam('level', Level::Debug);
+        return $this->level;
     }
 
     public function setMessage(string $message): self
     {
-        $this->setParam('message', $message);
+        $this->message = $message;
 
         return $this;
     }
 
     public function getMessage(): string
     {
-        return $this->getParam('message', '');
+        return $this->message;
     }
 
     public function setExtra(array $extra): self
     {
-        $this->setParam('extra', $extra);
+        $this->extra = $extra;
 
         return $this;
     }
 
     public function getExtra(): array
     {
-        return $this->getParam('extra', []);
+        return $this->extra;
     }
 
     public function setChannel(LogChannel $channel): self
     {
-        $this->setParam('channel', $channel);
+        $this->channel = $channel;
 
         return $this;
     }
 
     public function getChannel(): LogChannel
     {
-        $fromConfig = (new ConfigProvider())->getConfigDefaults()['channel'];
-
-        return $this->getParam(
-            'channel',
-            LogChannel::tryFrom($fromConfig)
-        );
+        return $this->channel;
     }
 
     public function setUuid(string $uuid): self
     {
-        $this->setParam('uuid', $uuid);
+        $this->uuid = $uuid;
 
         return $this;
     }
 
     public function getUuid(): string
     {
-        return $this->getParam('uuid', '');
+        return $this->uuid;
     }
 
     public function setContext(array $context): self
     {
-        $this->setParam('context', $context);
+        $this->context = $context;
 
         return $this;
     }
 
     public function getContext(): array
     {
-        return $this->getParam('context', []);
+        return $this->context;
     }
 }
