@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Container;
 
-use Axleus\Log\ConfigProvider;
 use Axleus\Log\Listener\MezzioErrorListener;
 use Axleus\Log\LogChannel;
 use Laminas\Stratigility\Middleware\ErrorHandler;
@@ -25,7 +24,7 @@ final class MezzioErrorHandlerDelegator
 {
     public function __invoke(ContainerInterface $container, string $name, callable $callback): ErrorHandler
     {
-        $config  = $container->get('config')[ConfigProvider::class];
+        $config  = $container->get('config')[LoggerInterface::class];
         $handler = $callback();
         if (! $config['log_errors']) {
             return $handler;

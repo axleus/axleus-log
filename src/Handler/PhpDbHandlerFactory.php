@@ -14,17 +14,17 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Handler;
 
-use Axleus\Log\ConfigProvider;
 use PhpDb\Adapter\AdapterInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 final class PhpDbHandlerFactory
 {
     public function __invoke(ContainerInterface $container): PhpDbHandler
     {
         $config = $container->get('config');
-        if (! empty($config[ConfigProvider::class])) {
-            $config = $config[ConfigProvider::class];
+        if (! empty($config[LoggerInterface::class])) {
+            $config = $config[LoggerInterface::class];
         }
 
         /** @var AdapterInterface */

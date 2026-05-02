@@ -53,14 +53,14 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-001 | In `src/ConfigProvider.php`: change the key `static::class` (which resolves to `ConfigProvider::class`) in the `__invoke()` return array to `\Psr\Log\LoggerInterface::class`. Add `use Psr\Log\LoggerInterface;` import. | | |
-| TASK-002 | In `src/ConfigProvider.php`: rename the method `getDefaultConfig()` to `getLoggerConfig()` to reflect the new semantics and update the `__invoke()` call accordingly. | | |
-| TASK-003 | In `src/Container/LogFactory.php`: replace every reference to `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports: remove `use Axleus\Log\ConfigProvider;`, add `use Psr\Log\LoggerInterface;`. | | |
-| TASK-004 | In `src/Container/MezzioErrorHandlerDelegator.php`: replace `$container->get('config')[ConfigProvider::class]` with `$container->get('config')[LoggerInterface::class]`. Update imports accordingly. | | |
-| TASK-005 | In `src/Handler/LaminasDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | | |
-| TASK-006 | In `src/Handler/PhpDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | | |
-| TASK-007 | In `src/Event/LogEvent.php`: remove the `getChannel()` fallback that calls `(new ConfigProvider())->getAxleusConfig()['channel']`. Inject the default `LogChannel` via the constructor instead (add a `defaultChannel` constructor parameter defaulting to `LogChannel::App`). Remove `use Axleus\Log\ConfigProvider;` import. | | |
-| TASK-008 | Update `test/` files and any test fixtures that reference the `ConfigProvider::class` config key to use `LoggerInterface::class`. | | |
+| TASK-001 | In `src/ConfigProvider.php`: change the key `static::class` (which resolves to `ConfigProvider::class`) in the `__invoke()` return array to `\Psr\Log\LoggerInterface::class`. Add `use Psr\Log\LoggerInterface;` import. | ✅ | 2026-05-02 |
+| TASK-002 | In `src/ConfigProvider.php`: rename the method `getDefaultConfig()` to `getConfigDefaults()` to reflect the new semantics and update the `__invoke()` call accordingly. | ✅ | 2026-05-02 |
+| TASK-003 | In `src/Container/LogFactory.php`: replace every reference to `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports: remove `use Axleus\Log\ConfigProvider;`, add `use Psr\Log\LoggerInterface;`. | ✅ | 2026-05-02 |
+| TASK-004 | In `src/Container/MezzioErrorHandlerDelegator.php`: replace `$container->get('config')[ConfigProvider::class]` with `$container->get('config')[LoggerInterface::class]`. Update imports accordingly. | ✅ | 2026-05-02 |
+| TASK-005 | In `src/Handler/LaminasDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | ✅ | 2026-05-02 |
+| TASK-006 | In `src/Handler/PhpDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | ✅ | 2026-05-02 |
+| TASK-007 | In `src/Event/LogEvent.php`: remove the `getChannel()` fallback that calls `(new ConfigProvider())->getAxleusConfig()['channel']`. Inject the default `LogChannel` via the constructor instead (add a `defaultChannel` constructor parameter defaulting to `LogChannel::App`). Remove `use Axleus\Log\ConfigProvider;` import. | ✅ | 2026-05-02 |
+| TASK-008 | Update `test/` files and any test fixtures that reference the `ConfigProvider::class` config key to use `LoggerInterface::class`. | ✅ | 2026-05-02 |
 
 ---
 

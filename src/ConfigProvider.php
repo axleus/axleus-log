@@ -22,16 +22,15 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getListeners(),
-            'log_runtime'  => Runtime::Mezzio->value,
+            'dependencies'       => $this->getDependencies(),
+            'listeners'          => $this->getListeners(),
             // 'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'    => $this->getTemplates(),
-            static::class  => $this->getDefaultConfig(),
+            'templates'          => $this->getTemplates(),
+            LoggerInterface::class => $this->getConfigDefaults(),
         ];
     }
 
-    public function getDefaultConfig(): array
+    public function getConfigDefaults(): array
     {
         return [
             'channel'             => LogChannel::App->value,
@@ -51,8 +50,8 @@ class ConfigProvider
                 ],
             ],
             'factories'  => [
-                Listener\Psr3LogListener::class       => Listener\Psr3LogListenerFactory::class,
-                LoggerInterface::class                => Container\LogFactory::class,
+                Listener\Psr3LogLaminasListener::class       => Listener\Psr3LogLaminasListenerFactory::class,
+                LoggerInterface::class                       => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
                 Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
                 Handler\PhpDbHandler::class           => Handler\PhpDbHandlerFactory::class,
@@ -67,7 +66,7 @@ class ConfigProvider
     public function getListeners(): array
     {
         return [
-            Listener\Psr3LogListener::class,
+            Listener\Psr3LogLaminasListener::class,
         ];
     }
 

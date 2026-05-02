@@ -19,6 +19,7 @@ use Axleus\Log\LogChannel;
 use Laminas\EventManager\Event;
 use Monolog\Level;
 use Psr\Log\LogLevel;
+// todo (TASK-007): remove ConfigProvider dependency — inject default channel via constructor
 
 class LogEvent extends Event
 {
@@ -89,7 +90,7 @@ class LogEvent extends Event
 
     public function getChannel(): LogChannel
     {
-        $fromConfig = (new ConfigProvider())->getAxleusConfig()['channel'];
+        $fromConfig = (new ConfigProvider())->getConfigDefaults()['channel'];
 
         return $this->getParam(
             'channel',
