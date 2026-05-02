@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Container;
 
-use Axleus\Log\ConfigProvider;
 use Axleus\Log\Handler\LaminasDbHandler;
 use Axleus\Log\LogChannel;
 use Axleus\Log\Processor;
@@ -30,8 +29,8 @@ final class LogFactory
     {
         /** @var array{log: array{table: string}} */
         $config = $container->get('config');
-        if (! empty($config[ConfigProvider::class])) {
-            $config = $config[ConfigProvider::class];
+        if (! empty($config[LoggerInterface::class])) {
+            $config = $config[LoggerInterface::class];
         }
         $channel = LogChannel::tryFrom($config['channel']);
         $logger  = new Logger($channel->value);

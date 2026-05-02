@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Handler;
 
-use Axleus\Log\ConfigProvider;
 use Laminas\Db\Adapter\AdapterInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 final class LaminasDbHandlerFactory
 {
@@ -24,9 +24,8 @@ final class LaminasDbHandlerFactory
     {
         /** @var array{log: array{table: string}} */
         $config = $container->get('config');
-        if (! empty($config[ConfigProvider::class])
-        ) {
-            $config = $config[ConfigProvider::class];
+        if (! empty($config[LoggerInterface::class])) {
+            $config = $config[LoggerInterface::class];
         }
 
         /** @var AdapterInterface */
