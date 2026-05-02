@@ -27,6 +27,8 @@ final class PhpDbHandlerFactory
             $config = $config[LoggerInterface::class];
         }
 
+        // phpdb does not share laminas-db's configuration structure.
+        // The adapter is wired independently by the host application under PhpDb\Adapter\AdapterInterface::class.
         /** @var AdapterInterface */
         $adapter = $container->get(AdapterInterface::class);
 

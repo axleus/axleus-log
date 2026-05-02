@@ -15,17 +15,28 @@ declare(strict_types=1);
 namespace Axleus\Log;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
+use Phly\EventDispatcher\EventDispatcher;
+use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
+use Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate;
+use Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
 
 class ConfigProvider
 {
+    public const LISTENER_KEY          = 'listeners';
+
+    public const LISTENER_PROVIDER_KEY = 'listener_providers';
+
     public function __invoke(): array
     {
         return [
-            'dependencies'       => $this->getDependencies(),
-            'listeners'          => $this->getListeners(),
+            'dependencies'         => $this->getDependencies(),
+            self::LISTENER_KEY     => $this->getListeners(),
+            self::LISTENER_PROVIDER_KEY => [],
             // 'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'          => $this->getTemplates(),
+            'templates'            => $this->getTemplates(),
             LoggerInterface::class => $this->getConfigDefaults(),
         ];
     }
@@ -44,20 +55,28 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
+            'aliases'    => [
+                EventDispatcherInterface::class  => EventDispatcher::class,
+                ListenerProviderInterface::class => ListenerProviderAggregate::class,
+            ],
             'delegators' => [
                 ErrorHandler::class => [
                     Container\MezzioErrorHandlerDelegator::class,
                 ],
             ],
             'factories'  => [
+                ListenerProviderAggregate::class             => Container\ListenerProviderAggregateFactory::class,
                 Listener\Psr3LogLaminasListener::class       => Listener\Psr3LogLaminasListenerFactory::class,
+                Listener\Psr3LogPsr14Listener::class         => Listener\Psr3LogPsr14ListenerFactory::class,
                 LoggerInterface::class                       => Container\LogFactory::class,
-                Middleware\MonologMiddleware::class   => Middleware\MonologMiddlewareFactory::class,
-                Handler\LaminasDbHandler::class       => Handler\LaminasDbHandlerFactory::class,
-                Handler\PhpDbHandler::class           => Handler\PhpDbHandlerFactory::class,
-                Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
+                Middleware\MonologMiddleware::class           => Middleware\MonologMiddlewareFactory::class,
+                Handler\LaminasDbHandler::class              => Handler\LaminasDbHandlerFactory::class,
+                Handler\PhpDbHandler::class                  => Handler\PhpDbHandlerFactory::class,
+                Processor\LaminasI18nProcessor::class        => Processor\LaminasI18nProcessorFactory::class,
             ],
             'invokables' => [
+                AttachableListenerProvider::class    => AttachableListenerProvider::class,
+                PrioritizedListenerProvider::class   => PrioritizedListenerProvider::class,
                 Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
             ],
         ];
@@ -66,7 +85,9 @@ class ConfigProvider
     public function getListeners(): array
     {
         return [
-            Listener\Psr3LogLaminasListener::class,
+            Event\LogEvent::class => [
+                ['listener' => Listener\Psr3LogPsr14Listener::class, 'priority' => 1],
+            ],
         ];
     }
 
