@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `user_identifier` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `time` int UNSIGNED NOT NULL,
+  `context` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),
   KEY `ChannelIndex` (`channel`)

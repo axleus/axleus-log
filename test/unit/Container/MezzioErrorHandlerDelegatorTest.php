@@ -1,0 +1,111 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace AxleusTest\Log\Container;
+
+use Axleus\Log\Container\MezzioErrorHandlerDelegator;
+use Axleus\Log\Listener\MezzioErrorListener;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Monolog\Logger;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+
+#[CoversClass(MezzioErrorHandlerDelegator::class)]
+#[CoversMethod(MezzioErrorHandlerDelegator::class, '__invoke')]
+final class MezzioErrorHandlerDelegatorTest extends TestCase
+{
+    #[Test]
+    public function invokeReturnsErrorHandlerUnchangedWhenLogErrorsFalse(): void
+    {
+        $errorHandler = $this->makeHandler();
+        $container    = $this->makeContainer([
+            LoggerInterface::class => ['log_errors' => false, 'channel' => 'app', 'process_uuid' => false, 'process_translation' => false, 'table' => 'log', 'auth_attribute' => 'attr'],
+        ]);
+
+        $errorHandler->expects($this->never())->method('attachListener');
+
+        $delegator = new MezzioErrorHandlerDelegator();
+        $result    = $delegator($container, ErrorHandler::class, static fn () => $errorHandler);
+
+        $this->assertSame($errorHandler, $result);
+    }
+
+    #[Test]
+    public function invokeAttachesListenerWhenLogErrorsTrue(): void
+    {
+        $errorHandler = $this->makeHandler();
+
+        $logger = $this->createStub(Logger::class);
+        $logger->method('withName')->willReturn($logger);
+
+        $container = $this->makeContainer(
+            [LoggerInterface::class => ['log_errors' => true, 'channel' => 'app', 'process_uuid' => false, 'process_translation' => false, 'table' => 'log', 'auth_attribute' => 'attr']],
+            [LoggerInterface::class => $logger],
+        );
+
+        $errorHandler
+            ->expects($this->once())
+            ->method('attachListener')
+            ->with($this->isInstanceOf(MezzioErrorListener::class));
+
+        $delegator = new MezzioErrorHandlerDelegator();
+        $result    = $delegator($container, ErrorHandler::class, static fn () => $errorHandler);
+
+        $this->assertSame($errorHandler, $result);
+    }
+
+    #[Test]
+    public function invokeFallsBackToDefaultsWhenNoLoggerConfig(): void
+    {
+        $errorHandler = $this->makeHandler();
+        $container    = $this->makeContainer([]);
+
+        $errorHandler->expects($this->never())->method('attachListener');
+
+        $delegator = new MezzioErrorHandlerDelegator();
+        $result    = $delegator($container, ErrorHandler::class, static fn () => $errorHandler);
+
+        $this->assertSame($errorHandler, $result);
+    }
+
+    private function makeHandler(): ErrorHandler&MockObject
+    {
+        return $this->createMock(ErrorHandler::class);
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     * @param array<string, mixed> $services
+     */
+    private function makeContainer(array $config, array $services = []): ContainerInterface
+    {
+        $container = $this->createStub(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(
+            static function (string $id) use ($config, $services): mixed {
+                if ($id === 'config') {
+                    return $config;
+                }
+
+                return $services[$id] ?? null;
+            }
+        );
+
+        return $container;
+    }
+}

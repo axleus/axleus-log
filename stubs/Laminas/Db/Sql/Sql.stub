@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Laminas\Db\Sql;
+
+use Laminas\Db\Adapter\AdapterInterface;
+
+/**
+ * PHPStan stub for Laminas\Db\Sql\Sql
+ */
+class Sql
+{
+    public function __construct(AdapterInterface $adapter, string|null $table = null) {}
+
+    public function insert(): Insert { throw new \LogicException(); }
+
+    public function prepareStatementForSqlObject(Insert $insert): StatementInterface { throw new \LogicException(); }
+}

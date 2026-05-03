@@ -4,7 +4,7 @@ services:
       context: ./
       dockerfile: docker/php/Dockerfile
       args:
-        - PHP_VERSION=${PHP_VERSION:-8.3.19}
+        - PHP_VERSION=${PHP_VERSION:-8.4.20}
     volumes:
       - ./:/var/www/html
     depends_on:
@@ -19,10 +19,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-laminasdb_test}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-axleus_log_test}
       - MYSQL_USER=${MYSQL_USER:-user}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
-      - MYSQL_RANDOM_ROOT_PASSWORD=${MYSQL_RANDOM_ROOT_PASSWORD:-yes}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - ./test/integration/TestFixtures/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
     healthcheck:

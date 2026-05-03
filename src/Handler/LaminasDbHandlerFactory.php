@@ -14,18 +14,25 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Handler;
 
+use Axleus\Log\ConfigProvider;
 use Laminas\Db\Adapter\AdapterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-import-type LogDefaults from ConfigProvider
+ */
 final class LaminasDbHandlerFactory
 {
     public function __invoke(ContainerInterface $container): LaminasDbHandler
     {
-        $config = $container->get('config');
-        if (! empty($config[LoggerInterface::class])) {
-            $config = $config[LoggerInterface::class];
-        }
+        /** @var array{LoggerInterface::class?: LogDefaults, authentication?: array{username?: string}}&array<string, mixed> */
+        $rawConfig = $container->get('config');
+
+        /** @var LogDefaults $config */
+        $config = ! empty($rawConfig[LoggerInterface::class])
+            ? $rawConfig[LoggerInterface::class]
+            : (new ConfigProvider())->getConfigDefaults();
 
         // laminas-db registers its adapter under Laminas\Db\Adapter\AdapterInterface::class
         /** @var AdapterInterface */
@@ -34,7 +41,7 @@ final class LaminasDbHandlerFactory
         return new LaminasDbHandler(
             $adapter,
             $config['table'],
-            $container->get('config')['authentication']['username'] ?? 'email'
+            $rawConfig['authentication']['username'] ?? 'email'
         );
     }
 }

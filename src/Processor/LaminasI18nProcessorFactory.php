@@ -29,7 +29,10 @@ final class LaminasI18nProcessorFactory
 
         /** @var LaminasI18nProcessor */
         $processor = new LaminasI18nProcessor();
-        $processor->setTranslator($container->get(TranslatorInterface::class));
+
+        /** @var \Laminas\I18n\Translator\TranslatorInterface $translator */
+        $translator = $container->get(TranslatorInterface::class);
+        $processor->setTranslator($translator);
 
         return $processor;
     }

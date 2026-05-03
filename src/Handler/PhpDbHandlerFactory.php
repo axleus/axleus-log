@@ -14,18 +14,25 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Handler;
 
+use Axleus\Log\ConfigProvider;
 use PhpDb\Adapter\AdapterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-import-type LogDefaults from ConfigProvider
+ */
 final class PhpDbHandlerFactory
 {
     public function __invoke(ContainerInterface $container): PhpDbHandler
     {
-        $config = $container->get('config');
-        if (! empty($config[LoggerInterface::class])) {
-            $config = $config[LoggerInterface::class];
-        }
+        /** @var array{LoggerInterface::class?: LogDefaults, authentication?: array{username?: string}}&array<string, mixed> */
+        $rawConfig = $container->get('config');
+
+        /** @var LogDefaults $config */
+        $config = ! empty($rawConfig[LoggerInterface::class])
+            ? $rawConfig[LoggerInterface::class]
+            : (new ConfigProvider())->getConfigDefaults();
 
         // phpdb does not share laminas-db's configuration structure.
         // The adapter is wired independently by the host application under PhpDb\Adapter\AdapterInterface::class.
@@ -35,7 +42,7 @@ final class PhpDbHandlerFactory
         return new PhpDbHandler(
             $adapter,
             $config['table'],
-            $container->get('config')['authentication']['username'] ?? 'email'
+            $rawConfig['authentication']['username'] ?? 'email'
         );
     }
 }

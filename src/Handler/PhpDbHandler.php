@@ -50,7 +50,7 @@ final class PhpDbHandler extends AbstractProcessingHandler
             'channel'         => $record->channel,
             'level'           => $record->level->getName(),
             'uuid'            => $record->extra['uuid'] ?? null,
-            'message'         => $record->formatted,
+            'message'         => $record->message,
             'time'            => $record->datetime->format('U'),
             'user_identifier' => $record->extra[$this->extraAuthIdentifier] ?? null,
             'context'         => $context !== [] ? json_encode($context, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,

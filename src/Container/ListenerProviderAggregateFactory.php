@@ -34,9 +34,12 @@ final class ListenerProviderAggregateFactory
         $listeners         = $config[ConfigProvider::LISTENER_KEY]          ?? [];
         $listenerProviders = $config[ConfigProvider::LISTENER_PROVIDER_KEY] ?? [];
 
+        /** @var PrioritizedListenerProvider $prioritizedProvider */
         $prioritizedProvider = $container->get(PrioritizedListenerProvider::class);
-        $attachableProvider  = $container->get(AttachableListenerProvider::class);
-        $aggregate           = new ListenerProviderAggregate();
+
+        /** @var AttachableListenerProvider $attachableProvider */
+        $attachableProvider = $container->get(AttachableListenerProvider::class);
+        $aggregate          = new ListenerProviderAggregate();
 
         /** @var class-string $eventType */
         /** @var array<int, array{listener: callable|class-string, priority?: int}|callable|class-string> $spec */
@@ -44,7 +47,9 @@ final class ListenerProviderAggregateFactory
             foreach ($spec as $listener) {
                 if (is_string($listener)) {
                     if ($container->has($listener)) {
-                        $attachableProvider->listen($eventType, $container->get($listener));
+                        /** @var callable(object): void $resolved */
+                        $resolved = $container->get($listener);
+                        $attachableProvider->listen($eventType, $resolved);
                     } elseif (is_callable($listener)) {
                         $attachableProvider->listen($eventType, $listener);
                     }
@@ -55,7 +60,8 @@ final class ListenerProviderAggregateFactory
                 if (is_array($listener)) {
                     $resolvedListener = null;
 
-                    if ($container->has($listener['listener'])) {
+                    if (is_string($listener['listener']) && $container->has($listener['listener'])) {
+                        /** @var callable(object): void $resolvedListener */
                         $resolvedListener = $container->get($listener['listener']);
                     } elseif (is_callable($listener['listener'])) {
                         $resolvedListener = $listener['listener'];
@@ -63,7 +69,7 @@ final class ListenerProviderAggregateFactory
                         continue;
                     }
 
-                    if (! empty($listener['priority'])) {
+                    if (! empty($listener['priority']) && is_int($listener['priority'])) {
                         $prioritizedProvider->listen($eventType, $resolvedListener, $listener['priority']);
                     } else {
                         $attachableProvider->listen($eventType, $resolvedListener);

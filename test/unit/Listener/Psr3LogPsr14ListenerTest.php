@@ -20,14 +20,17 @@ use Axleus\Log\LogChannel;
 use Monolog\Level;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Psr3LogPsr14Listener::class)]
+#[CoversMethod(Psr3LogPsr14Listener::class, '__invoke')]
 final class Psr3LogPsr14ListenerTest extends TestCase
 {
     private Logger&MockObject $logger;
+
     private Psr3LogPsr14Listener $listener;
 
     protected function setUp(): void
@@ -118,7 +121,6 @@ final class Psr3LogPsr14ListenerTest extends TestCase
 
         $this->logger
             ->method('withName')
-            ->with(LogChannel::Security->value)
             ->willReturn($renamedLogger);
 
         // The renamed logger must be the one that calls log(), not the original

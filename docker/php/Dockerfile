@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.3.19
+ARG PHP_VERSION=8.4.20
 
 FROM php:${PHP_VERSION}-apache-bookworm AS base
 
@@ -11,7 +11,12 @@ COPY --from=composer:2.8.6 /usr/bin/composer /usr/bin/
 RUN apt-get update \
     && apt-get install -y git \
     && docker-php-ext-install mysqli pdo pdo_mysql \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && apt-get clean
+
+# Copy PHP ini configuration
+COPY docker/php/conf.d/ /usr/local/etc/php/conf.d/
 
 # Allow the www-data login so that it can run Composer instead of using root
 RUN usermod -s /usr/bin/bash www-data

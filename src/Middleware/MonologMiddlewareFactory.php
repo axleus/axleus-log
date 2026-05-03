@@ -14,12 +14,16 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Middleware;
 
+use Axleus\Log\ConfigProvider;
 use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-import-type LogDefaults from ConfigProvider
+ */
 class MonologMiddlewareFactory
 {
     /**
@@ -31,6 +35,13 @@ class MonologMiddlewareFactory
         /** @var Logger */
         $logger = $container->get(LoggerInterface::class);
 
-        return new MonologMiddleware($logger);
+        /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
+        $rawConfig = $container->get('config');
+
+        /** @var LogDefaults $logConfig */
+        $logConfig     = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
+        $authAttribute = $logConfig['auth_attribute'];
+
+        return new MonologMiddleware($logger, $authAttribute);
     }
 }

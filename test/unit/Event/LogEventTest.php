@@ -18,12 +18,28 @@ use Axleus\Log\Event\LogEvent;
 use Axleus\Log\LogChannel;
 use Monolog\Level;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\StoppableEventInterface;
 
 #[CoversClass(LogEvent::class)]
+#[CoversMethod(LogEvent::class, '__construct')]
+#[CoversMethod(LogEvent::class, 'isPropagationStopped')]
+#[CoversMethod(LogEvent::class, 'stopPropagation')]
+#[CoversMethod(LogEvent::class, 'getChannel')]
+#[CoversMethod(LogEvent::class, 'setChannel')]
+#[CoversMethod(LogEvent::class, 'getLevel')]
+#[CoversMethod(LogEvent::class, 'setLevel')]
+#[CoversMethod(LogEvent::class, 'getMessage')]
+#[CoversMethod(LogEvent::class, 'setMessage')]
+#[CoversMethod(LogEvent::class, 'getContext')]
+#[CoversMethod(LogEvent::class, 'setContext')]
+#[CoversMethod(LogEvent::class, 'getExtra')]
+#[CoversMethod(LogEvent::class, 'setExtra')]
+#[CoversMethod(LogEvent::class, 'getUuid')]
+#[CoversMethod(LogEvent::class, 'setUuid')]
 final class LogEventTest extends TestCase
 {
     #[Test]
@@ -219,8 +235,8 @@ final class LogEventTest extends TestCase
     public static function allChannelProvider(): array
     {
         return array_combine(
-            array_map(static fn(LogChannel $c) => $c->name, LogChannel::cases()),
-            array_map(static fn(LogChannel $c) => [$c], LogChannel::cases()),
+            array_map(static fn (LogChannel $c) => $c->name, LogChannel::cases()),
+            array_map(static fn (LogChannel $c) => [$c], LogChannel::cases()),
         );
     }
 

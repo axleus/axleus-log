@@ -1,0 +1,35 @@
+name: "Coverage"
+
+on:
+  push:
+    branches:
+      - '[0-9]*.x'
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    name: "Generate and upload coverage report"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: "Install dependencies"
+        run: composer install --no-interaction --prefer-dist
+
+      - name: "Run tests with coverage"
+        run: composer test-coverage
+
+      - name: "Upload coverage to Coveralls"
+        uses: coverallsapp/github-action@v2
+        with:
+          file: clover.xml
+          format: clover

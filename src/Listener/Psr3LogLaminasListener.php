@@ -24,49 +24,66 @@ use Monolog\Logger;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
+use Stringable;
 
 /**
  * @deprecated since 0.1.0; will be removed in 0.2.0. Use Psr3LogPsr14Listener instead.
  */
 final class Psr3LogLaminasListener extends AbstractListenerAggregate
 {
+    /** @var list<class-string> */
     private array $identifiers = [
         MiddlewareInterface::class,
         RequestHandlerInterface::class,
     ];
 
     public function __construct(
-        private LoggerInterface|Logger $logger,
+        private LoggerInterface&Logger $logger,
     ) {}
 
-    public function attach(EventManagerInterface $events, $priority = 1): void
+    public function attach(EventManagerInterface $events, mixed $priority = 1): void
     {
-        $events = $events->getSharedManager();
+        $sharedEvents = $events->getSharedManager();
+        if ($sharedEvents === null) {
+            return;
+        }
 
         foreach ($this->identifiers as $identifier) {
-            $this->listeners[] = $events->attach($identifier, LogEvent::EVENT_LOG, [$this, 'onLog']);
+            $sharedEvents->attach($identifier, LogEvent::EVENT_LOG, [$this, 'onLog']);
         }
 
         foreach (Level::cases() as $level) {
             foreach ($this->identifiers as $identifier) {
-                $this->listeners[] = $events->attach($identifier, $level->toPsrLogLevel(), [$this, 'onLog']);
+                $sharedEvents->attach($identifier, $level->toPsrLogLevel(), [$this, 'onLog']);
             }
         }
     }
 
+    /**
+     * @param EventInterface<object, array<string, mixed>> $event
+     */
     public function onLog(EventInterface $event): void
     {
         $channel = $event->getParam('channel', LogChannel::App);
+        assert($channel instanceof LogChannel);
 
         if ($channel !== LogChannel::App) {
             $this->logger = $this->logger->withName($channel->value);
         }
 
+        $level = $event->getParam('level');
+        assert($level instanceof Level);
+
+        /** @var string|Stringable $message */
+        $message = $event->getParam('message');
+
+        /** @var array<mixed> $context */
+        $context = $event->getParam('context', []);
+
         $this->logger->log(
-            $event->getParam('level')->toPsrLogLevel(),
-            $event->getParam('message'),
-            $event->getParam('context', []),
-            $event->getParam('extra', [])
+            $level->toPsrLogLevel(),
+            $message,
+            $context
         );
     }
 }

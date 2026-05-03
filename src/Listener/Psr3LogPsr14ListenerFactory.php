@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Listener;
 
+use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -21,8 +22,11 @@ final class Psr3LogPsr14ListenerFactory
 {
     public function __invoke(ContainerInterface $container): Psr3LogPsr14Listener
     {
+        /** @var Logger $logger */
+        $logger = $container->get(LoggerInterface::class);
+
         return new Psr3LogPsr14Listener(
-            $container->get(LoggerInterface::class)
+            $logger
         );
     }
 }

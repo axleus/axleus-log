@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTestIntegration\Log\Platform;
+namespace AxleusTestIntegration\Log;
 
 use Exception;
 use PDO;
@@ -32,9 +32,10 @@ final class MysqlFixtureLoader implements FixtureLoader
     public function createDatabase(): void
     {
         $this->connect();
+        assert($this->pdo instanceof PDO);
 
         /** @var string $database */
-        $database = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_DATABASE');
+        $database = getenv('TESTS_ADAPTER_MYSQL_DATABASE');
         if (false === $this->pdo->exec("CREATE DATABASE IF NOT EXISTS {$database}")) {
             throw new Exception(sprintf('I cannot create the MySQL %s test database: %s', $database, print_r($this->pdo->errorInfo(), true)));
         }
@@ -53,8 +54,9 @@ final class MysqlFixtureLoader implements FixtureLoader
     public function dropDatabase(): void
     {
         $this->connect();
+        assert($this->pdo instanceof PDO);
 
-        $database = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_DATABASE');
+        $database = getenv('TESTS_ADAPTER_MYSQL_DATABASE');
         Assert::string($database, 'The database must be a string');
         $this->pdo->exec("DROP DATABASE IF EXISTS {$database}");
 
@@ -64,18 +66,18 @@ final class MysqlFixtureLoader implements FixtureLoader
     protected function connect(): void
     {
         $dsn      = 'mysql:host=';
-        $hostname = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_HOSTNAME');
+        $hostname = getenv('TESTS_ADAPTER_MYSQL_HOSTNAME');
         Assert::string($hostname, 'The hostname must be a string');
         $dsn .= $hostname;
 
-        if (getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_PORT') !== false) {
-            $port = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_PORT');
+        if (getenv('TESTS_ADAPTER_MYSQL_PORT') !== false) {
+            $port = getenv('TESTS_ADAPTER_MYSQL_PORT');
             Assert::string($port, 'The port must be a string');
             $dsn .= ';port=' . $port;
         }
-        $username = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_USERNAME');
+        $username = getenv('TESTS_ADAPTER_MYSQL_USERNAME');
         Assert::string($username, 'The username must be a string');
-        $password = getenv('TESTS_LAMINAS_DB_MYSQL_ADAPTER_PASSWORD');
+        $password = getenv('TESTS_ADAPTER_MYSQL_PASSWORD');
         Assert::string($password, 'The password must be a string');
         $this->pdo = new PDO(
             $dsn,
