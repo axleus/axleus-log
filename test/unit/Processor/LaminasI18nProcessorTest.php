@@ -16,7 +16,7 @@ namespace AxleusTest\Log\Processor;
 
 use Axleus\Log\Processor\LaminasI18nProcessor;
 use DateTimeImmutable;
-use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Translator\TranslatorInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -29,6 +29,12 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]
 #[CoversMethod(LaminasI18nProcessor::class, 'setTranslator')]
+#[CoversMethod(LaminasI18nProcessor::class, 'getTranslator')]
+#[CoversMethod(LaminasI18nProcessor::class, 'hasTranslator')]
+#[CoversMethod(LaminasI18nProcessor::class, 'setTranslatorEnabled')]
+#[CoversMethod(LaminasI18nProcessor::class, 'isTranslatorEnabled')]
+#[CoversMethod(LaminasI18nProcessor::class, 'setTranslatorTextDomain')]
+#[CoversMethod(LaminasI18nProcessor::class, 'getTranslatorTextDomain')]
 final class LaminasI18nProcessorTest extends TestCase
 {
     private LaminasI18nProcessor $processor;
