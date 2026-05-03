@@ -1,10 +1,9 @@
 {
-    "extensions": ["mysql"],
     "additional_checks": [
         {
             "name": "PhpStan",
             "job": {
-                "php": "8.3",
+                "php": "8.4",
                 "dependencies": "latest",
                 "command": "composer require --dev phpstan/phpstan && vendor/bin/phpstan analyse"
             }
@@ -12,7 +11,7 @@
         {
             "name": "PHP CS Fixer",
             "job": {
-                "php": "8.3",
+                "php": "8.4",
                 "dependencies": "latest",
                 "command": "composer require --dev friendsofphp/php-cs-fixer && vendor/bin/php-cs-fixer check"
             }
