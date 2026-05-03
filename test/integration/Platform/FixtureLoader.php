@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTestIntegration\Log\Platform;
+namespace AxleusTestIntegration\Log;
 
 // phpcs:ignore WebimpressCodingStandard.NamingConventions.Interface.Suffix
 interface FixtureLoader

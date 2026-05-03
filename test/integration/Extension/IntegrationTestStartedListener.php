@@ -14,15 +14,14 @@ declare(strict_types=1);
 
 namespace AxleusTestIntegration\Log\Extension;
 
-use AxleusTest\Log\Platform\FixtureLoader;
-use AxleusTest\Log\Platform\MysqlFixtureLoader;
+use AxleusTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
 use PHPUnit\Event\TestSuite\Started;
 use PHPUnit\Event\TestSuite\StartedSubscriber;
 
 final class IntegrationTestStartedListener implements StartedSubscriber
 {
-    /** @var FixtureLoader[] */
-    private $fixtureLoaders = [];
+    /** @var list<MysqlFixtureLoader> */
+    private array $fixtureLoaders = [];
 
     public function notify(Started $event): void
     {

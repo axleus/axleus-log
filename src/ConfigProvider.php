@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Axleus\Log;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Authentication\UserInterface;
 use Phly\EventDispatcher\EventDispatcher;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate;
@@ -23,27 +24,78 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-type LogDefaults array{
+ *     auth_attribute: string,
+ *     channel: string,
+ *     log_errors: bool,
+ *     process_uuid: bool,
+ *     process_translation: bool,
+ *     table: string,
+ * }
+ * @phpstan-type LogAliases array{
+ *     EventDispatcherInterface::class: class-string,
+ *     ListenerProviderInterface::class: class-string,
+ * }
+ * @phpstan-type LogDelegators array{
+ *     ErrorHandler::class: list<class-string>,
+ * }
+ * @phpstan-type LogFactories array{
+ *     ListenerProviderAggregate::class: class-string,
+ *     Psr3LogLaminasListener::class: class-string,
+ *     Psr3LogPsr14Listener::class: class-string,
+ *     LoggerInterface::class: class-string,
+ *     MonologMiddleware::class: class-string,
+ *     LaminasDbHandler::class: class-string,
+ *     PhpDbHandler::class: class-string,
+ *     LaminasI18nProcessor::class: class-string,
+ * }
+ * @phpstan-type LogInvokables array{
+ *     AttachableListenerProvider::class: class-string,
+ *     PrioritizedListenerProvider::class: class-string,
+ *     RamseyUuidProcessor::class: class-string,
+ * }
+ * @phpstan-type LogDependencies array{
+ *     aliases: LogAliases,
+ *     delegators: LogDelegators,
+ *     factories: LogFactories,
+ *     invokables: LogInvokables,
+ * }
+ * @phpstan-type LogListenerEntry array{listener: class-string, priority: int}
+ * @phpstan-type LogListeners array<class-string, list<LogListenerEntry>>
+ * @phpstan-type LogTemplatePaths array{paths: array{log: list<string>}}
+ * @phpstan-type LogConfig array{
+ *     dependencies: LogDependencies,
+ *     listeners: LogListeners,
+ *     listener_providers: array<empty>,
+ *     templates: LogTemplatePaths,
+ *     LoggerInterface::class: LogDefaults,
+ * }
+ */
 class ConfigProvider
 {
-    public const LISTENER_KEY          = 'listeners';
+    public const string LISTENER_KEY = 'listeners';
 
-    public const LISTENER_PROVIDER_KEY = 'listener_providers';
+    public const string LISTENER_PROVIDER_KEY = 'listener_providers';
 
+    /** @return LogConfig */
     public function __invoke(): array
     {
         return [
-            'dependencies'         => $this->getDependencies(),
-            self::LISTENER_KEY     => $this->getListeners(),
+            'dependencies'              => $this->getDependencies(),
+            self::LISTENER_KEY          => $this->getListeners(),
             self::LISTENER_PROVIDER_KEY => [],
             // 'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'            => $this->getTemplates(),
-            LoggerInterface::class => $this->getConfigDefaults(),
+            'templates'                 => $this->getTemplates(),
+            LoggerInterface::class      => $this->getConfigDefaults(),
         ];
     }
 
+    /** @return LogDefaults */
     public function getConfigDefaults(): array
     {
         return [
+            'auth_attribute'      => UserInterface::class,
             'channel'             => LogChannel::App->value,
             'log_errors'          => false,
             'process_uuid'        => false,
@@ -52,6 +104,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return LogDependencies */
     public function getDependencies(): array
     {
         return [
@@ -65,14 +118,14 @@ class ConfigProvider
                 ],
             ],
             'factories'  => [
-                ListenerProviderAggregate::class             => Container\ListenerProviderAggregateFactory::class,
-                Listener\Psr3LogLaminasListener::class       => Listener\Psr3LogLaminasListenerFactory::class,
-                Listener\Psr3LogPsr14Listener::class         => Listener\Psr3LogPsr14ListenerFactory::class,
-                LoggerInterface::class                       => Container\LogFactory::class,
-                Middleware\MonologMiddleware::class           => Middleware\MonologMiddlewareFactory::class,
-                Handler\LaminasDbHandler::class              => Handler\LaminasDbHandlerFactory::class,
-                Handler\PhpDbHandler::class                  => Handler\PhpDbHandlerFactory::class,
-                Processor\LaminasI18nProcessor::class        => Processor\LaminasI18nProcessorFactory::class,
+                ListenerProviderAggregate::class       => Container\ListenerProviderAggregateFactory::class,
+                Listener\Psr3LogLaminasListener::class => Listener\Psr3LogLaminasListenerFactory::class,
+                Listener\Psr3LogPsr14Listener::class   => Listener\Psr3LogPsr14ListenerFactory::class,
+                LoggerInterface::class                 => Container\LogFactory::class,
+                Middleware\MonologMiddleware::class    => Middleware\MonologMiddlewareFactory::class,
+                Handler\LaminasDbHandler::class        => Handler\LaminasDbHandlerFactory::class,
+                Handler\PhpDbHandler::class            => Handler\PhpDbHandlerFactory::class,
+                Processor\LaminasI18nProcessor::class  => Processor\LaminasI18nProcessorFactory::class,
             ],
             'invokables' => [
                 AttachableListenerProvider::class    => AttachableListenerProvider::class,
@@ -82,6 +135,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return LogListeners */
     public function getListeners(): array
     {
         return [
@@ -91,6 +145,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return array<int, array{middleware: list<class-string>}> */
     public function getPipelineConfig(): array
     {
         return [
@@ -103,6 +158,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return LogTemplatePaths */
     public function getTemplates(): array
     {
         return [

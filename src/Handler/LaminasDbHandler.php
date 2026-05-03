@@ -35,14 +35,16 @@ final class LaminasDbHandler extends AbstractProcessingHandler
 
     protected function write(LogRecord $record): void
     {
+        /** @var array<string, mixed> $extra */
+        $extra   = $record->extra;
         $message = [
             'channel'         => $record['channel'],
             'level'           => $record['level_name'],
-            'uuid'            => $record['extra']['uuid'] ?? null,
+            'uuid'            => $extra['uuid'] ?? null,
             'message'         => $record->formatted,
             'time'            => $record->datetime->format('U'),
             // TASK-026: renamed from userIdentifier to user_identifier (snake_case)
-            'user_identifier' => $record['extra'][$this->extraAuthIdentifier] ?? null,
+            'user_identifier' => $extra[$this->extraAuthIdentifier] ?? null,
         ];
         $insert = $this->sql->insert();
         $insert->values($message);

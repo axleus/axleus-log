@@ -26,6 +26,10 @@ final class LaminasI18nProcessor implements ProcessorInterface, TranslatorAwareI
     public function __invoke(LogRecord $record): LogRecord
     {
         $translator = $this->getTranslator();
+        if ($translator === null) {
+            return $record;
+        }
+
         $translated = $translator->translate($record->message);
 
         return $record->with(message: $translated, context: $record->context, extra: $record->extra);

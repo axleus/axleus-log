@@ -22,21 +22,21 @@ use Psr\Log\LogLevel;
 
 class LogEvent implements StoppableEventInterface
 {
-    final public const EVENT_LOG = 'log';
+    final public const string EVENT_LOG = 'log';
 
-    final public const EVENT_LOG_DEBUG = LogLevel::DEBUG;
+    final public const string EVENT_LOG_DEBUG = LogLevel::DEBUG;
 
-    final public const EVENT_LOG_INFO = LogLevel::INFO;
+    final public const string EVENT_LOG_INFO = LogLevel::INFO;
 
-    final public const EVENT_LOG_WARNING = LogLevel::WARNING;
+    final public const string EVENT_LOG_WARNING = LogLevel::WARNING;
 
-    final public const EVENT_LOG_ERROR = LogLevel::ERROR;
+    final public const string EVENT_LOG_ERROR = LogLevel::ERROR;
 
-    final public const EVENT_LOG_CRITICAL = LogLevel::CRITICAL;
+    final public const string EVENT_LOG_CRITICAL = LogLevel::CRITICAL;
 
-    final public const EVENT_LOG_ALERT = LogLevel::ALERT;
+    final public const string EVENT_LOG_ALERT = LogLevel::ALERT;
 
-    final public const EVENT_LOG_EMERGENCY = LogLevel::EMERGENCY;
+    final public const string EVENT_LOG_EMERGENCY = LogLevel::EMERGENCY;
 
     private bool $propagationStopped = false;
 
@@ -44,10 +44,12 @@ class LogEvent implements StoppableEventInterface
 
     private string $message = '';
 
+    /** @var array<string, mixed> */
     private array $extra = [];
 
     private string $uuid = '';
 
+    /** @var array<string, mixed> */
     private array $context = [];
 
     public function __construct(
@@ -92,6 +94,7 @@ class LogEvent implements StoppableEventInterface
         return $this->message;
     }
 
+    /** @param array<string, mixed> $extra */
     public function setExtra(array $extra): self
     {
         $this->extra = $extra;
@@ -99,6 +102,7 @@ class LogEvent implements StoppableEventInterface
         return $this;
     }
 
+    /** @return array<string, mixed> */
     public function getExtra(): array
     {
         return $this->extra;
@@ -128,6 +132,7 @@ class LogEvent implements StoppableEventInterface
         return $this->uuid;
     }
 
+    /** @param array<string, mixed> $context */
     public function setContext(array $context): self
     {
         $this->context = $context;
@@ -135,6 +140,7 @@ class LogEvent implements StoppableEventInterface
         return $this;
     }
 
+    /** @return array<string, mixed> */
     public function getContext(): array
     {
         return $this->context;

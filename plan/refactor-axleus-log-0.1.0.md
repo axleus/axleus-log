@@ -100,10 +100,10 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
-| TASK-021 | In `src/Handler/LaminasDbHandlerFactory.php`: ensure the adapter is resolved as `$container->get(\Laminas\Db\Adapter\AdapterInterface::class)`. Document with an inline comment that laminas-db registers its adapter under this FQCN service ID. | | |
-| TASK-022 | In `src/Handler/PhpDbHandlerFactory.php`: ensure the adapter is resolved as `$container->get(\PhpDb\Adapter\AdapterInterface::class)`. Add an inline comment: _"phpdb does not share laminas-db's configuration structure. The adapter is wired independently by the host application under the PhpDb FQCN service ID."_ | | |
-| TASK-023 | In `src/Handler/LaminasDbHandlerFactory.php`: remove the cast `$adapter = $container->get(AdapterInterface::class)` and replace with the fully-qualified `\Laminas\Db\Adapter\AdapterInterface::class` constant to eliminate any ambiguity when both adapters are in the container. | | |
-| TASK-024 | Add a `README` section (or update the existing one) titled "DB Adapter Configuration" that explains: (a) the host application must register the adapter it intends to use; (b) `php-db/phpdb` uses its own config provider separate from `laminas-db`; (c) only the corresponding handler should be pushed onto the logger in `LogFactory`. | | |
+| TASK-021 | In `src/Handler/LaminasDbHandlerFactory.php`: ensure the adapter is resolved as `$container->get(\Laminas\Db\Adapter\AdapterInterface::class)`. Document with an inline comment that laminas-db registers its adapter under this FQCN service ID. | ✅ | 2026-05-02 |
+| TASK-022 | In `src/Handler/PhpDbHandlerFactory.php`: ensure the adapter is resolved as `$container->get(\PhpDb\Adapter\AdapterInterface::class)`. Add an inline comment: _"phpdb does not share laminas-db's configuration structure. The adapter is wired independently by the host application under the PhpDb FQCN service ID."_ | ✅ | 2026-05-02 |
+| TASK-023 | In `src/Handler/LaminasDbHandlerFactory.php`: remove the cast `$adapter = $container->get(AdapterInterface::class)` and replace with the fully-qualified `\Laminas\Db\Adapter\AdapterInterface::class` constant to eliminate any ambiguity when both adapters are in the container. | ✅ | 2026-05-02 |
+| TASK-024 | Add a `README` section (or update the existing one) titled "DB Adapter Configuration" that explains: (a) the host application must register the adapter it intends to use; (b) `php-db/phpdb` uses its own config provider separate from `laminas-db`; (c) only the corresponding handler should be pushed onto the logger in `LogFactory`. | ✅ | 2026-05-02 |
 
 ---
 

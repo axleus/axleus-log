@@ -19,6 +19,7 @@ use Axleus\Log\Event\LogEvent;
 use Axleus\Log\Listener\Psr3LogPsr14Listener;
 use Axleus\Log\LogChannel;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -26,6 +27,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
 
 #[CoversClass(ConfigProvider::class)]
+#[CoversMethod(ConfigProvider::class, '__invoke')]
+#[CoversMethod(ConfigProvider::class, 'getConfigDefaults')]
+#[CoversMethod(ConfigProvider::class, 'getListeners')]
+#[CoversMethod(ConfigProvider::class, 'getDependencies')]
 final class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;

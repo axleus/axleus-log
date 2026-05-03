@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 final class Psr3LogPsr14Listener
 {
     public function __construct(
-        private LoggerInterface|Logger $logger,
+        private LoggerInterface&Logger $logger,
     ) {}
 
     public function __invoke(LogEvent $event): void

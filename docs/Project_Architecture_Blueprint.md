@@ -789,3 +789,4 @@ Full scope defined in [plan/refactor-axleus-log-0.1.0.md](../plan/refactor-axleu
 - Remove `Psr3LogLaminasListener` entirely
 - Drop `laminas/laminas-eventmanager` from `require-dev`
 - Evaluate standardizing on `PhpDbHandler` only as `laminas-db` moves further into security-only status
+- Install **PCOV** in `docker/php/Dockerfile` for local coverage support; integration tests currently run with `--no-coverage` since coverage is handled in CI pipeline

@@ -1,0 +1,87 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of the Axleus Log package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace AxleusTest\Log\Handler;
+
+use Axleus\Log\Handler\PhpDbHandler;
+use Axleus\Log\Handler\PhpDbHandlerFactory;
+use PhpDb\Adapter\AdapterInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+
+#[CoversClass(PhpDbHandlerFactory::class)]
+#[CoversMethod(PhpDbHandlerFactory::class, '__invoke')]
+final class PhpDbHandlerFactoryTest extends TestCase
+{
+    #[Test]
+    public function invokeReturnsPhpDbHandler(): void
+    {
+        $container = $this->makeContainer([]);
+        $factory   = new PhpDbHandlerFactory();
+        $result    = $factory($container);
+
+        $this->assertInstanceOf(PhpDbHandler::class, $result);
+    }
+
+    #[Test]
+    public function invokeUsesTableFromConfig(): void
+    {
+        $container = $this->makeContainer([
+            LoggerInterface::class => ['table' => 'audit_log', 'channel' => 'app', 'log_errors' => false, 'process_uuid' => false, 'process_translation' => false, 'auth_attribute' => 'attr'],
+        ]);
+
+        $factory = new PhpDbHandlerFactory();
+        $result  = $factory($container);
+
+        $this->assertInstanceOf(PhpDbHandler::class, $result);
+    }
+
+    #[Test]
+    public function invokeFallsBackToDefaultTableWhenNoConfig(): void
+    {
+        $container = $this->makeContainer([]);
+        $factory   = new PhpDbHandlerFactory();
+        $result    = $factory($container);
+
+        $this->assertInstanceOf(PhpDbHandler::class, $result);
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     */
+    private function makeContainer(array $config): ContainerInterface
+    {
+        $adapter   = $this->createStub(AdapterInterface::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(
+            static function (string $id) use ($config, $adapter): mixed {
+                if ($id === 'config') {
+                    return $config;
+                }
+
+                if ($id === AdapterInterface::class) {
+                    return $adapter;
+                }
+
+                return null;
+            }
+        );
+
+        return $container;
+    }
+}

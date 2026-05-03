@@ -14,23 +14,37 @@ declare(strict_types=1);
 
 namespace Axleus\Log\Container;
 
+use Axleus\Log\ConfigProvider;
 use Axleus\Log\Listener\MezzioErrorListener;
 use Axleus\Log\LogChannel;
 use Laminas\Stratigility\Middleware\ErrorHandler;
+use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-import-type LogDefaults from ConfigProvider
+ */
 final class MezzioErrorHandlerDelegator
 {
     public function __invoke(ContainerInterface $container, string $name, callable $callback): ErrorHandler
     {
-        $config  = $container->get('config')[LoggerInterface::class];
+        /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
+        $rawConfig = $container->get('config');
+
+        /** @var LogDefaults $config */
+        $config = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
+
+        /** @var ErrorHandler $handler */
         $handler = $callback();
         if (! $config['log_errors']) {
             return $handler;
         }
+
+        /** @var Logger $logger */
+        $logger   = $container->get(LoggerInterface::class);
         $listener = new MezzioErrorListener(
-            $container->get(LoggerInterface::class)->withName(LogChannel::Error->value)
+            $logger->withName(LogChannel::Error->value)
         );
         $handler->attachListener($listener);
 
