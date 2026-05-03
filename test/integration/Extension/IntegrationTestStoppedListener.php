@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace AxleusTestIntegration\Log\Extension;
 
-use AxleusTestIntegration\Log\FixtureLoader;
+use AxleusTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
 use PHPUnit\Event\TestSuite\Finished;
 use PHPUnit\Event\TestSuite\FinishedSubscriber;
 
 final class IntegrationTestStoppedListener implements FinishedSubscriber
 {
-    /** @var list<FixtureLoader> */
+    /** @var list<MysqlFixtureLoader> */
     private array $fixtureLoaders = [];
 
     public function notify(Finished $event): void
