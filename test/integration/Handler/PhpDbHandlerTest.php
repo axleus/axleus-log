@@ -28,6 +28,7 @@ use PhpDb\Mysql\Pdo\Connection;
 use PhpDb\Mysql\Pdo\Driver;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -37,6 +38,7 @@ use function sprintf;
 #[CoversClass(PhpDbHandler::class)]
 #[CoversMethod(PhpDbHandler::class, 'handle')]
 #[CoversMethod(PhpDbHandler::class, 'write')]
+#[RequiresPhpExtension('pdo_mysql')]
 final class PhpDbHandlerTest extends TestCase
 {
     private AdapterInterface $adapter;
