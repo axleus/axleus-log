@@ -11,6 +11,21 @@ jobs:
     name: "Generate and upload coverage report"
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_DATABASE: 'axleus_log_test'
+          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        ports:
+          - 3306:3306
+
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
@@ -20,6 +35,7 @@ jobs:
         with:
           php-version: '8.4'
           coverage: xdebug
+          extensions: pdo_mysql
           tools: composer:v2
 
       - name: "Install dependencies"
