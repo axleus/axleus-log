@@ -1,4 +1,7 @@
 {
+    "ignore_php_platform_requirement": {
+        "8.5": true
+    },
     "additional_checks": [
         {
             "name": "PhpStan",
