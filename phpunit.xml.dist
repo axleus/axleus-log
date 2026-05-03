@@ -21,7 +21,7 @@
             <directory>./test/integration</directory>
         </testsuite>
     </testsuites>
-    <source restrictNotices="true">
+    <source restrictNotices="true" restrictDeprecations="true">
         <include>
             <directory suffix=".php">./src</directory>
         </include>
