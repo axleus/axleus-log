@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Axleus\Log\Container;
 
 use Axleus\Log\ConfigProvider;
-use Axleus\Log\Handler\LaminasDbHandler;
+use Axleus\Log\Handler;
 use Axleus\Log\LogChannel;
 use Axleus\Log\Processor;
 use Laminas\Translator\TranslatorInterface;
@@ -38,18 +38,24 @@ final class LogFactory
         $config = ! empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
             : (new ConfigProvider())->getConfigDefaults();
+
         $channel = LogChannel::tryFrom($config['channel']) ?? LogChannel::App;
         $logger  = new Logger($channel->value);
 
-        /** @var LaminasDbHandler */
-        $laminasDbHandler = $container->get(LaminasDbHandler::class);
-        $logger->pushHandler($laminasDbHandler);
+        if ($container->has(Handler\PhpDbHandler::class)) {
+            /** @var Handler\PhpDbHandler $phpDbHandler */
+            $phpDbHandler = $container->get(Handler\PhpDbHandler::class);
+            $logger->pushHandler($phpDbHandler);
+        }
+
         if ($config['process_uuid'] ?? false) {
             $processor = new Processor\RamseyUuidProcessor();
             $logger->pushProcessor($processor);
         }
+
         $processor = new PsrLogMessageProcessor(null, false);
         $logger->pushProcessor($processor);
+
         if (($config['process_translation'] ?? false) && $container->has(TranslatorInterface::class)) {
             /** @var Processor\LaminasI18nProcessor $i18nProcessor */
             $i18nProcessor = $container->get(Processor\LaminasI18nProcessor::class);

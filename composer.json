@@ -4,7 +4,6 @@
     "license": "BSD-3-Clause",
     "keywords": [
         "axleus",
-        "laminas-db",
         "mezzio",
         "laminas",
         "psr 3",

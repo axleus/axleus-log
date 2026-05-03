@@ -25,10 +25,6 @@
         <include>
             <directory suffix=".php">./src</directory>
         </include>
-        <exclude>
-            <file>./src/Handler/LaminasDbHandler.php</file>
-            <file>./src/Handler/LaminasDbHandlerFactory.php</file>
-        </exclude>
     </source>
 
     <php>

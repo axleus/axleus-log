@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace AxleusTest\Log\Container;
 
 use Axleus\Log\Container\LogFactory;
-use Axleus\Log\Handler\LaminasDbHandler;
+use Axleus\Log\Handler\PhpDbHandler;
 use Axleus\Log\Processor\LaminasI18nProcessor;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Handler\HandlerInterface;
@@ -38,7 +38,7 @@ final class LogFactoryTest extends TestCase
         $handler   = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [],
-            [LaminasDbHandler::class => $handler],
+            [PhpDbHandler::class => $handler],
         );
 
         $factory = new LogFactory();
@@ -53,7 +53,7 @@ final class LogFactoryTest extends TestCase
         $handler   = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [LoggerInterface::class => ['channel' => 'security', 'log_errors' => false, 'process_uuid' => false, 'process_translation' => false, 'table' => 'log', 'auth_attribute' => 'attr']],
-            [LaminasDbHandler::class => $handler],
+            [PhpDbHandler::class => $handler],
         );
 
         $factory = new LogFactory();
@@ -70,7 +70,7 @@ final class LogFactoryTest extends TestCase
         $handler   = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [],
-            [LaminasDbHandler::class => $handler],
+            [PhpDbHandler::class => $handler],
         );
 
         $factory = new LogFactory();
@@ -90,7 +90,7 @@ final class LogFactoryTest extends TestCase
         $container = $this->makeContainer(
             [LoggerInterface::class => ['channel' => 'app', 'log_errors' => false, 'process_uuid' => false, 'process_translation' => true, 'table' => 'log', 'auth_attribute' => 'attr']],
             [
-                LaminasDbHandler::class     => $handler,
+                PhpDbHandler::class         => $handler,
                 TranslatorInterface::class  => $this->createStub(TranslatorInterface::class),
                 LaminasI18nProcessor::class => $processor,
             ],
