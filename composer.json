@@ -26,7 +26,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.4.99"
+            "php": "8.3.99"
         },
         "allow-plugins": {
             "laminas/laminas-component-installer": true,
@@ -34,7 +34,7 @@
         }
     },
     "require": {
-        "php": "~8.4.1 || ~8.5.0 || ~8.6.0-dev",
+        "php": "~8.3.0 ||~8.4.0 || ~8.5.0 || ~8.6.0-dev",
         "laminas/laminas-hydrator": "^4.15.0",
         "laminas/laminas-component-installer": "^3.2",
         "monolog/monolog": "^3.4",
@@ -51,7 +51,7 @@
         "php-db/phpdb-mysql": "0.4.x-dev",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^13.0.0",
+        "phpunit/phpunit": "^12.0.0",
         "roave/security-advisories": "dev-master",
         "tomasvotruba/type-coverage": "^2.1",
         "webware/coding-standard": "^0.1.0"
