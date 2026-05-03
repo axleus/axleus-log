@@ -1,5 +1,5 @@
 {
-    "extensions": ["pdo_mysql"],
+    "extensions": ["mysql"],
     "additional_checks": [
         {
             "name": "PhpStan",
