@@ -24,11 +24,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
-    steps:
-      - name: ${{ matrix.name }}
-        uses: laminas/laminas-continuous-integration-action@v1
-        with:
-          job: ${{ matrix.job }}
     services:
       mysql:
         image: mysql:8.0
@@ -43,3 +38,8 @@ jobs:
           --health-retries 3
         ports:
           - 3306
+    steps:
+      - name: ${{ matrix.name }}
+        uses: laminas/laminas-continuous-integration-action@v1
+        with:
+          job: ${{ matrix.job }}
