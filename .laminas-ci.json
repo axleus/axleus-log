@@ -1,4 +1,5 @@
 {
+    "extensions": ["mysql"],
     "additional_checks": [
         {
             "name": "PhpStan",
