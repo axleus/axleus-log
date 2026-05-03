@@ -30,8 +30,8 @@ final class ListenerExtension implements Extension
     ): void {
         if (extension_loaded('pdo_mysql')) {
             $facade->registerSubscribers(
-            new IntegrationTestStartedListener(),
-            new IntegrationTestStoppedListener(),
+                new IntegrationTestStartedListener(),
+                new IntegrationTestStoppedListener(),
             );
         }
     }
