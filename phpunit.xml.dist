@@ -31,13 +31,6 @@
         </exclude>
     </source>
 
-    <coverage>
-        <report>
-            <clover outputFile="clover.xml"/>
-            <html outputDirectory="coverage/html" lowUpperBound="50" highLowerBound="90"/>
-            <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
-        </report>
-    </coverage>
     <php>
         <env name="TESTS_ADAPTER_MYSQL" value="true"/>
         <env name="TESTS_ADAPTER_MYSQL_HOSTNAME" value="mysql"/>

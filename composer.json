@@ -86,7 +86,7 @@
         "cs-check": "vendor/bin/php-cs-fixer check -v --show-progress=dots --stop-on-violation",
         "cs-fix": "vendor/bin/php-cs-fixer fix",
         "test": "phpunit --no-coverage --colors=always --testsuite \"unit test\"",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml --coverage-html coverage/html --coverage-text",
         "test-integration": "phpunit --no-coverage --colors=always --testsuite \"integration test\"",
         "sa": "vendor/bin/phpstan analyse --memory-limit=256M",
         "sa-gen-baseline": "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline",
