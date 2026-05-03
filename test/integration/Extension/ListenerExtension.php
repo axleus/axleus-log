@@ -19,6 +19,8 @@ use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
 
+use function extension_loaded;
+
 final class ListenerExtension implements Extension
 {
     public function bootstrap(
@@ -26,9 +28,11 @@ final class ListenerExtension implements Extension
         Facade $facade,
         ParameterCollection $parameters,
     ): void {
-        $facade->registerSubscribers(
+        if (extension_loaded('pdo_mysql')) {
+            $facade->registerSubscribers(
             new IntegrationTestStartedListener(),
             new IntegrationTestStoppedListener(),
-        );
+            );
+        }
     }
 }
