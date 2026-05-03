@@ -46,7 +46,6 @@ use Psr\Log\LoggerInterface;
  *     Psr3LogPsr14Listener::class: class-string,
  *     LoggerInterface::class: class-string,
  *     MonologMiddleware::class: class-string,
- *     LaminasDbHandler::class: class-string,
  *     PhpDbHandler::class: class-string,
  *     LaminasI18nProcessor::class: class-string,
  * }
@@ -123,7 +122,6 @@ class ConfigProvider
                 Listener\Psr3LogPsr14Listener::class   => Listener\Psr3LogPsr14ListenerFactory::class,
                 LoggerInterface::class                 => Container\LogFactory::class,
                 Middleware\MonologMiddleware::class    => Middleware\MonologMiddlewareFactory::class,
-                Handler\LaminasDbHandler::class        => Handler\LaminasDbHandlerFactory::class,
                 Handler\PhpDbHandler::class            => Handler\PhpDbHandlerFactory::class,
                 Processor\LaminasI18nProcessor::class  => Processor\LaminasI18nProcessorFactory::class,
             ],
