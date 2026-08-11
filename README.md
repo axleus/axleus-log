@@ -3,8 +3,9 @@
 [![PHP Version](https://img.shields.io/packagist/php-v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
 [![Latest Stable Version](https://img.shields.io/packagist/v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
 [![License](https://img.shields.io/github/license/webware/webware-log)](LICENSE)
-[![Continuous Integration](https://github.com/webware/webware-log/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/webware/webware-log/actions/workflows/continuous-integration.yml)
-[![Coverage Status](https://coveralls.io/repos/github/webware/webware-log/badge.svg?branch=0.1.x)](https://coveralls.io/github/webware/webware-log?branch=0.1.x)
+[![Continuous Integration](https://github.com/webinertia/webware-log/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/webinertia/webware-log/actions/workflows/continuous-integration.yml)
+[![codecov](https://codecov.io/gh/webinertia/webware-log/graph/badge.svg)](https://codecov.io/gh/webinertia/webware-log)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fwebinertia%2Fwebware-log%2F1.1.x)](https://dashboard.stryker-mutator.io/reports/github.com/webinertia/webware-log/1.1.x)
 
 This package provides logging via Monolog for Mezzio (PSR-15) applications.
 It provides log handlers backed by `laminas-db` or `php-db/phpdb` for writing logs to a database table.
