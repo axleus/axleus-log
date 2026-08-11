@@ -33,16 +33,16 @@ final class MezzioErrorHandlerDelegator
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $config */
-        $config = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
+        $config = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
 
         /** @var ErrorHandler $handler */
         $handler = $callback();
-        if (! $config['log_errors']) {
+        if (!$config['log_errors']) {
             return $handler;
         }
 
         /** @var Logger $logger */
-        $logger   = $container->get(LoggerInterface::class);
+        $logger = $container->get(LoggerInterface::class);
         $listener = new MezzioErrorListener(
             $logger->withName(LogChannel::Error->value),
         );

@@ -43,11 +43,11 @@ final class LaminasI18nProcessorTest extends TestCase
 
         $record = new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel : 'test',
-            level   : Level::Info,
-            message : 'original',
-            context : ['key' => 'value'],
-            extra   : ['foo' => 'bar'],
+            channel: 'test',
+            level: Level::Info,
+            message: 'original',
+            context: ['key' => 'value'],
+            extra: ['foo' => 'bar'],
         );
 
         $result = ($this->processor)($record);
@@ -101,9 +101,9 @@ final class LaminasI18nProcessorTest extends TestCase
     {
         return new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel : 'test',
-            level   : Level::Info,
-            message : $message,
+            channel: 'test',
+            level: Level::Info,
+            message: $message,
         );
     }
 }

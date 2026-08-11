@@ -32,7 +32,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
     public function invokeReturnsLaminasI18nProcessorWhenTranslatorPresent(): void
     {
         $translator = $this->createStub(\Laminas\I18n\Translator\TranslatorInterface::class);
-        $container  = $this->createStub(ContainerInterface::class);
+        $container = $this->createStub(ContainerInterface::class);
 
         $container->method('has')
             ->willReturnCallback(
@@ -45,7 +45,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
             );
 
         $factory = new LaminasI18nProcessorFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(LaminasI18nProcessor::class, $result);
     }

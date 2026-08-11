@@ -35,7 +35,7 @@ final class LogFactoryTest extends TestCase
     #[Test]
     public function invokeFallsBackToDefaultsWhenNoConfig(): void
     {
-        $handler   = $this->createStub(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [],
             [PhpDbHandler::class => $handler],
@@ -52,23 +52,23 @@ final class LogFactoryTest extends TestCase
     #[Test]
     public function invokePushesTranslationProcessorWhenConfigured(): void
     {
-        $handler   = $this->createStub(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
         $processor = $this->createStub(ProcessorInterface::class);
 
         $container = $this->makeContainer(
             [
                 LoggerInterface::class => [
-                    'channel'             => 'app',
-                    'log_errors'          => false,
-                    'process_uuid'        => false,
+                    'channel' => 'app',
+                    'log_errors' => false,
+                    'process_uuid' => false,
                     'process_translation' => true,
-                    'table'               => 'log',
-                    'auth_attribute'      => 'attr',
+                    'table' => 'log',
+                    'auth_attribute' => 'attr',
                 ],
             ],
             [
-                PhpDbHandler::class         => $handler,
-                TranslatorInterface::class  => $this->createStub(TranslatorInterface::class),
+                PhpDbHandler::class => $handler,
+                TranslatorInterface::class => $this->createStub(TranslatorInterface::class),
                 LaminasI18nProcessor::class => $processor,
             ],
         );
@@ -84,14 +84,14 @@ final class LogFactoryTest extends TestCase
     #[Test]
     public function invokeReturnsLoggerInterface(): void
     {
-        $handler   = $this->createStub(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [],
             [PhpDbHandler::class => $handler],
         );
 
         $factory = new LogFactory();
-        $logger  = $factory($container);
+        $logger = $factory($container);
 
         $this->assertInstanceOf(LoggerInterface::class, $logger);
     }
@@ -99,16 +99,16 @@ final class LogFactoryTest extends TestCase
     #[Test]
     public function invokeUsesConfiguredChannel(): void
     {
-        $handler   = $this->createStub(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
         $container = $this->makeContainer(
             [
                 LoggerInterface::class => [
-                    'channel'             => 'security',
-                    'log_errors'          => false,
-                    'process_uuid'        => false,
+                    'channel' => 'security',
+                    'log_errors' => false,
+                    'process_uuid' => false,
                     'process_translation' => false,
-                    'table'               => 'log',
-                    'auth_attribute'      => 'attr',
+                    'table' => 'log',
+                    'auth_attribute' => 'attr',
                 ],
             ],
             [PhpDbHandler::class => $handler],
@@ -130,8 +130,7 @@ final class LogFactoryTest extends TestCase
     {
         $container = $this->createStub(ContainerInterface::class);
 
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $services): mixed {
                     if ($id === 'config') {
@@ -142,8 +141,7 @@ final class LogFactoryTest extends TestCase
                 },
             );
 
-        $container
-            ->method('has')
+        $container->method('has')
             ->willReturnCallback(
                 static fn(string $id): bool => isset($services[$id]),
             );

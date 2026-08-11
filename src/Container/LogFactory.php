@@ -35,12 +35,12 @@ final class LogFactory
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $config */
-        $config = ! empty($rawConfig[LoggerInterface::class])
+        $config = !empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
-            : new ConfigProvider()->getConfigDefaults();
+            : (new ConfigProvider())->getConfigDefaults();
 
         $channel = LogChannel::tryFrom($config['channel']) ?? LogChannel::App;
-        $logger  = new Logger($channel->value);
+        $logger = new Logger($channel->value);
 
         if ($container->has(Handler\PhpDbHandler::class)) {
             /** @var Handler\PhpDbHandler $phpDbHandler */

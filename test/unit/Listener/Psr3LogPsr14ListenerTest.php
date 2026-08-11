@@ -40,7 +40,8 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $event->setMessage('Hello world');
         $event->setContext(['user' => 'alice']);
 
-        $this->logger->expects($this->once())
+        $this->logger
+            ->expects($this->once())
             ->method('log')
             ->with(
                 Level::Info->toPsrLogLevel(),
@@ -60,7 +61,8 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $renamedLogger = $this->createMock(Logger::class);
         $renamedLogger->expects($this->once())->method('log');
 
-        $this->logger->expects($this->once())
+        $this->logger
+            ->expects($this->once())
             ->method('withName')
             ->with(LogChannel::Error->value)
             ->willReturn($renamedLogger);
@@ -74,11 +76,9 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $event = new LogEvent(LogChannel::App, Level::Debug);
         $event->setMessage('msg');
 
-        $this->logger->expects($this->never())
-            ->method('withName');
+        $this->logger->expects($this->never())->method('withName');
 
-        $this->logger->expects($this->once())
-            ->method('log');
+        $this->logger->expects($this->once())->method('log');
 
         ($this->listener)($event);
     }
@@ -89,7 +89,8 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $event = new LogEvent(LogChannel::App, Level::Warning);
         $event->setMessage('warn msg');
 
-        $this->logger->expects($this->once())
+        $this->logger
+            ->expects($this->once())
             ->method('log')
             ->with(
                 Level::Warning->toPsrLogLevel(),
@@ -108,8 +109,7 @@ final class Psr3LogPsr14ListenerTest extends TestCase
 
         $renamedLogger = $this->createMock(Logger::class);
 
-        $this->logger->method('withName')
-            ->willReturn($renamedLogger);
+        $this->logger->method('withName')->willReturn($renamedLogger);
 
         // The renamed logger must be the one that calls log(), not the original
         $renamedLogger->expects($this->once())
@@ -127,7 +127,7 @@ final class Psr3LogPsr14ListenerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->logger   = $this->createMock(Logger::class);
+        $this->logger = $this->createMock(Logger::class);
         $this->listener = new Psr3LogPsr14Listener($this->logger);
     }
 }

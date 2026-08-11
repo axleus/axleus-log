@@ -36,12 +36,12 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
     public function invokeHandlesEmptyListenersConfig(): void
     {
         $container = $this->makeContainer([
-            ConfigProvider::LISTENER_KEY          => [],
+            ConfigProvider::LISTENER_KEY => [],
             ConfigProvider::LISTENER_PROVIDER_KEY => [],
         ]);
 
         $factory = new ListenerProviderAggregateFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
     }
@@ -50,8 +50,8 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
     public function invokeReturnsListenerProviderAggregate(): void
     {
         $container = $this->makeContainer([]);
-        $factory   = new ListenerProviderAggregateFactory();
-        $result    = $factory($container);
+        $factory = new ListenerProviderAggregateFactory();
+        $result = $factory($container);
 
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
     }
@@ -59,7 +59,7 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
     #[Test]
     public function invokeWiresListenerFromContainerWithPriority(): void
     {
-        $logger   = $this->createStub(Logger::class);
+        $logger = $this->createStub(Logger::class);
         $listener = new Psr3LogPsr14Listener($logger);
 
         $container = $this->makeContainer(
@@ -74,7 +74,7 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
         );
 
         $factory = new ListenerProviderAggregateFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
     }
@@ -86,14 +86,13 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
     private function makeContainer(array $config, array $services = []): ContainerInterface
     {
         $prioritizedProvider = new PrioritizedListenerProvider();
-        $attachableProvider  = new AttachableListenerProvider();
+        $attachableProvider = new AttachableListenerProvider();
 
         $services[PrioritizedListenerProvider::class] = $prioritizedProvider;
-        $services[AttachableListenerProvider::class]  = $attachableProvider;
+        $services[AttachableListenerProvider::class] = $attachableProvider;
 
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $services): mixed {
                     if ($id === 'config') {
@@ -103,8 +102,7 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
                     return $services[$id] ?? null;
                 },
             );
-        $container
-            ->method('has')
+        $container->method('has')
             ->willReturnCallback(
                 static fn(string $id): bool => isset($services[$id]),
             );

@@ -30,8 +30,8 @@ final class ListenerProviderAggregateFactory
     public function __invoke(ContainerInterface $container): ListenerProviderAggregate
     {
         /** @var array{listeners?: array<class-string, array<int, array{listener: callable|class-string, priority?: int}>>, listener_providers?: array<class-string>} $config */
-        $config            = $container->get('config');
-        $listeners         = $config[ConfigProvider::LISTENER_KEY] ?? [];
+        $config = $container->get('config');
+        $listeners = $config[ConfigProvider::LISTENER_KEY] ?? [];
         $listenerProviders = $config[ConfigProvider::LISTENER_PROVIDER_KEY] ?? [];
 
         /** @var PrioritizedListenerProvider $prioritizedProvider */
@@ -39,7 +39,7 @@ final class ListenerProviderAggregateFactory
 
         /** @var AttachableListenerProvider $attachableProvider */
         $attachableProvider = $container->get(AttachableListenerProvider::class);
-        $aggregate          = new ListenerProviderAggregate();
+        $aggregate = new ListenerProviderAggregate();
 
         /** @var class-string $eventType */
         /** @var array<int, array{listener: callable|class-string, priority?: int}|callable|class-string> $spec */
@@ -69,7 +69,7 @@ final class ListenerProviderAggregateFactory
                         continue;
                     }
 
-                    if (! empty($listener['priority']) && is_int($listener['priority'])) {
+                    if (!empty($listener['priority']) && is_int($listener['priority'])) {
                         $prioritizedProvider->listen($eventType, $resolvedListener, $listener['priority']);
                     } else {
                         $attachableProvider->listen($eventType, $resolvedListener);

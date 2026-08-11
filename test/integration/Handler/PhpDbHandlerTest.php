@@ -49,7 +49,7 @@ final class PhpDbHandlerTest extends TestCase
     public function writeInsertsLogRecord(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = $this->makeRecord('integration test write');
+        $record = $this->makeRecord('integration test write');
 
         $handler->handle($record);
 
@@ -70,13 +70,13 @@ final class PhpDbHandlerTest extends TestCase
     public function writePopulatesUserIdentifierWhenPresent(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'security',
-            level    : Level::Warning,
-            message  : 'user identifier test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'security',
+            level: Level::Warning,
+            message: 'user identifier test',
             formatted: 'user identifier test',
-            extra    : ['email' => 'user@example.com'],
+            extra: ['email' => 'user@example.com'],
         );
 
         $handler->handle($record);
@@ -97,13 +97,13 @@ final class PhpDbHandlerTest extends TestCase
     public function writePopulatesUuidWhenPresent(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Debug,
-            message  : 'uuid test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Debug,
+            message: 'uuid test',
             formatted: 'uuid test',
-            extra    : ['uuid' => 'test-uuid-value'],
+            extra: ['uuid' => 'test-uuid-value'],
         );
 
         $handler->handle($record);
@@ -124,13 +124,13 @@ final class PhpDbHandlerTest extends TestCase
     public function writeSerializesContextToJson(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Error,
-            message  : 'context test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Error,
+            message: 'context test',
             formatted: 'context test',
-            context  : ['key' => 'value'],
+            context: ['key' => 'value'],
         );
 
         $handler->handle($record);
@@ -154,20 +154,20 @@ final class PhpDbHandlerTest extends TestCase
         $username = (string) (getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: 'root');
         $password = (string) (getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: '');
         $database = (string) (getenv('TESTS_ADAPTER_MYSQL_DATABASE') ?: 'webware_log_test');
-        $port     = (int) (getenv('TESTS_ADAPTER_MYSQL_PORT') ?: '3306');
+        $port = (int) (getenv('TESTS_ADAPTER_MYSQL_PORT') ?: '3306');
 
         $connection = new Connection([
             'hostname' => $hostname,
-            'port'     => $port,
+            'port' => $port,
             'username' => $username,
             'password' => $password,
             'database' => $database,
         ]);
-        $driver        = new Driver($connection, new Statement(), new Result());
-        $platform      = new AdapterPlatform($driver);
+        $driver = new Driver($connection, new Statement(), new Result());
+        $platform = new AdapterPlatform($driver);
         $this->adapter = new Adapter($driver, $platform);
 
-        $dsn       = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $hostname, $port, $database);
+        $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $hostname, $port, $database);
         $this->pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $this->pdo->exec('TRUNCATE TABLE `log`');
     }
@@ -175,10 +175,10 @@ final class PhpDbHandlerTest extends TestCase
     private function makeRecord(string $message = 'test message'): LogRecord
     {
         return new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Info,
-            message  : $message,
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Info,
+            message: $message,
             formatted: $message,
         );
     }

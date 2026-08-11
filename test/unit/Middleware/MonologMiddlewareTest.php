@@ -34,9 +34,9 @@ final class MonologMiddlewareTest extends TestCase
     #[Test]
     public function processAttachesLoggerToRequest(): void
     {
-        $logger   = $this->createStub(Logger::class);
-        $request  = $this->createMock(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createStub(Logger::class);
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->method('getAttribute')->willReturn(null);
@@ -47,7 +47,7 @@ final class MonologMiddlewareTest extends TestCase
 
         $handler->method('handle')->willReturn($response);
 
-        $result = new MonologMiddleware($logger)->process($request, $handler);
+        $result = (new MonologMiddleware($logger))->process($request, $handler);
 
         $this->assertSame($response, $result);
     }
@@ -56,9 +56,9 @@ final class MonologMiddlewareTest extends TestCase
     public function processDoesNotPushProcessorWhenNoUserAttribute(): void
     {
         /** @var Logger&MockObject $logger */
-        $logger   = $this->createMock(Logger::class);
-        $request  = $this->createStub(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createMock(Logger::class);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->method('getAttribute')->willReturn(null);
@@ -67,18 +67,18 @@ final class MonologMiddlewareTest extends TestCase
 
         $logger->expects($this->never())->method('pushProcessor');
 
-        new MonologMiddleware($logger)->process($request, $handler);
+        (new MonologMiddleware($logger))->process($request, $handler);
     }
 
     #[Test]
     public function processPushesProcessorWhenUserAttributePresent(): void
     {
         /** @var Logger&MockObject $logger */
-        $logger   = $this->createMock(Logger::class);
-        $request  = $this->createStub(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createMock(Logger::class);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
-        $user     = $this->createStub(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
 
         $user->method('getIdentity')->willReturn('user@example.com');
         $request->method('getAttribute')->willReturn($user);
@@ -87,15 +87,15 @@ final class MonologMiddlewareTest extends TestCase
 
         $logger->expects($this->once())->method('pushProcessor');
 
-        new MonologMiddleware($logger)->process($request, $handler);
+        (new MonologMiddleware($logger))->process($request, $handler);
     }
 
     #[Test]
     public function processUsesCustomAuthAttributeKey(): void
     {
-        $logger   = $this->createStub(Logger::class);
-        $request  = $this->createMock(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createStub(Logger::class);
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->expects($this->once())
@@ -106,6 +106,6 @@ final class MonologMiddlewareTest extends TestCase
         $request->method('withAttribute')->willReturn($request);
         $handler->method('handle')->willReturn($response);
 
-        new MonologMiddleware($logger, 'my_auth_user')->process($request, $handler);
+        (new MonologMiddleware($logger, 'my_auth_user'))->process($request, $handler);
     }
 }

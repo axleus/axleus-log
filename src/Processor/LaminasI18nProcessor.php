@@ -35,7 +35,7 @@ final class LaminasI18nProcessor implements ProcessorInterface, TranslatorAwareI
         return $record->with(
             message: $translated,
             context: $record->context,
-            extra  : $record->extra,
+            extra: $record->extra,
         );
     }
 }
