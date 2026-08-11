@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace WebwareTestIntegration\Log\Extension;
 
+use Override;
 use PDOException;
 use PHPUnit\Event\TestSuite\Finished;
 use PHPUnit\Event\TestSuite\FinishedSubscriber;
 use WebwareTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
-use Override;
 
 final class IntegrationTestStoppedListener implements FinishedSubscriber
 {

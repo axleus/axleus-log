@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace WebwareTestIntegration\Log\Extension;
 
 use Exception;
+use Override;
 use PHPUnit\Event\TestSuite\Started;
 use PHPUnit\Event\TestSuite\StartedSubscriber;
 use WebwareTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
-use Override;
 
 final class IntegrationTestStartedListener implements StartedSubscriber
 {

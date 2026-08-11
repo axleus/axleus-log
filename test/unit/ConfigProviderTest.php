@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,7 +26,6 @@ use Webware\Log\ConfigProvider;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\Listener\Psr3LogPsr14Listener;
 use Webware\Log\LogChannel;
-use Override;
 
 #[CoversClass(ConfigProvider::class)]
 #[CoversMethod(ConfigProvider::class, '__invoke')]

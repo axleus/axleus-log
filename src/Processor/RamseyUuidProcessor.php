@@ -16,9 +16,9 @@ namespace Webware\Log\Processor;
 
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
+use Override;
 use Ramsey\Uuid\Exception\UnsupportedOperationException;
 use Ramsey\Uuid\Uuid;
-use Override;
 
 final class RamseyUuidProcessor implements ProcessorInterface
 {

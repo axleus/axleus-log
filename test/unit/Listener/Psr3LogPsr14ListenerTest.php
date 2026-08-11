@@ -16,6 +16,7 @@ namespace WebwareTest\Log\Listener;
 
 use Monolog\Level;
 use Monolog\Logger;
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,7 +25,6 @@ use PHPUnit\Framework\TestCase;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\Listener\Psr3LogPsr14Listener;
 use Webware\Log\LogChannel;
-use Override;
 
 #[CoversClass(Psr3LogPsr14Listener::class)]
 #[CoversMethod(Psr3LogPsr14Listener::class, '__invoke')]

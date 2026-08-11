@@ -18,6 +18,7 @@ use DateTimeImmutable;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,7 +26,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Webware\Log\Processor\LaminasI18nProcessor;
-use Override;
 
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]

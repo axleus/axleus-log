@@ -17,6 +17,7 @@ namespace WebwareTest\Log\Processor;
 use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,7 +26,6 @@ use Webware\Log\Processor\RamseyUuidProcessor;
 
 use function is_string;
 use function strlen;
-use Override;
 
 #[CoversClass(RamseyUuidProcessor::class)]
 #[CoversMethod(RamseyUuidProcessor::class, '__invoke')]
@@ -67,7 +67,7 @@ final class RamseyUuidProcessorTest extends TestCase
         $result = ($this->processor)($record);
 
         $this->assertTrue(is_string($result->extra['uuid']));
-        $this->assertGreaterThan(0, strlen( $result->extra['uuid']));
+        $this->assertGreaterThan(0, strlen($result->extra['uuid']));
     }
 
     /**

@@ -17,12 +17,12 @@ namespace Webware\Log\Middleware;
 use Mezzio\Authentication\UserInterface;
 use Monolog\Logger;
 use Monolog\LogRecord;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use Override;
 
 class MonologMiddleware implements MiddlewareInterface
 {

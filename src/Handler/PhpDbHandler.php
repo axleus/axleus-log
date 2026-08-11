@@ -16,6 +16,7 @@ namespace Webware\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
+use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Sql\Sql;
 
@@ -24,7 +25,6 @@ use function json_encode;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-use Override;
 
 final class PhpDbHandler extends AbstractProcessingHandler
 {

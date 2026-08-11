@@ -17,6 +17,7 @@ namespace WebwareTestIntegration\Log\Handler;
 use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PDO;
 use PDOException;
 use PhpDb\Adapter\Adapter;
@@ -35,7 +36,6 @@ use Webware\Log\Handler\PhpDbHandler;
 
 use function getenv;
 use function sprintf;
-use Override;
 
 #[CoversClass(PhpDbHandler::class)]
 #[CoversMethod(PhpDbHandler::class, 'handle')]

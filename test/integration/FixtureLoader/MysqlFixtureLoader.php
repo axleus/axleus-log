@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace WebwareTestIntegration\Log\FixtureLoader;
 
 use Exception;
+use Override;
 use PDO;
 use PDOException;
 
@@ -22,7 +23,6 @@ use function file_get_contents;
 use function getenv;
 use function print_r;
 use function sprintf;
-use Override;
 
 final class MysqlFixtureLoader implements FixtureLoaderInterface
 {

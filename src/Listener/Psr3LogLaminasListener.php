@@ -19,13 +19,13 @@ use Laminas\EventManager\EventInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Monolog\Level;
 use Monolog\Logger;
+use Override;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Stringable;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\LogChannel;
-use Override;
 
 /**
  * @deprecated since 0.1.0; will be removed in 0.2.0. Use Psr3LogPsr14Listener instead.

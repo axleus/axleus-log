@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Listener;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,7 +25,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Webware\Log\Listener\MezzioErrorListener;
-use Override;
 
 #[CoversClass(MezzioErrorListener::class)]
 #[CoversMethod(MezzioErrorListener::class, '__invoke')]
@@ -49,7 +49,7 @@ final class MezzioErrorListenerTest extends TestCase
             ->method('error')
             ->with(
                 'error',
-                $this->callback(static fn (array $context) => $context['exception'] === $exception),
+                $this->callback(static fn(array $context) => $context['exception'] === $exception),
             );
 
         ($this->listener)($exception, $request, $response);
@@ -70,7 +70,9 @@ final class MezzioErrorListenerTest extends TestCase
             ->method('error')
             ->with(
                 'oops',
-                $this->callback(static fn (array $context) => $context['request'] === $request && $context['response'] === $response),
+                $this->callback(
+                    static fn(array $context) => $context['request'] === $request && $context['response'] === $response,
+                ),
             );
 
         ($this->listener)($exception, $request, $response);
