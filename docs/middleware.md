@@ -1,6 +1,6 @@
 # Middleware
 
-`Axleus\Log\Middleware\MonologMiddleware` is a PSR-15 middleware that:
+`Webware\Log\Middleware\MonologMiddleware` is a PSR-15 middleware that:
 
 1. Reads the authenticated user from the request (if present) and pushes a processor that adds the user's identity string to every log record's `extra.email` field.
 2. Attaches the logger to the request under `Psr\Log\LoggerInterface::class` so downstream middleware and handlers can retrieve it without depending on the container.
@@ -12,7 +12,7 @@ Add `MonologMiddleware` early in your pipeline so that all downstream middleware
 **`config/pipeline.php`** (explicit pipeline):
 
 ```php
-use Axleus\Log\Middleware\MonologMiddleware;
+use Webware\Log\Middleware\MonologMiddleware;
 
 $app->pipe(MonologMiddleware::class);
 ```

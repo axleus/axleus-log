@@ -1,4 +1,4 @@
-# Project Architecture Blueprint — `axleus/axleus-log`
+# Project Architecture Blueprint — `webware/webware-log`
 
 > **Current stable:** 0.0.x (branch: `add-phpdb-handler`)  
 > **Next target:** 0.1.0 — see [Roadmap](#14-roadmap--version-scope) for planned changes  
@@ -28,7 +28,7 @@
 
 ## 1. Architectural Overview
 
-`axleus-log` is a **PHP logging component** designed to integrate [Monolog v3](https://seldaek.github.io/monolog/) into [Mezzio](https://docs.mezzio.dev/) applications. It acts as a thin, opinionated adapter layer that:
+`webware-log` is a **PHP logging component** designed to integrate [Monolog v3](https://seldaek.github.io/monolog/) into [Mezzio](https://docs.mezzio.dev/) applications. It acts as a thin, opinionated adapter layer that:
 
 - Exposes PSR-3 (`LoggerInterface`) through the PSR-11 dependency injection container.
 - Bridges PSR-14 (`psr/event-dispatcher`) log events to the PSR-3 logger via `phly/phly-event-dispatcher` (0.1.0+).
@@ -78,7 +78,7 @@
 │  Mezzio Application                                                  │
 │                                                                      │
 │  ┌─────────────────┐   uses   ┌───────────────────────────────────┐ │
-│  │  Application     │ ───────► │  axleus/axleus-log                │ │
+│  │  Application     │ ───────► │  webware/webware-log                │ │
 │  │  Code (handlers, │          │  (PSR-3/14/15 logging component)  │ │
 │  │  middleware)     │          └───────────────────────────────────┘ │
 │  └─────────────────┘                         │                       │
@@ -94,7 +94,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  axleus/axleus-log                                                           │
+│  webware/webware-log                                                           │
 │                                                                              │
 │  ┌──────────────┐   builds   ┌─────────────────────────────────────────┐   │
 │  │  LogFactory  │ ──────────► │  Monolog\Logger (PSR-3 LoggerInterface) │   │
@@ -242,7 +242,7 @@ The root wiring class for the Laminas component installer. When invoked, it retu
 
 **Key pattern (0.1.0+):** component config is namespaced under `LoggerInterface::class` (`Psr\Log\LoggerInterface`) to make the config key directly reflect what it configures and to eliminate any dependency on `ConfigProvider::class` in consuming factories. This is a **breaking change** from 0.0.x where `ConfigProvider::class` was the key.
 
-> **Migration:** In your application config, rename the key `Axleus\Log\ConfigProvider::class` to `Psr\Log\LoggerInterface::class`.
+> **Migration:** In your application config, rename the key `Webware\Log\ConfigProvider::class` to `Psr\Log\LoggerInterface::class`.
 
 ---
 
@@ -526,8 +526,8 @@ $logger->withName(LogChannel::MyChannel->value)->info('...');
 ### 8.4 Triggering a Log via PSR-14 (0.1.0+)
 
 ```php
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\LogChannel;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\LogChannel;
 use Monolog\Level;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -543,7 +543,7 @@ The `EventDispatcherInterface` is resolved from the container (provided by `phly
 ### 8.5 Triggering a Log via Laminas EventManager _(deprecated 0.1.0)_
 
 ```php
-use Axleus\Log\Event\LogEvent;
+use Webware\Log\Event\LogEvent;
 use Monolog\Level;
 
 $event = new LogEvent(Level::Info);
@@ -732,7 +732,7 @@ test (phpunit unit suite)
 
 ### Known Technical Debt (0.0.x)
 
-Items marked ✅ are addressed by the [0.1.0 refactoring plan](../plan/refactor-axleus-log-0.1.0.md).
+Items marked ✅ are addressed by the [0.1.0 refactoring plan](../plan/refactor-webware-log-0.1.0.md).
 
 | Location | Issue | 0.1.0 |
 |---|---|---|
@@ -763,7 +763,7 @@ Items marked ✅ are addressed by the [0.1.0 refactoring plan](../plan/refactor-
 
 ### 0.1.0 (Planned)
 
-Full scope defined in [plan/refactor-axleus-log-0.1.0.md](../plan/refactor-axleus-log-0.1.0.md).
+Full scope defined in [plan/refactor-webware-log-0.1.0.md](../plan/refactor-webware-log-0.1.0.md).
 
 | Change | Type | Plan Ref |
 |---|---|---|

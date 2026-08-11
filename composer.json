@@ -1,9 +1,9 @@
 {
-    "name": "axleus/axleus-log",
-    "description": "Axleus Logging component",
+    "name": "webware/webware-log",
+    "description": "Webware Logging component",
     "license": "BSD-3-Clause",
     "keywords": [
-        "axleus",
+        "webware",
         "mezzio",
         "laminas",
         "psr 3",
@@ -15,10 +15,10 @@
             "email": "jsmith@webinertia.net"
         }
     ],
-    "homepage": "https://github.com/orgs/axleus/discussions",
+    "homepage": "https://github.com/orgs/webinertia/webware-log/discussions",
     "support": {
-        "issues": "https://github.com/axleus/axleus-log/issues",
-        "chat": "https://discord.gg/9TxQ74EPsG"
+        "issues": "https://github.com/webinertia/webware-log/issues",
+        "chat": "https://discord.gg/89DfgmuF6C"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -28,8 +28,9 @@
             "php": "8.4.99"
         },
         "allow-plugins": {
-            "laminas/laminas-component-installer": true,
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": true,
+            "laminas/laminas-component-installer": true
         }
     },
     "require": {
@@ -41,54 +42,47 @@
         "ramsey/uuid": "^4.7"
     },
     "require-dev": {
+        "infection/infection": "^0.34.1",
         "laminas/laminas-diactoros": "^3.5",
         "laminas/laminas-eventmanager": "^3.14",
         "laminas/laminas-i18n": "^2.31.0",
         "laminas/laminas-servicemanager": "^3.23.0 || ^4.0.0",
         "mezzio/mezzio": "^3.26",
         "mezzio/mezzio-authentication": "^1.13",
-        "php-db/phpdb-mysql": "0.4.x-dev",
-        "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^13.0.0",
-        "roave/security-advisories": "dev-master",
-        "tomasvotruba/type-coverage": "^2.1",
-        "webware/coding-standard": "^0.1.0"
+        "php-standard-library/type": "^6.2",
+        "phpbench/phpbench": "^1.7",
+        "php-db/phpdb-mysql": "0.5.x-dev",
+        "phpunit/phpunit": "^13.3.0",
+        "roave/backward-compatibility-check": "^8.21.0",
+        "roave/security-advisories": "dev-master"
     },
     "suggest": {
         "php-db/phpdb-mysql": "Required when using PhpDbHandler with a MySQL/MariaDB database"
     },
     "extra": {
         "laminas": {
-            "component": "Axleus\\Log",
-            "config-provider": "Axleus\\Log\\ConfigProvider"
+            "component": "Webware\\Log",
+            "config-provider": "Webware\\Log\\ConfigProvider"
         }
     },
     "autoload": {
         "psr-4": {
-            "Axleus\\Log\\": "src/"
+            "Webware\\Log\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AxleusTest\\Log\\": "test/unit/",
-            "AxleusTestIntegration\\Log\\": "test/integration/"
+            "WebwareTest\\Log\\": "test/unit/",
+            "WebwareTestIntegration\\Log\\": "test/integration/"
         }
     },
     "scripts": {
-        "check-all": [
-            "@cs-check",
-            "@sa",
+        "test-all": [
             "@test",
             "@test-integration"
         ],
-        "cs-check": "vendor/bin/php-cs-fixer check -v --show-progress=dots --stop-on-violation",
-        "cs-fix": "vendor/bin/php-cs-fixer fix",
         "test": "phpunit --no-coverage --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml --coverage-html coverage/html --coverage-text",
-        "test-integration": "phpunit --no-coverage --colors=always --testsuite \"integration test\"",
-        "sa": "vendor/bin/phpstan analyse --memory-limit=256M",
-        "sa-gen-baseline": "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline",
-        "sa-verbose": "vendor/bin/phpstan analyse --memory-limit=256M -vv"
+        "test-integration": "phpunit --no-coverage --colors=always --testsuite \"integration test\""
     }
 }

@@ -8,14 +8,14 @@
 ## Composer
 
 ```bash
-composer require axleus/axleus-log
+composer require webware/webware-log
 ```
 
-`laminas/laminas-component-installer` will prompt you to inject `Axleus\Log\ConfigProvider` automatically into your application's config aggregator. Accept the prompt or add it manually:
+`laminas/laminas-component-installer` will prompt you to inject `Webware\Log\ConfigProvider` automatically into your application's config aggregator. Accept the prompt or add it manually:
 
 ```php
 // config/config.php
-new Axleus\Log\ConfigProvider(),
+new Webware\Log\ConfigProvider(),
 ```
 
 ## Database Table
@@ -24,7 +24,7 @@ One SQL fixture is provided for MySQL. For any other database supported by `lami
 
 ```bash
 # import from the project root
-mysql -u root -p my_database < vendor/axleus/axleus-log/test/integration/TestFixtures/mysql.sql
+mysql -u root -p my_database < vendor/webware/webware-log/test/integration/TestFixtures/mysql.sql
 ```
 
 The fixture creates a `log` table with the following columns:

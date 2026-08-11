@@ -1,6 +1,6 @@
 # Error Logging
 
-`axleus-log` can automatically log uncaught exceptions that reach Mezzio's `ErrorHandler` without replacing the framework's default error-handling behaviour.
+`webware-log` can automatically log uncaught exceptions that reach Mezzio's `ErrorHandler` without replacing the framework's default error-handling behaviour.
 
 ## Enabling
 

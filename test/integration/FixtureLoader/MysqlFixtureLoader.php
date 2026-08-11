@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTestIntegration\Log\FixtureLoader;
+namespace WebwareTestIntegration\Log\FixtureLoader;
 
 use Exception;
 use PDO;
@@ -38,17 +38,26 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         if (
             false === $this->pdo->exec(sprintf(
                 'CREATE DATABASE IF NOT EXISTS %s',
-                getenv('TESTS_ADAPTER_MYSQL_DATABASE')
+                getenv('TESTS_ADAPTER_MYSQL_DATABASE'),
             ))
         ) {
-            throw new Exception(sprintf('I cannot create the MySQL %s test database: %s', getenv('TESTS_ADAPTER_MYSQL_DATABASE'), print_r($this->pdo->errorInfo(), true)));
+            throw new Exception(sprintf(
+                'I cannot create the MySQL %s test database: %s',
+                getenv('TESTS_ADAPTER_MYSQL_DATABASE'),
+                print_r($this->pdo->errorInfo(), true),
+            ));
         }
 
         $this->pdo->exec('USE ' . getenv('TESTS_ADAPTER_MYSQL_DATABASE'));
 
         $sql = file_get_contents($this->fixtureFile);
         if ($sql === false || false === $this->pdo->exec($sql)) {
-            throw new Exception(sprintf('I cannot create the table for %s database. Check the %s file. %s ', getenv('TESTS_ADAPTER_MYSQL_DATABASE'), $this->fixtureFile, print_r($this->pdo->errorInfo(), true)));
+            throw new Exception(sprintf(
+                'I cannot create the table for %s database. Check the %s file. %s ',
+                getenv('TESTS_ADAPTER_MYSQL_DATABASE'),
+                $this->fixtureFile,
+                print_r($this->pdo->errorInfo(), true),
+            ));
         }
 
         $this->disconnect();
@@ -61,7 +70,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
 
         $this->pdo->exec(sprintf(
             'DROP DATABASE IF EXISTS %s',
-            getenv('TESTS_ADAPTER_MYSQL_DATABASE')
+            getenv('TESTS_ADAPTER_MYSQL_DATABASE'),
         ));
 
         $this->disconnect();
@@ -77,7 +86,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->pdo = new PDO(
             $dsn,
             getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: null,
-            getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: null
+            getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: null,
         );
     }
 

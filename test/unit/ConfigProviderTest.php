@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,12 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log;
+namespace WebwareTest\Log;
 
-use Axleus\Log\ConfigProvider;
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\Listener\Psr3LogPsr14Listener;
-use Axleus\Log\LogChannel;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,6 +21,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
+use Webware\Log\ConfigProvider;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\Listener\Psr3LogPsr14Listener;
+use Webware\Log\LogChannel;
 
 #[CoversClass(ConfigProvider::class)]
 #[CoversMethod(ConfigProvider::class, '__invoke')]
@@ -34,47 +34,6 @@ use Psr\Log\LoggerInterface;
 final class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;
-
-    protected function setUp(): void
-    {
-        $this->provider = new ConfigProvider();
-    }
-
-    #[Test]
-    public function invokeReturnsArrayKeyedOnLoggerInterface(): void
-    {
-        $config = ($this->provider)();
-
-        $this->assertArrayHasKey(LoggerInterface::class, $config);
-    }
-
-    #[Test]
-    public function invokeDoesNotContainLegacyConfigProviderKey(): void
-    {
-        $config = ($this->provider)();
-
-        $this->assertArrayNotHasKey(ConfigProvider::class, $config);
-    }
-
-    #[Test]
-    public function invokeDoesNotContainLogRuntime(): void
-    {
-        $config = ($this->provider)();
-
-        $this->assertArrayNotHasKey('log_runtime', $config);
-    }
-
-    #[Test]
-    public function getConfigDefaultsReturnsExpectedKeys(): void
-    {
-        $defaults = $this->provider->getConfigDefaults();
-
-        $this->assertArrayHasKey('channel', $defaults);
-        $this->assertArrayHasKey('log_errors', $defaults);
-        $this->assertArrayHasKey('process_uuid', $defaults);
-        $this->assertArrayHasKey('process_translation', $defaults);
-        $this->assertArrayHasKey('table', $defaults);
-    }
 
     #[Test]
     public function getConfigDefaultsChannelDefaultsToApp(): void
@@ -95,6 +54,18 @@ final class ConfigProviderTest extends TestCase
     }
 
     #[Test]
+    public function getConfigDefaultsReturnsExpectedKeys(): void
+    {
+        $defaults = $this->provider->getConfigDefaults();
+
+        $this->assertArrayHasKey('channel', $defaults);
+        $this->assertArrayHasKey('log_errors', $defaults);
+        $this->assertArrayHasKey('process_uuid', $defaults);
+        $this->assertArrayHasKey('process_translation', $defaults);
+        $this->assertArrayHasKey('table', $defaults);
+    }
+
+    #[Test]
     public function getConfigDefaultsTableDefaultsToLog(): void
     {
         $defaults = $this->provider->getConfigDefaults();
@@ -103,11 +74,37 @@ final class ConfigProviderTest extends TestCase
     }
 
     #[Test]
-    public function invokeNestedLoggerConfigMatchesGetConfigDefaults(): void
+    public function getDependenciesAliasesEventDispatcherInterface(): void
     {
-        $config = ($this->provider)();
+        $deps = $this->provider->getDependencies();
 
-        $this->assertSame($this->provider->getConfigDefaults(), $config[LoggerInterface::class]);
+        $this->assertArrayHasKey(EventDispatcherInterface::class, $deps['aliases']);
+    }
+
+    #[Test]
+    public function getDependenciesAliasesListenerProviderInterface(): void
+    {
+        $deps = $this->provider->getDependencies();
+
+        $this->assertArrayHasKey(ListenerProviderInterface::class, $deps['aliases']);
+    }
+
+    #[Test]
+    public function getListenersPsr14ListenerHasPriority(): void
+    {
+        $listeners = $this->provider->getListeners();
+
+        $this->assertArrayHasKey('priority', $listeners[LogEvent::class][0]);
+        $this->assertIsInt($listeners[LogEvent::class][0]['priority']);
+    }
+
+    #[Test]
+    public function getListenersRegistersLogEventWithPsr14Listener(): void
+    {
+        $listeners = $this->provider->getListeners();
+
+        $this->assertArrayHasKey(LogEvent::class, $listeners);
+        $this->assertSame(Psr3LogPsr14Listener::class, $listeners[LogEvent::class][0]['listener']);
     }
 
     #[Test]
@@ -127,36 +124,39 @@ final class ConfigProviderTest extends TestCase
     }
 
     #[Test]
-    public function getListenersRegistersLogEventWithPsr14Listener(): void
+    public function invokeDoesNotContainLegacyConfigProviderKey(): void
     {
-        $listeners = $this->provider->getListeners();
+        $config = ($this->provider)();
 
-        $this->assertArrayHasKey(LogEvent::class, $listeners);
-        $this->assertSame(Psr3LogPsr14Listener::class, $listeners[LogEvent::class][0]['listener']);
+        $this->assertArrayNotHasKey(ConfigProvider::class, $config);
     }
 
     #[Test]
-    public function getListenersPsr14ListenerHasPriority(): void
+    public function invokeDoesNotContainLogRuntime(): void
     {
-        $listeners = $this->provider->getListeners();
+        $config = ($this->provider)();
 
-        $this->assertArrayHasKey('priority', $listeners[LogEvent::class][0]);
-        $this->assertIsInt($listeners[LogEvent::class][0]['priority']);
+        $this->assertArrayNotHasKey('log_runtime', $config);
     }
 
     #[Test]
-    public function getDependenciesAliasesEventDispatcherInterface(): void
+    public function invokeNestedLoggerConfigMatchesGetConfigDefaults(): void
     {
-        $deps = $this->provider->getDependencies();
+        $config = ($this->provider)();
 
-        $this->assertArrayHasKey(EventDispatcherInterface::class, $deps['aliases']);
+        $this->assertSame($this->provider->getConfigDefaults(), $config[LoggerInterface::class]);
     }
 
     #[Test]
-    public function getDependenciesAliasesListenerProviderInterface(): void
+    public function invokeReturnsArrayKeyedOnLoggerInterface(): void
     {
-        $deps = $this->provider->getDependencies();
+        $config = ($this->provider)();
 
-        $this->assertArrayHasKey(ListenerProviderInterface::class, $deps['aliases']);
+        $this->assertArrayHasKey(LoggerInterface::class, $config);
+    }
+
+    protected function setUp(): void
+    {
+        $this->provider = new ConfigProvider();
     }
 }

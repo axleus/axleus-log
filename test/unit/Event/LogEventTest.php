@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,10 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log\Event;
+namespace WebwareTest\Log\Event;
 
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\LogChannel;
 use Monolog\Level;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -23,6 +21,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\StoppableEventInterface;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\LogChannel;
 
 #[CoversClass(LogEvent::class)]
 #[CoversMethod(LogEvent::class, '__construct')]
@@ -42,43 +42,22 @@ use Psr\EventDispatcher\StoppableEventInterface;
 #[CoversMethod(LogEvent::class, 'setUuid')]
 final class LogEventTest extends TestCase
 {
-    #[Test]
-    public function implementsStoppableEventInterface(): void
+    /** @return array<string, array{LogChannel}> */
+    public static function allChannelProvider(): array
     {
-        $this->assertInstanceOf(StoppableEventInterface::class, new LogEvent());
+        return array_combine(
+            array_map(static fn(LogChannel $c) => $c->name, LogChannel::cases()),
+            array_map(static fn(LogChannel $c) => [$c], LogChannel::cases()),
+        );
     }
 
     #[Test]
-    public function propagationIsNotStoppedByDefault(): void
+    #[DataProvider('allChannelProvider')]
+    public function allLogChannelValuesCanBeSet(LogChannel $channel): void
     {
-        $event = new LogEvent();
+        $event = new LogEvent($channel);
 
-        $this->assertFalse($event->isPropagationStopped());
-    }
-
-    #[Test]
-    public function stopPropagationSetsFlagToTrue(): void
-    {
-        $event = new LogEvent();
-        $event->stopPropagation();
-
-        $this->assertTrue($event->isPropagationStopped());
-    }
-
-    #[Test]
-    public function defaultChannelIsApp(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame(LogChannel::App, $event->getChannel());
-    }
-
-    #[Test]
-    public function defaultLevelIsDebug(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame(Level::Debug, $event->getLevel());
+        $this->assertSame($channel, $event->getChannel());
     }
 
     #[Test]
@@ -98,62 +77,11 @@ final class LogEventTest extends TestCase
     }
 
     #[Test]
-    public function setLevelRoundTrip(): void
-    {
-        $event = new LogEvent();
-        $event->setLevel(Level::Warning);
-
-        $this->assertSame(Level::Warning, $event->getLevel());
-    }
-
-    #[Test]
-    public function setLevelReturnsSelf(): void
+    public function defaultChannelIsApp(): void
     {
         $event = new LogEvent();
 
-        $this->assertSame($event, $event->setLevel(Level::Info));
-    }
-
-    #[Test]
-    public function setMessageRoundTrip(): void
-    {
-        $event = new LogEvent();
-        $event->setMessage('test message');
-
-        $this->assertSame('test message', $event->getMessage());
-    }
-
-    #[Test]
-    public function setMessageReturnsSelf(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame($event, $event->setMessage('x'));
-    }
-
-    #[Test]
-    public function defaultMessageIsEmptyString(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame('', $event->getMessage());
-    }
-
-    #[Test]
-    public function setContextRoundTrip(): void
-    {
-        $event = new LogEvent();
-        $event->setContext(['key' => 'value']);
-
-        $this->assertSame(['key' => 'value'], $event->getContext());
-    }
-
-    #[Test]
-    public function setContextReturnsSelf(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame($event, $event->setContext([]));
+        $this->assertSame(LogChannel::App, $event->getChannel());
     }
 
     #[Test]
@@ -165,23 +93,6 @@ final class LogEventTest extends TestCase
     }
 
     #[Test]
-    public function setExtraRoundTrip(): void
-    {
-        $event = new LogEvent();
-        $event->setExtra(['uuid' => 'abc-123']);
-
-        $this->assertSame(['uuid' => 'abc-123'], $event->getExtra());
-    }
-
-    #[Test]
-    public function setExtraReturnsSelf(): void
-    {
-        $event = new LogEvent();
-
-        $this->assertSame($event, $event->setExtra([]));
-    }
-
-    #[Test]
     public function defaultExtraIsEmptyArray(): void
     {
         $event = new LogEvent();
@@ -190,20 +101,19 @@ final class LogEventTest extends TestCase
     }
 
     #[Test]
-    public function setUuidRoundTrip(): void
+    public function defaultLevelIsDebug(): void
     {
         $event = new LogEvent();
-        $event->setUuid('550e8400-e29b-41d4-a716-446655440000');
 
-        $this->assertSame('550e8400-e29b-41d4-a716-446655440000', $event->getUuid());
+        $this->assertSame(Level::Debug, $event->getLevel());
     }
 
     #[Test]
-    public function setUuidReturnsSelf(): void
+    public function defaultMessageIsEmptyString(): void
     {
         $event = new LogEvent();
 
-        $this->assertSame($event, $event->setUuid(''));
+        $this->assertSame('', $event->getMessage());
     }
 
     #[Test]
@@ -212,6 +122,28 @@ final class LogEventTest extends TestCase
         $event = new LogEvent();
 
         $this->assertSame('', $event->getUuid());
+    }
+
+    #[Test]
+    public function implementsStoppableEventInterface(): void
+    {
+        $this->assertInstanceOf(StoppableEventInterface::class, new LogEvent());
+    }
+
+    #[Test]
+    public function propagationIsNotStoppedByDefault(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertFalse($event->isPropagationStopped());
+    }
+
+    #[Test]
+    public function setChannelReturnsSelf(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertSame($event, $event->setChannel(LogChannel::App));
     }
 
     #[Test]
@@ -224,28 +156,96 @@ final class LogEventTest extends TestCase
     }
 
     #[Test]
-    public function setChannelReturnsSelf(): void
+    public function setContextReturnsSelf(): void
     {
         $event = new LogEvent();
 
-        $this->assertSame($event, $event->setChannel(LogChannel::App));
-    }
-
-    /** @return array<string, array{LogChannel}> */
-    public static function allChannelProvider(): array
-    {
-        return array_combine(
-            array_map(static fn (LogChannel $c) => $c->name, LogChannel::cases()),
-            array_map(static fn (LogChannel $c) => [$c], LogChannel::cases()),
-        );
+        $this->assertSame($event, $event->setContext([]));
     }
 
     #[Test]
-    #[DataProvider('allChannelProvider')]
-    public function allLogChannelValuesCanBeSet(LogChannel $channel): void
+    public function setContextRoundTrip(): void
     {
-        $event = new LogEvent($channel);
+        $event = new LogEvent();
+        $event->setContext(['key' => 'value']);
 
-        $this->assertSame($channel, $event->getChannel());
+        $this->assertSame(['key' => 'value'], $event->getContext());
+    }
+
+    #[Test]
+    public function setExtraReturnsSelf(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertSame($event, $event->setExtra([]));
+    }
+
+    #[Test]
+    public function setExtraRoundTrip(): void
+    {
+        $event = new LogEvent();
+        $event->setExtra(['uuid' => 'abc-123']);
+
+        $this->assertSame(['uuid' => 'abc-123'], $event->getExtra());
+    }
+
+    #[Test]
+    public function setLevelReturnsSelf(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertSame($event, $event->setLevel(Level::Info));
+    }
+
+    #[Test]
+    public function setLevelRoundTrip(): void
+    {
+        $event = new LogEvent();
+        $event->setLevel(Level::Warning);
+
+        $this->assertSame(Level::Warning, $event->getLevel());
+    }
+
+    #[Test]
+    public function setMessageReturnsSelf(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertSame($event, $event->setMessage('x'));
+    }
+
+    #[Test]
+    public function setMessageRoundTrip(): void
+    {
+        $event = new LogEvent();
+        $event->setMessage('test message');
+
+        $this->assertSame('test message', $event->getMessage());
+    }
+
+    #[Test]
+    public function setUuidReturnsSelf(): void
+    {
+        $event = new LogEvent();
+
+        $this->assertSame($event, $event->setUuid(''));
+    }
+
+    #[Test]
+    public function setUuidRoundTrip(): void
+    {
+        $event = new LogEvent();
+        $event->setUuid('550e8400-e29b-41d4-a716-446655440000');
+
+        $this->assertSame('550e8400-e29b-41d4-a716-446655440000', $event->getUuid());
+    }
+
+    #[Test]
+    public function stopPropagationSetsFlagToTrue(): void
+    {
+        $event = new LogEvent();
+        $event->stopPropagation();
+
+        $this->assertTrue($event->isPropagationStopped());
     }
 }

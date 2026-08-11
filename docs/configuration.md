@@ -31,7 +31,7 @@ return [
 
 ## Channels
 
-Channels are defined as a `BackedEnum` (`Axleus\Log\LogChannel`):
+Channels are defined as a `BackedEnum` (`Webware\Log\LogChannel`):
 
 | Case | Value |
 |---|---|
@@ -47,7 +47,7 @@ Channels are defined as a `BackedEnum` (`Axleus\Log\LogChannel`):
 Set the channel in config:
 
 ```php
-use Axleus\Log\LogChannel;
+use Webware\Log\LogChannel;
 use Psr\Log\LoggerInterface;
 
 return [

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,9 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log\Processor;
+namespace WebwareTest\Log\Processor;
 
-use Axleus\Log\Processor\RamseyUuidProcessor;
 use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
@@ -22,6 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Webware\Log\Processor\RamseyUuidProcessor;
 
 use function is_string;
 use function strlen;
@@ -32,11 +32,6 @@ final class RamseyUuidProcessorTest extends TestCase
 {
     private RamseyUuidProcessor $processor;
 
-    protected function setUp(): void
-    {
-        $this->processor = new RamseyUuidProcessor();
-    }
-
     #[Test]
     public function invokeAddsUuidToExtra(): void
     {
@@ -44,6 +39,15 @@ final class RamseyUuidProcessorTest extends TestCase
         $result = ($this->processor)($record);
 
         $this->assertArrayHasKey('uuid', $result->extra);
+    }
+
+    #[Test]
+    public function invokeReturnsLogRecord(): void
+    {
+        $record = $this->makeRecord();
+        $result = ($this->processor)($record);
+
+        $this->assertInstanceOf(LogRecord::class, $result);
     }
 
     #[Test]
@@ -68,22 +72,20 @@ final class RamseyUuidProcessorTest extends TestCase
         $this->assertNotSame($result1->extra['uuid'], $result2->extra['uuid']);
     }
 
-    #[Test]
-    public function invokeReturnsLogRecord(): void
+    protected function setUp(): void
     {
-        $record = $this->makeRecord();
-        $result = ($this->processor)($record);
-
-        $this->assertInstanceOf(LogRecord::class, $result);
+        $this->processor = new RamseyUuidProcessor();
     }
 
-    private function makeRecord(DateTimeImmutable $datetime = new DateTimeImmutable(), string $message = 'test'): LogRecord
-    {
+    private function makeRecord(
+        DateTimeImmutable $datetime = new DateTimeImmutable(),
+        string $message = 'test',
+    ): LogRecord {
         return new LogRecord(
             datetime: $datetime,
-            channel: 'test',
-            level: Level::Debug,
-            message: $message,
+            channel : 'test',
+            level   : Level::Debug,
+            message : $message,
         );
     }
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Processor;
+namespace Webware\Log\Processor;
 
 use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
@@ -32,6 +32,10 @@ final class LaminasI18nProcessor implements ProcessorInterface, TranslatorAwareI
 
         $translated = $translator->translate($record->message);
 
-        return $record->with(message: $translated, context: $record->context, extra: $record->extra);
+        return $record->with(
+            message: $translated,
+            context: $record->context,
+            extra  : $record->extra,
+        );
     }
 }

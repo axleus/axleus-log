@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,11 +12,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTestIntegration\Log\Extension;
+namespace WebwareTestIntegration\Log\Extension;
 
-use AxleusTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
 use PHPUnit\Event\TestSuite\Started;
 use PHPUnit\Event\TestSuite\StartedSubscriber;
+use WebwareTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
 
 final class IntegrationTestStartedListener implements StartedSubscriber
 {

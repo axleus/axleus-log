@@ -1,4 +1,4 @@
-# Axleus Log — Copilot Agent Instructions
+# Webware Log — Copilot Agent Instructions
 
 ## PHPUnit Mock vs Stub Rules
 
