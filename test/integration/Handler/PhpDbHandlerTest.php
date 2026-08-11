@@ -20,6 +20,7 @@ use Monolog\LogRecord;
 use Override;
 use PDO;
 use PDOException;
+use PDOStatement;
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\Pdo\Result;
@@ -45,6 +46,17 @@ final class PhpDbHandlerTest extends TestCase
     private AdapterInterface $adapter;
 
     private PDO $pdo;
+
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Test]
+    public function bubbleDefaultsToTrue(): void
+    {
+        $handler = new PhpDbHandler($this->adapter, 'log');
+
+        $this->assertTrue($handler->getBubble());
+    }
 
     /**
      * @throws PDOException
@@ -147,7 +159,7 @@ final class PhpDbHandlerTest extends TestCase
             level: Level::Error,
             message: 'context test',
             formatted: 'context test',
-            context: ['key' => 'value'],
+            context: ['key' => 'value', 'url' => 'https://example.com/path', 'name' => 'café'],
         );
 
         $handler->handle($record);
@@ -163,6 +175,41 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertIsArray($row);
         $this->assertStringContainsString('"key"', $row['context']);
         $this->assertStringContainsString('"value"', $row['context']);
+        $this->assertStringContainsString('https://example.com/path', $row['context']);
+        $this->assertStringContainsString('café', $row['context']);
+    }
+
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
+    #[Test]
+    public function writeExcludesUuidFromContextExtra(): void
+    {
+        $handler = new PhpDbHandler($this->adapter, 'log');
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Info,
+            message: 'extra exclusion test',
+            formatted: 'extra exclusion test',
+            extra: ['uuid' => 'test-uuid-value', 'request_id' => 'abc-123'],
+        );
+
+        $handler->handle($record);
+
+        $stmt = $this->pdo->prepare(
+            'SELECT context FROM log WHERE message = ? ORDER BY id DESC LIMIT 1',
+        );
+        assert($stmt instanceof PDOStatement);
+        $stmt->execute(['extra exclusion test']);
+
+        /** @var array{context: string}|false $row */
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->assertIsArray($row);
+        $this->assertStringContainsString('request_id', $row['context']);
+        $this->assertStringNotContainsString('uuid', $row['context']);
     }
 
     /**

@@ -55,6 +55,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
         $result = $factory($container);
 
         $this->assertInstanceOf(LaminasI18nProcessor::class, $result);
+        $this->assertSame($translator, $result->getTranslator());
     }
 
     /**
@@ -74,6 +75,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
         $factory = new LaminasI18nProcessorFactory();
 
         $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionMessageIs(TranslatorInterface::class . ' was not found in the container');
 
         $factory($container);
     }

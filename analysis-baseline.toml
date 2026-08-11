@@ -284,14 +284,14 @@ count = 1
 
 [[issues]]
 file = "test/unit/Container/ListenerProviderAggregateFactoryTest.php"
-code = "imprecise-type"
-message = "Type `array` in parameter `$config` is imprecise, equivalent to `array<array-key, mixed>`."
+code = "invalid-iterator"
+message = "The expression provided to `foreach` is not iterable. It resolved to type `iterable<mixed, mixed>[(callable(...mixed): mixed)]`, which is not iterable."
 count = 1
 
 [[issues]]
 file = "test/unit/Container/ListenerProviderAggregateFactoryTest.php"
-code = "imprecise-type"
-message = "Type `array` in parameter `$services` is imprecise, equivalent to `array<array-key, mixed>`."
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
 count = 1
 
 [[issues]]

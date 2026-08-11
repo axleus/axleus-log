@@ -30,6 +30,8 @@ use Webware\Log\Container\ListenerProviderAggregateFactory;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\Listener\Psr3LogPsr14Listener;
 
+use function iterator_to_array;
+
 #[CoversClass(ListenerProviderAggregateFactory::class)]
 #[CoversMethod(ListenerProviderAggregateFactory::class, '__invoke')]
 final class ListenerProviderAggregateFactoryTest extends TestCase
@@ -94,13 +96,18 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
         $result = $factory($container);
 
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
+
+        // iterator_to_array()/spread against a broken vendor iterable docblock trips mago; collect manually instead.
+        $listeners = [];
+        foreach ($result->getListenersForEvent(new LogEvent()) as $registeredListener) {
+            $listeners[] = $registeredListener;
+        }
+        $this->assertSame([$listener], $listeners);
     }
 
     /**
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
-     */
-    /**
      * @throws \PHPUnit\Exception
      */
     private function makeContainer(array $config, array $services = []): ContainerInterface
