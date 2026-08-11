@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,14 +12,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Container;
+namespace Webware\Log\Container;
 
-use Axleus\Log\ConfigProvider;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate;
 use Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
+use Webware\Log\ConfigProvider;
 
 use function is_array;
 use function is_callable;
@@ -31,7 +31,7 @@ final class ListenerProviderAggregateFactory
     {
         /** @var array{listeners?: array<class-string, array<int, array{listener: callable|class-string, priority?: int}>>, listener_providers?: array<class-string>} $config */
         $config            = $container->get('config');
-        $listeners         = $config[ConfigProvider::LISTENER_KEY]          ?? [];
+        $listeners         = $config[ConfigProvider::LISTENER_KEY] ?? [];
         $listenerProviders = $config[ConfigProvider::LISTENER_PROVIDER_KEY] ?? [];
 
         /** @var PrioritizedListenerProvider $prioritizedProvider */

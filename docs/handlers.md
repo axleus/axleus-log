@@ -48,7 +48,7 @@ Uses `php-db/phpdb` to write records. The column mapping and write logic are ide
 > Do not push both handlers onto the logger simultaneously. `LogFactory` only pushes `LaminasDbHandler` by default. To switch to `PhpDbHandler`, override `LogFactory` in your application config:
 
 ```php
-use Axleus\Log\Handler\PhpDbHandler;
+use Webware\Log\Handler\PhpDbHandler;
 use Psr\Log\LoggerInterface;
 
 // config/autoload/log.local.php

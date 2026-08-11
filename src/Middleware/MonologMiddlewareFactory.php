@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,14 +12,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Middleware;
+namespace Webware\Log\Middleware;
 
-use Axleus\Log\ConfigProvider;
 use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Webware\Log\ConfigProvider;
 
 /**
  * @phpstan-import-type LogDefaults from ConfigProvider
@@ -39,7 +39,7 @@ class MonologMiddlewareFactory
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $logConfig */
-        $logConfig     = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
+        $logConfig     = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
         $authAttribute = $logConfig['auth_attribute'];
 
         return new MonologMiddleware($logger, $authAttribute);

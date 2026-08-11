@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,11 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log\Container;
+namespace WebwareTest\Log\Container;
 
-use Axleus\Log\Container\LogFactory;
-use Axleus\Log\Handler\PhpDbHandler;
-use Axleus\Log\Processor\LaminasI18nProcessor;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
@@ -27,43 +24,14 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Webware\Log\Container\LogFactory;
+use Webware\Log\Handler\PhpDbHandler;
+use Webware\Log\Processor\LaminasI18nProcessor;
 
 #[CoversClass(LogFactory::class)]
 #[CoversMethod(LogFactory::class, '__invoke')]
 final class LogFactoryTest extends TestCase
 {
-    #[Test]
-    public function invokeReturnsLoggerInterface(): void
-    {
-        $handler   = $this->createStub(HandlerInterface::class);
-        $container = $this->makeContainer(
-            [],
-            [PhpDbHandler::class => $handler],
-        );
-
-        $factory = new LogFactory();
-        $logger  = $factory($container);
-
-        $this->assertInstanceOf(LoggerInterface::class, $logger);
-    }
-
-    #[Test]
-    public function invokeUsesConfiguredChannel(): void
-    {
-        $handler   = $this->createStub(HandlerInterface::class);
-        $container = $this->makeContainer(
-            [LoggerInterface::class => ['channel' => 'security', 'log_errors' => false, 'process_uuid' => false, 'process_translation' => false, 'table' => 'log', 'auth_attribute' => 'attr']],
-            [PhpDbHandler::class => $handler],
-        );
-
-        $factory = new LogFactory();
-
-        /** @var Logger $logger */
-        $logger = $factory($container);
-
-        $this->assertSame('security', $logger->getName());
-    }
-
     #[Test]
     public function invokeFallsBackToDefaultsWhenNoConfig(): void
     {
@@ -88,7 +56,16 @@ final class LogFactoryTest extends TestCase
         $processor = $this->createStub(ProcessorInterface::class);
 
         $container = $this->makeContainer(
-            [LoggerInterface::class => ['channel' => 'app', 'log_errors' => false, 'process_uuid' => false, 'process_translation' => true, 'table' => 'log', 'auth_attribute' => 'attr']],
+            [
+                LoggerInterface::class => [
+                    'channel'             => 'app',
+                    'log_errors'          => false,
+                    'process_uuid'        => false,
+                    'process_translation' => true,
+                    'table'               => 'log',
+                    'auth_attribute'      => 'attr',
+                ],
+            ],
             [
                 PhpDbHandler::class         => $handler,
                 TranslatorInterface::class  => $this->createStub(TranslatorInterface::class),
@@ -104,6 +81,47 @@ final class LogFactoryTest extends TestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
+    #[Test]
+    public function invokeReturnsLoggerInterface(): void
+    {
+        $handler   = $this->createStub(HandlerInterface::class);
+        $container = $this->makeContainer(
+            [],
+            [PhpDbHandler::class => $handler],
+        );
+
+        $factory = new LogFactory();
+        $logger  = $factory($container);
+
+        $this->assertInstanceOf(LoggerInterface::class, $logger);
+    }
+
+    #[Test]
+    public function invokeUsesConfiguredChannel(): void
+    {
+        $handler   = $this->createStub(HandlerInterface::class);
+        $container = $this->makeContainer(
+            [
+                LoggerInterface::class => [
+                    'channel'             => 'security',
+                    'log_errors'          => false,
+                    'process_uuid'        => false,
+                    'process_translation' => false,
+                    'table'               => 'log',
+                    'auth_attribute'      => 'attr',
+                ],
+            ],
+            [PhpDbHandler::class => $handler],
+        );
+
+        $factory = new LogFactory();
+
+        /** @var Logger $logger */
+        $logger = $factory($container);
+
+        $this->assertSame('security', $logger->getName());
+    }
+
     /**
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
@@ -112,19 +130,23 @@ final class LogFactoryTest extends TestCase
     {
         $container = $this->createStub(ContainerInterface::class);
 
-        $container->method('get')->willReturnCallback(
-            static function (string $id) use ($config, $services): mixed {
-                if ($id === 'config') {
-                    return $config;
-                }
+        $container
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $id) use ($config, $services): mixed {
+                    if ($id === 'config') {
+                        return $config;
+                    }
 
-                return $services[$id] ?? null;
-            }
-        );
+                    return $services[$id] ?? null;
+                },
+            );
 
-        $container->method('has')->willReturnCallback(
-            static fn (string $id): bool => isset($services[$id])
-        );
+        $container
+            ->method('has')
+            ->willReturnCallback(
+                static fn(string $id): bool => isset($services[$id]),
+            );
 
         return $container;
     }

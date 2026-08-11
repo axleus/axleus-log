@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,11 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log\Listener;
+namespace WebwareTest\Log\Listener;
 
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\Listener\Psr3LogPsr14Listener;
-use Axleus\Log\LogChannel;
 use Monolog\Level;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -24,6 +21,9 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\Listener\Psr3LogPsr14Listener;
+use Webware\Log\LogChannel;
 
 #[CoversClass(Psr3LogPsr14Listener::class)]
 #[CoversMethod(Psr3LogPsr14Listener::class, '__invoke')]
@@ -33,12 +33,6 @@ final class Psr3LogPsr14ListenerTest extends TestCase
 
     private Psr3LogPsr14Listener $listener;
 
-    protected function setUp(): void
-    {
-        $this->logger   = $this->createMock(Logger::class);
-        $this->listener = new Psr3LogPsr14Listener($this->logger);
-    }
-
     #[Test]
     public function invokeCallsLogWithCorrectLevelMessageAndContext(): void
     {
@@ -46,31 +40,13 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $event->setMessage('Hello world');
         $event->setContext(['user' => 'alice']);
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('log')
             ->with(
                 Level::Info->toPsrLogLevel(),
                 'Hello world',
                 ['user' => 'alice'],
             );
-
-        ($this->listener)($event);
-    }
-
-    #[Test]
-    public function invokeDoesNotCallWithNameForAppChannel(): void
-    {
-        $event = new LogEvent(LogChannel::App, Level::Debug);
-        $event->setMessage('msg');
-
-        $this->logger
-            ->expects($this->never())
-            ->method('withName');
-
-        $this->logger
-            ->expects($this->once())
-            ->method('log');
 
         ($this->listener)($event);
     }
@@ -84,11 +60,25 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $renamedLogger = $this->createMock(Logger::class);
         $renamedLogger->expects($this->once())->method('log');
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('withName')
             ->with(LogChannel::Error->value)
             ->willReturn($renamedLogger);
+
+        ($this->listener)($event);
+    }
+
+    #[Test]
+    public function invokeDoesNotCallWithNameForAppChannel(): void
+    {
+        $event = new LogEvent(LogChannel::App, Level::Debug);
+        $event->setMessage('msg');
+
+        $this->logger->expects($this->never())
+            ->method('withName');
+
+        $this->logger->expects($this->once())
+            ->method('log');
 
         ($this->listener)($event);
     }
@@ -99,8 +89,7 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $event = new LogEvent(LogChannel::App, Level::Warning);
         $event->setMessage('warn msg');
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('log')
             ->with(
                 Level::Warning->toPsrLogLevel(),
@@ -119,13 +108,11 @@ final class Psr3LogPsr14ListenerTest extends TestCase
 
         $renamedLogger = $this->createMock(Logger::class);
 
-        $this->logger
-            ->method('withName')
+        $this->logger->method('withName')
             ->willReturn($renamedLogger);
 
         // The renamed logger must be the one that calls log(), not the original
-        $renamedLogger
-            ->expects($this->once())
+        $renamedLogger->expects($this->once())
             ->method('log')
             ->with(
                 Level::Critical->toPsrLogLevel(),
@@ -136,5 +123,11 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         $this->logger->expects($this->never())->method('log');
 
         ($this->listener)($event);
+    }
+
+    protected function setUp(): void
+    {
+        $this->logger   = $this->createMock(Logger::class);
+        $this->listener = new Psr3LogPsr14Listener($this->logger);
     }
 }

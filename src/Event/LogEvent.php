@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,13 +12,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Event;
+namespace Webware\Log\Event;
 
-use Axleus\Log\LogChannel;
 use Monolog\Level;
 use Override;
 use Psr\EventDispatcher\StoppableEventInterface;
 use Psr\Log\LogLevel;
+use Webware\Log\LogChannel;
 
 class LogEvent implements StoppableEventInterface
 {
@@ -59,47 +59,15 @@ class LogEvent implements StoppableEventInterface
         $this->level = $level;
     }
 
-    #[Override]
-    public function isPropagationStopped(): bool
+    public function getChannel(): LogChannel
     {
-        return $this->propagationStopped;
+        return $this->channel;
     }
 
-    public function stopPropagation(): void
+    /** @return array<string, mixed> */
+    public function getContext(): array
     {
-        $this->propagationStopped = true;
-    }
-
-    public function setLevel(Level $level): self
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    public function getLevel(): Level
-    {
-        return $this->level;
-    }
-
-    public function setMessage(string $message): self
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
-    /** @param array<string, mixed> $extra */
-    public function setExtra(array $extra): self
-    {
-        $this->extra = $extra;
-
-        return $this;
+        return $this->context;
     }
 
     /** @return array<string, mixed> */
@@ -108,28 +76,32 @@ class LogEvent implements StoppableEventInterface
         return $this->extra;
     }
 
-    public function setChannel(LogChannel $channel): self
+    public function getLevel(): Level
     {
-        $this->channel = $channel;
-
-        return $this;
+        return $this->level;
     }
 
-    public function getChannel(): LogChannel
+    public function getMessage(): string
     {
-        return $this->channel;
-    }
-
-    public function setUuid(string $uuid): self
-    {
-        $this->uuid = $uuid;
-
-        return $this;
+        return $this->message;
     }
 
     public function getUuid(): string
     {
         return $this->uuid;
+    }
+
+    #[Override]
+    public function isPropagationStopped(): bool
+    {
+        return $this->propagationStopped;
+    }
+
+    public function setChannel(LogChannel $channel): self
+    {
+        $this->channel = $channel;
+
+        return $this;
     }
 
     /** @param array<string, mixed> $context */
@@ -140,9 +112,37 @@ class LogEvent implements StoppableEventInterface
         return $this;
     }
 
-    /** @return array<string, mixed> */
-    public function getContext(): array
+    /** @param array<string, mixed> $extra */
+    public function setExtra(array $extra): self
     {
-        return $this->context;
+        $this->extra = $extra;
+
+        return $this;
+    }
+
+    public function setLevel(Level $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function stopPropagation(): void
+    {
+        $this->propagationStopped = true;
     }
 }

@@ -1,8 +1,8 @@
-# Session Context — axleus-log PR #32
+# Session Context — webware-log PR #32
 
 **Last updated:** 2026-05-03  
 **Branch:** `0-1-0-phase-4`  
-**PR:** https://github.com/axleus/axleus-log/pull/32  
+**PR:** https://github.com/webware/webware-log/pull/32  
 **Goal:** Get laminas CI green, merge, cut `0.1.0` release.
 
 ---
@@ -38,7 +38,7 @@ The Sury PPA (`ppa.launchpadcontent.net`) times out from the laminas CI GitHub A
 - `requireCoverageMetadata="true"`, `failOnNotice="true"`, `failOnDeprecation="true"`, `failOnWarning="true"`
 - `<source restrictNotices="true">` — excludes `LaminasDbHandler.php` + `LaminasDbHandlerFactory.php`
 - No `<coverage>` block (removed to fix laminas CI "no coverage driver" error)
-- Env: `TESTS_ADAPTER_MYSQL_HOSTNAME=mysql`, `USERNAME=root`, `PASSWORD=""`, `DATABASE=axleus_log_test`
+- Env: `TESTS_ADAPTER_MYSQL_HOSTNAME=mysql`, `USERNAME=root`, `PASSWORD=""`, `DATABASE=webware_log_test`
 
 ### `phpunit.xml` (local override)
 - Same as above but `HOSTNAME=localhost`
@@ -173,4 +173,4 @@ All factories and delegators now read `$config[LoggerInterface::class]` instead 
 - [src/Listener/Psr3LogPsr14ListenerFactory.php](../src/Listener/Psr3LogPsr14ListenerFactory.php)
 - [src/Listener/Psr3LogLaminasListener.php](../src/Listener/Psr3LogLaminasListener.php) ← deprecated
 - [test/unit/ConfigProviderTest.php](../test/unit/ConfigProviderTest.php)
-- [plan/refactor-axleus-log-0.1.0.md](../plan/refactor-axleus-log-0.1.0.md)
+- [plan/refactor-webware-log-0.1.0.md](../plan/refactor-webware-log-0.1.0.md)

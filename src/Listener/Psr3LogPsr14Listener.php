@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,12 +12,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Listener;
+namespace Webware\Log\Listener;
 
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\LogChannel;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\LogChannel;
 
 final class Psr3LogPsr14Listener
 {

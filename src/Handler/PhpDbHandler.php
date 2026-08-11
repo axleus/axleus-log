@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Handler;
+namespace Webware\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
@@ -46,15 +46,18 @@ final class PhpDbHandler extends AbstractProcessingHandler
             'extra'   => array_diff_key($record->extra, ['uuid' => true, $this->extraAuthIdentifier => true]),
         ]);
 
-        $insert = $this->sql->insert()->values([
-            'channel'         => $record->channel,
-            'level'           => $record->level->getName(),
-            'uuid'            => $record->extra['uuid'] ?? null,
-            'message'         => $record->message,
-            'time'            => $record->datetime->format('U'),
-            'user_identifier' => $record->extra[$this->extraAuthIdentifier] ?? null,
-            'context'         => $context !== [] ? json_encode($context, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null,
-        ]);
+        $insert = $this->sql->insert()
+            ->values([
+                'channel'         => $record->channel,
+                'level'           => $record->level->getName(),
+                'uuid'            => $record->extra['uuid'] ?? null,
+                'message'         => $record->message,
+                'time'            => $record->datetime->format('U'),
+                'user_identifier' => $record->extra[$this->extraAuthIdentifier] ?? null,
+                'context'         => $context !== []
+                    ? json_encode($context, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                    : null,
+            ]);
         $this->sql->prepareStatementForSqlObject($insert)->execute();
     }
 }

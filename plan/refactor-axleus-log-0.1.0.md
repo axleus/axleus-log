@@ -1,9 +1,9 @@
 ---
-goal: Refactor axleus-log to v0.1.0 — PSR-14 support, config key migration, MVC removal, dual DB adapter, and technical debt resolution
+goal: Refactor webware-log to v0.1.0 — PSR-14 support, config key migration, MVC removal, dual DB adapter, and technical debt resolution
 version: 0.1.0
 date_created: 2026-05-01
 last_updated: 2026-05-02
-owner: axleus
+owner: webware
 status: 'In Progress'
 tags: [refactor, architecture, feature, chore]
 ---
@@ -12,7 +12,7 @@ tags: [refactor, architecture, feature, chore]
 
 ![Status: In Progress](https://img.shields.io/badge/status-In%20Progress-yellow)
 
-This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-log`. The changes fall into five areas:
+This plan covers all changes targeted for the `0.1.0` release of `webware/webware-log`. The changes fall into five areas:
 
 1. **Config key migration** — replace `ConfigProvider::class` as the top-level config array key with `LoggerInterface::class`.
 2. **Laminas MVC removal** — remove all MVC-specific integration code since the Laminas team is retiring the MVC framework.
@@ -55,11 +55,11 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 |------|-------------|-----------|------|
 | TASK-001 | In `src/ConfigProvider.php`: change the key `static::class` (which resolves to `ConfigProvider::class`) in the `__invoke()` return array to `\Psr\Log\LoggerInterface::class`. Add `use Psr\Log\LoggerInterface;` import. | ✅ | 2026-05-02 |
 | TASK-002 | In `src/ConfigProvider.php`: rename the method `getDefaultConfig()` to `getConfigDefaults()` to reflect the new semantics and update the `__invoke()` call accordingly. | ✅ | 2026-05-02 |
-| TASK-003 | In `src/Container/LogFactory.php`: replace every reference to `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports: remove `use Axleus\Log\ConfigProvider;`, add `use Psr\Log\LoggerInterface;`. | ✅ | 2026-05-02 |
+| TASK-003 | In `src/Container/LogFactory.php`: replace every reference to `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports: remove `use Webware\Log\ConfigProvider;`, add `use Psr\Log\LoggerInterface;`. | ✅ | 2026-05-02 |
 | TASK-004 | In `src/Container/MezzioErrorHandlerDelegator.php`: replace `$container->get('config')[ConfigProvider::class]` with `$container->get('config')[LoggerInterface::class]`. Update imports accordingly. | ✅ | 2026-05-02 |
 | TASK-005 | In `src/Handler/LaminasDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | ✅ | 2026-05-02 |
 | TASK-006 | In `src/Handler/PhpDbHandlerFactory.php`: replace `$config[ConfigProvider::class]` with `$config[LoggerInterface::class]`. Update imports. | ✅ | 2026-05-02 |
-| TASK-007 | In `src/Event/LogEvent.php`: remove the `getChannel()` fallback that calls `(new ConfigProvider())->getAxleusConfig()['channel']`. Inject the default `LogChannel` via the constructor instead (add a `defaultChannel` constructor parameter defaulting to `LogChannel::App`). Remove `use Axleus\Log\ConfigProvider;` import. | ✅ | 2026-05-02 |
+| TASK-007 | In `src/Event/LogEvent.php`: remove the `getChannel()` fallback that calls `(new ConfigProvider())->getWebwareConfig()['channel']`. Inject the default `LogChannel` via the constructor instead (add a `defaultChannel` constructor parameter defaulting to `LogChannel::App`). Remove `use Webware\Log\ConfigProvider;` import. | ✅ | 2026-05-02 |
 | TASK-008 | Update `test/` files and any test fixtures that reference the `ConfigProvider::class` config key to use `LoggerInterface::class`. | ✅ | 2026-05-02 |
 
 ---
@@ -71,7 +71,7 @@ This plan covers all changes targeted for the `0.1.0` release of `axleus/axleus-
 | Task | Description | Completed | Date |
 |------|-------------|-----------|------|
 | TASK-009 | Delete `src/Runtime.php`. The `Runtime` enum's only remaining intended case (`Mezzio`) is no longer needed once MVC is removed; runtime is always Mezzio. | ✅ | 2026-05-02 |
-| TASK-010 | In `src/ConfigProvider.php`: remove the `'log_runtime' => Runtime::Mezzio->value` entry from the `__invoke()` return array. Remove `use Axleus\Log\Runtime;` import. | ✅ | 2026-05-02 |
+| TASK-010 | In `src/ConfigProvider.php`: remove the `'log_runtime' => Runtime::Mezzio->value` entry from the `__invoke()` return array. Remove `use Webware\Log\Runtime;` import. | ✅ | 2026-05-02 |
 | TASK-011 | In `src/Listener/Psr3LogLaminasListener.php`: remove `Laminas\Mvc\Controller\AbstractController` from the `$identifiers` array and the corresponding `use` import. The listener now only attaches to `MiddlewareInterface` and `RequestHandlerInterface` identifiers. | ✅ | 2026-05-02 |
 | TASK-012 | Evaluate whether `Psr3LogLaminasListener` should be kept at all given PSR-14 adoption (Phase 3). If the PSR-14 listener fully replaces it, mark `Psr3LogLaminasListener` as `@deprecated` with a note pointing to the PSR-14 equivalent. Full removal is a candidate for 0.2.0. | ✅ | 2026-05-02 |
 | TASK-013 | Remove `Laminas\Mvc\Controller\AbstractController` from `composer.json` suggestions or dev dependencies if it was added explicitly. Confirm `laminas/laminas-eventmanager` stays in `require-dev` only. | ✅ | 2026-05-02 |

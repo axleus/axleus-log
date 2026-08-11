@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,9 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AxleusTest\Log\Processor;
+namespace WebwareTest\Log\Processor;
 
-use Axleus\Log\Processor\LaminasI18nProcessor;
 use DateTimeImmutable;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Monolog\Level;
@@ -25,6 +24,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use Webware\Log\Processor\LaminasI18nProcessor;
 
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]
@@ -32,39 +32,6 @@ use PHPUnit\Framework\TestCase;
 final class LaminasI18nProcessorTest extends TestCase
 {
     private LaminasI18nProcessor $processor;
-
-    protected function setUp(): void
-    {
-        $this->processor = new LaminasI18nProcessor();
-    }
-
-    #[Test]
-    public function invokeReturnsRecordUnchangedWhenNoTranslatorSet(): void
-    {
-        $record = $this->makeRecord('original message');
-        $result = ($this->processor)($record);
-
-        $this->assertSame('original message', $result->message);
-    }
-
-    #[Test]
-    public function invokeTranslatesMessageWhenTranslatorIsSet(): void
-    {
-        /** @var MockObject&TranslatorInterface $translator */
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator
-            ->expects($this->once())
-            ->method('translate')
-            ->with('Hello world')
-            ->willReturn('Hola mundo');
-
-        $this->processor->setTranslator($translator);
-
-        $record = $this->makeRecord('Hello world');
-        $result = ($this->processor)($record);
-
-        $this->assertSame('Hola mundo', $result->message);
-    }
 
     #[Test]
     public function invokePreservesContextAndExtraWhenTranslating(): void
@@ -76,11 +43,11 @@ final class LaminasI18nProcessorTest extends TestCase
 
         $record = new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel: 'test',
-            level: Level::Info,
-            message: 'original',
-            context: ['key' => 'value'],
-            extra: ['foo' => 'bar'],
+            channel : 'test',
+            level   : Level::Info,
+            message : 'original',
+            context : ['key' => 'value'],
+            extra   : ['foo' => 'bar'],
         );
 
         $result = ($this->processor)($record);
@@ -98,13 +65,45 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertInstanceOf(LogRecord::class, $result);
     }
 
+    #[Test]
+    public function invokeReturnsRecordUnchangedWhenNoTranslatorSet(): void
+    {
+        $record = $this->makeRecord('original message');
+        $result = ($this->processor)($record);
+
+        $this->assertSame('original message', $result->message);
+    }
+
+    #[Test]
+    public function invokeTranslatesMessageWhenTranslatorIsSet(): void
+    {
+        /** @var MockObject&TranslatorInterface $translator */
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects($this->once())
+            ->method('translate')
+            ->with('Hello world')
+            ->willReturn('Hola mundo');
+
+        $this->processor->setTranslator($translator);
+
+        $record = $this->makeRecord('Hello world');
+        $result = ($this->processor)($record);
+
+        $this->assertSame('Hola mundo', $result->message);
+    }
+
+    protected function setUp(): void
+    {
+        $this->processor = new LaminasI18nProcessor();
+    }
+
     private function makeRecord(string $message = 'Hello world'): LogRecord
     {
         return new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel: 'test',
-            level: Level::Info,
-            message: $message,
+            channel : 'test',
+            level   : Level::Info,
+            message : $message,
         );
     }
 }

@@ -1,10 +1,10 @@
-# axleus/axleus-log
+# webware/webware-log
 
-[![PHP Version](https://img.shields.io/packagist/php-v/axleus/axleus-log)](https://packagist.org/packages/axleus/axleus-log)
-[![Latest Stable Version](https://img.shields.io/packagist/v/axleus/axleus-log)](https://packagist.org/packages/axleus/axleus-log)
-[![License](https://img.shields.io/github/license/axleus/axleus-log)](LICENSE)
-[![Continuous Integration](https://github.com/axleus/axleus-log/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/axleus/axleus-log/actions/workflows/continuous-integration.yml)
-[![Coverage Status](https://coveralls.io/repos/github/axleus/axleus-log/badge.svg?branch=0.1.x)](https://coveralls.io/github/axleus/axleus-log?branch=0.1.x)
+[![PHP Version](https://img.shields.io/packagist/php-v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
+[![Latest Stable Version](https://img.shields.io/packagist/v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
+[![License](https://img.shields.io/github/license/webware/webware-log)](LICENSE)
+[![Continuous Integration](https://github.com/webware/webware-log/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/webware/webware-log/actions/workflows/continuous-integration.yml)
+[![Coverage Status](https://coveralls.io/repos/github/webware/webware-log/badge.svg?branch=0.1.x)](https://coveralls.io/github/webware/webware-log?branch=0.1.x)
 
 This package provides logging via Monolog for Mezzio (PSR-15) applications.
 It provides log handlers backed by `laminas-db` or `php-db/phpdb` for writing logs to a database table.
@@ -25,14 +25,14 @@ It also provides a PSR-14 event listener and a Laminas EventManager bridge liste
 Install the package and let `laminas-component-installer` inject the `ConfigProvider`:
 
 ```bash
-composer require axleus/axleus-log
+composer require webware/webware-log
 ```
 
 Import the database schema and add the package's `ConfigProvider` to your config aggregator if not done automatically. Then pipe the middleware into your application pipeline:
 
 ```php
 // config/pipeline.php
-$app->pipe(\Axleus\Log\Middleware\MonologMiddleware::class);
+$app->pipe(\Webware\Log\Middleware\MonologMiddleware::class);
 ```
 
 Enable optional features via config:

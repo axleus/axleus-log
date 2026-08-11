@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log;
+namespace Webware\Log;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Authentication\UserInterface;
@@ -76,19 +76,6 @@ class ConfigProvider
     public const string LISTENER_KEY = 'listeners';
 
     public const string LISTENER_PROVIDER_KEY = 'listener_providers';
-
-    /** @return LogConfig */
-    public function __invoke(): array
-    {
-        return [
-            'dependencies'              => $this->getDependencies(),
-            self::LISTENER_KEY          => $this->getListeners(),
-            self::LISTENER_PROVIDER_KEY => [],
-            // 'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'                 => $this->getTemplates(),
-            LoggerInterface::class      => $this->getConfigDefaults(),
-        ];
-    }
 
     /** @return LogDefaults */
     public function getConfigDefaults(): array
@@ -163,6 +150,19 @@ class ConfigProvider
             'paths' => [
                 'log' => [__DIR__ . '/../templates/'],
             ],
+        ];
+    }
+
+    /** @return LogConfig */
+    public function __invoke(): array
+    {
+        return [
+            'dependencies'              => $this->getDependencies(),
+            self::LISTENER_KEY          => $this->getListeners(),
+            self::LISTENER_PROVIDER_KEY => [],
+            // 'middleware_pipeline' => $this->getPipelineConfig(),
+            'templates'            => $this->getTemplates(),
+            LoggerInterface::class => $this->getConfigDefaults(),
         ];
     }
 }

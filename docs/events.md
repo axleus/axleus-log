@@ -5,8 +5,8 @@ This package integrates with `phly/phly-event-dispatcher` to support event-drive
 ## Dispatching a Log Event
 
 ```php
-use Axleus\Log\Event\LogEvent;
-use Axleus\Log\LogChannel;
+use Webware\Log\Event\LogEvent;
+use Webware\Log\LogChannel;
 use Monolog\Level;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -52,8 +52,8 @@ LogEvent::EVENT_LOG_EMERGENCY // 'emergency'
 Merge additional listeners into your application config under the `listeners` key:
 
 ```php
-use Axleus\Log\ConfigProvider;
-use Axleus\Log\Event\LogEvent;
+use Webware\Log\ConfigProvider;
+use Webware\Log\Event\LogEvent;
 
 return [
     ConfigProvider::LISTENER_KEY => [

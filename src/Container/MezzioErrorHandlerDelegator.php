@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,15 +12,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Container;
+namespace Webware\Log\Container;
 
-use Axleus\Log\ConfigProvider;
-use Axleus\Log\Listener\MezzioErrorListener;
-use Axleus\Log\LogChannel;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Webware\Log\ConfigProvider;
+use Webware\Log\Listener\MezzioErrorListener;
+use Webware\Log\LogChannel;
 
 /**
  * @phpstan-import-type LogDefaults from ConfigProvider
@@ -33,7 +33,7 @@ final class MezzioErrorHandlerDelegator
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $config */
-        $config = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
+        $config = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
 
         /** @var ErrorHandler $handler */
         $handler = $callback();
@@ -44,7 +44,7 @@ final class MezzioErrorHandlerDelegator
         /** @var Logger $logger */
         $logger   = $container->get(LoggerInterface::class);
         $listener = new MezzioErrorListener(
-            $logger->withName(LogChannel::Error->value)
+            $logger->withName(LogChannel::Error->value),
         );
         $handler->attachListener($listener);
 

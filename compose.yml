@@ -19,10 +19,9 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-axleus_log_test}
-      - MYSQL_USER=${MYSQL_USER:-user}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-webware_log_test}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
     volumes:
       - ./test/integration/TestFixtures/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
     healthcheck:

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Axleus Log package.
+ * This file is part of the Webware Log package.
  *
  * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
  * and contributors.
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Log\Listener;
+namespace Webware\Log\Listener;
 
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -26,7 +26,7 @@ final class Psr3LogLaminasListenerFactory
         $logger = $container->get(LoggerInterface::class);
 
         return new Psr3LogLaminasListener(
-            $logger
+            $logger,
         );
     }
 }
