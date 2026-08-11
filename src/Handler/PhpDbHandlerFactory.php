@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace Webware\Log\Handler;
 
 use PhpDb\Adapter\AdapterInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\ConfigProvider;
 
@@ -24,6 +26,10 @@ use Webware\Log\ConfigProvider;
  */
 final class PhpDbHandlerFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): PhpDbHandler
     {
         /** @var array{LoggerInterface::class?: LogDefaults, authentication?: array{username?: string}}&array<string, mixed> */

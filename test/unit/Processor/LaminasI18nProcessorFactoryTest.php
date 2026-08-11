@@ -20,7 +20,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Log\Processor\LaminasI18nProcessor;
 use Webware\Log\Processor\LaminasI18nProcessorFactory;
 
@@ -28,6 +30,11 @@ use Webware\Log\Processor\LaminasI18nProcessorFactory;
 #[CoversMethod(LaminasI18nProcessorFactory::class, '__invoke')]
 final class LaminasI18nProcessorFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLaminasI18nProcessorWhenTranslatorPresent(): void
     {
@@ -50,6 +57,11 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
         $this->assertInstanceOf(LaminasI18nProcessor::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeThrowsWhenTranslatorNotInContainer(): void
     {

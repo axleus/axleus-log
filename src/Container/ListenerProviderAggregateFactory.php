@@ -17,7 +17,9 @@ namespace Webware\Log\Container;
 use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate;
 use Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Webware\Log\ConfigProvider;
 
@@ -27,6 +29,10 @@ use function is_string;
 
 final class ListenerProviderAggregateFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): ListenerProviderAggregate
     {
         /** @var array{listeners?: array<class-string, array<int, array{listener: callable|class-string, priority?: int}>>, listener_providers?: array<class-string>} $config */

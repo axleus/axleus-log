@@ -24,6 +24,7 @@ use function json_encode;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
+use Override;
 
 final class PhpDbHandler extends AbstractProcessingHandler
 {
@@ -39,6 +40,7 @@ final class PhpDbHandler extends AbstractProcessingHandler
         $this->sql = new Sql($adapter, $this->table);
     }
 
+    #[Override]
     protected function write(LogRecord $record): void
     {
         $context = array_filter([

@@ -18,6 +18,7 @@ use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
 use PDO;
+use PDOException;
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\Pdo\Result;
@@ -34,6 +35,7 @@ use Webware\Log\Handler\PhpDbHandler;
 
 use function getenv;
 use function sprintf;
+use Override;
 
 #[CoversClass(PhpDbHandler::class)]
 #[CoversMethod(PhpDbHandler::class, 'handle')]
@@ -45,6 +47,10 @@ final class PhpDbHandlerTest extends TestCase
 
     private PDO $pdo;
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writeInsertsLogRecord(): void
     {
@@ -66,6 +72,10 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('INFO', $row['level']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writePopulatesUserIdentifierWhenPresent(): void
     {
@@ -93,6 +103,10 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('user@example.com', $row['user_identifier']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writePopulatesUuidWhenPresent(): void
     {
@@ -120,6 +134,10 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('test-uuid-value', $row['uuid']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writeSerializesContextToJson(): void
     {
@@ -148,12 +166,16 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertStringContainsString('"value"', $row['context']);
     }
 
+    /**
+     * @throws PDOException
+     */
+    #[Override]
     protected function setUp(): void
     {
-        $hostname = (string) (getenv('TESTS_ADAPTER_MYSQL_HOSTNAME') ?: 'localhost');
-        $username = (string) (getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: 'root');
-        $password = (string) (getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: '');
-        $database = (string) (getenv('TESTS_ADAPTER_MYSQL_DATABASE') ?: 'webware_log_test');
+        $hostname = getenv('TESTS_ADAPTER_MYSQL_HOSTNAME') ?: 'localhost';
+        $username = getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: 'root';
+        $password = getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: '';
+        $database = getenv('TESTS_ADAPTER_MYSQL_DATABASE') ?: 'webware_log_test';
         $port = (int) (getenv('TESTS_ADAPTER_MYSQL_PORT') ?: '3306');
 
         $connection = new Connection([

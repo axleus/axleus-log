@@ -22,7 +22,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Log\ConfigProvider;
 use Webware\Log\Container\ListenerProviderAggregateFactory;
 use Webware\Log\Event\LogEvent;
@@ -32,6 +34,11 @@ use Webware\Log\Listener\Psr3LogPsr14Listener;
 #[CoversMethod(ListenerProviderAggregateFactory::class, '__invoke')]
 final class ListenerProviderAggregateFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeHandlesEmptyListenersConfig(): void
     {
@@ -46,6 +53,11 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsListenerProviderAggregate(): void
     {
@@ -56,6 +68,11 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
         $this->assertInstanceOf(ListenerProviderAggregate::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeWiresListenerFromContainerWithPriority(): void
     {
@@ -82,6 +99,9 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
     /**
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
+     */
+    /**
+     * @throws \PHPUnit\Exception
      */
     private function makeContainer(array $config, array $services = []): ContainerInterface
     {

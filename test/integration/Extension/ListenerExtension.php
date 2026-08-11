@@ -20,9 +20,14 @@ use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
 
 use function extension_loaded;
+use Override;
 
 final class ListenerExtension implements Extension
 {
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Override]
     public function bootstrap(
         Configuration $configuration,
         Facade $facade,

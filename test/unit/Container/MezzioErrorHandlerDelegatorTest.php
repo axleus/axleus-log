@@ -21,7 +21,9 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Container\MezzioErrorHandlerDelegator;
 use Webware\Log\Listener\MezzioErrorListener;
@@ -30,6 +32,11 @@ use Webware\Log\Listener\MezzioErrorListener;
 #[CoversMethod(MezzioErrorHandlerDelegator::class, '__invoke')]
 final class MezzioErrorHandlerDelegatorTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeAttachesListenerWhenLogErrorsTrue(): void
     {
@@ -62,6 +69,11 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         $this->assertSame($errorHandler, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToDefaultsWhenNoLoggerConfig(): void
     {
@@ -76,6 +88,11 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         $this->assertSame($errorHandler, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsErrorHandlerUnchangedWhenLogErrorsFalse(): void
     {
@@ -103,6 +120,9 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
      */
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeContainer(array $config, array $services = []): ContainerInterface
     {
         $container = $this->createStub(ContainerInterface::class);
@@ -120,6 +140,9 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         return $container;
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeHandler(): ErrorHandler&MockObject
     {
         return $this->createMock(ErrorHandler::class);

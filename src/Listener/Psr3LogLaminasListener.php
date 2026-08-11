@@ -25,6 +25,7 @@ use Psr\Log\LoggerInterface;
 use Stringable;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\LogChannel;
+use Override;
 
 /**
  * @deprecated since 0.1.0; will be removed in 0.2.0. Use Psr3LogPsr14Listener instead.
@@ -41,6 +42,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
         private LoggerInterface&Logger $logger,
     ) {}
 
+    #[Override]
     public function attach(EventManagerInterface $events, mixed $priority = 1): void
     {
         $sharedEvents = $events->getSharedManager();

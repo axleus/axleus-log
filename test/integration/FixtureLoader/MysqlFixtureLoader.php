@@ -16,11 +16,13 @@ namespace WebwareTestIntegration\Log\FixtureLoader;
 
 use Exception;
 use PDO;
+use PDOException;
 
 use function file_get_contents;
 use function getenv;
 use function print_r;
 use function sprintf;
+use Override;
 
 final class MysqlFixtureLoader implements FixtureLoaderInterface
 {
@@ -31,6 +33,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
     /**
      * @throws Exception
      */
+    #[Override]
     public function createDatabase(): void
     {
         $this->connect();
@@ -63,6 +66,10 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->disconnect();
     }
 
+    /**
+     * @throws PDOException
+     */
+    #[Override]
     public function dropDatabase(): void
     {
         $this->connect();
@@ -76,6 +83,9 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->disconnect();
     }
 
+    /**
+     * @throws PDOException
+     */
     protected function connect(): void
     {
         $dsn = 'mysql:host=' . getenv('TESTS_ADAPTER_MYSQL_HOSTNAME');

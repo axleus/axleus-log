@@ -51,6 +51,9 @@ final class LogEventTest extends TestCase
         );
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     #[DataProvider('allChannelProvider')]
     public function allLogChannelValuesCanBeSet(LogChannel $channel): void
@@ -60,6 +63,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($channel, $event->getChannel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function constructorChannelIsRespected(): void
     {
@@ -68,6 +74,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(LogChannel::Error, $event->getChannel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function constructorLevelIsRespected(): void
     {
@@ -76,6 +85,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(Level::Critical, $event->getLevel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultChannelIsApp(): void
     {
@@ -84,6 +96,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(LogChannel::App, $event->getChannel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultContextIsEmptyArray(): void
     {
@@ -92,6 +107,9 @@ final class LogEventTest extends TestCase
         $this->assertSame([], $event->getContext());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultExtraIsEmptyArray(): void
     {
@@ -100,6 +118,9 @@ final class LogEventTest extends TestCase
         $this->assertSame([], $event->getExtra());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultLevelIsDebug(): void
     {
@@ -108,6 +129,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(Level::Debug, $event->getLevel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultMessageIsEmptyString(): void
     {
@@ -116,6 +140,9 @@ final class LogEventTest extends TestCase
         $this->assertSame('', $event->getMessage());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function defaultUuidIsEmptyString(): void
     {
@@ -124,12 +151,18 @@ final class LogEventTest extends TestCase
         $this->assertSame('', $event->getUuid());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function implementsStoppableEventInterface(): void
     {
         $this->assertInstanceOf(StoppableEventInterface::class, new LogEvent());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function propagationIsNotStoppedByDefault(): void
     {
@@ -138,6 +171,9 @@ final class LogEventTest extends TestCase
         $this->assertFalse($event->isPropagationStopped());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setChannelReturnsSelf(): void
     {
@@ -146,6 +182,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setChannel(LogChannel::App));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setChannelRoundTrip(): void
     {
@@ -155,6 +194,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(LogChannel::Security, $event->getChannel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setContextReturnsSelf(): void
     {
@@ -163,6 +205,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setContext([]));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setContextRoundTrip(): void
     {
@@ -172,6 +217,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(['key' => 'value'], $event->getContext());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setExtraReturnsSelf(): void
     {
@@ -180,6 +228,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setExtra([]));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setExtraRoundTrip(): void
     {
@@ -189,6 +240,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(['uuid' => 'abc-123'], $event->getExtra());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setLevelReturnsSelf(): void
     {
@@ -197,6 +251,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setLevel(Level::Info));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setLevelRoundTrip(): void
     {
@@ -206,6 +263,9 @@ final class LogEventTest extends TestCase
         $this->assertSame(Level::Warning, $event->getLevel());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setMessageReturnsSelf(): void
     {
@@ -214,6 +274,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setMessage('x'));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setMessageRoundTrip(): void
     {
@@ -223,6 +286,9 @@ final class LogEventTest extends TestCase
         $this->assertSame('test message', $event->getMessage());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setUuidReturnsSelf(): void
     {
@@ -231,6 +297,9 @@ final class LogEventTest extends TestCase
         $this->assertSame($event, $event->setUuid(''));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function setUuidRoundTrip(): void
     {
@@ -240,6 +309,9 @@ final class LogEventTest extends TestCase
         $this->assertSame('550e8400-e29b-41d4-a716-446655440000', $event->getUuid());
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function stopPropagationSetsFlagToTrue(): void
     {

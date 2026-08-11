@@ -24,6 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Webware\Log\Listener\MezzioErrorListener;
+use Override;
 
 #[CoversClass(MezzioErrorListener::class)]
 #[CoversMethod(MezzioErrorListener::class, '__invoke')]
@@ -33,6 +34,9 @@ final class MezzioErrorListenerTest extends TestCase
 
     private MezzioErrorListener $listener;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeIncludesExceptionInContext(): void
     {
@@ -45,14 +49,15 @@ final class MezzioErrorListenerTest extends TestCase
             ->method('error')
             ->with(
                 'error',
-                $this->callback(static function (array $context) use ($exception): bool {
-                    return $context['exception'] === $exception;
-                }),
+                $this->callback(static fn (array $context) => $context['exception'] === $exception),
             );
 
         ($this->listener)($exception, $request, $response);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeIncludesRequestAndResponseInContext(): void
     {
@@ -65,14 +70,15 @@ final class MezzioErrorListenerTest extends TestCase
             ->method('error')
             ->with(
                 'oops',
-                $this->callback(static function (array $context) use ($request, $response): bool {
-                    return $context['request'] === $request && $context['response'] === $response;
-                }),
+                $this->callback(static fn (array $context) => $context['request'] === $request && $context['response'] === $response),
             );
 
         ($this->listener)($exception, $request, $response);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeLogsExceptionMessageAtErrorLevel(): void
     {
@@ -88,6 +94,10 @@ final class MezzioErrorListenerTest extends TestCase
         ($this->listener)($exception, $request, $response);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

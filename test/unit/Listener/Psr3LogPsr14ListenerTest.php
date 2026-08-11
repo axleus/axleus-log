@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\Listener\Psr3LogPsr14Listener;
 use Webware\Log\LogChannel;
+use Override;
 
 #[CoversClass(Psr3LogPsr14Listener::class)]
 #[CoversMethod(Psr3LogPsr14Listener::class, '__invoke')]
@@ -52,6 +53,9 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         ($this->listener)($event);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeCallsWithNameForNonAppChannel(): void
     {
@@ -101,6 +105,9 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         ($this->listener)($event);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesRenamedLoggerForLogging(): void
     {
@@ -125,6 +132,10 @@ final class Psr3LogPsr14ListenerTest extends TestCase
         ($this->listener)($event);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(Logger::class);

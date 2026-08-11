@@ -14,15 +14,21 @@ declare(strict_types=1);
 
 namespace WebwareTestIntegration\Log\Extension;
 
+use Exception;
 use PHPUnit\Event\TestSuite\Started;
 use PHPUnit\Event\TestSuite\StartedSubscriber;
 use WebwareTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
+use Override;
 
 final class IntegrationTestStartedListener implements StartedSubscriber
 {
     /** @var list<MysqlFixtureLoader> */
     private array $fixtureLoaders = [];
 
+    /**
+     * @throws Exception
+     */
+    #[Override]
     public function notify(Started $event): void
     {
         if ($event->testSuite()->name() !== 'integration test') {

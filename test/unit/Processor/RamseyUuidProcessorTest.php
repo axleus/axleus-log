@@ -25,6 +25,7 @@ use Webware\Log\Processor\RamseyUuidProcessor;
 
 use function is_string;
 use function strlen;
+use Override;
 
 #[CoversClass(RamseyUuidProcessor::class)]
 #[CoversMethod(RamseyUuidProcessor::class, '__invoke')]
@@ -32,6 +33,9 @@ final class RamseyUuidProcessorTest extends TestCase
 {
     private RamseyUuidProcessor $processor;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeAddsUuidToExtra(): void
     {
@@ -41,6 +45,9 @@ final class RamseyUuidProcessorTest extends TestCase
         $this->assertArrayHasKey('uuid', $result->extra);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLogRecord(): void
     {
@@ -50,6 +57,9 @@ final class RamseyUuidProcessorTest extends TestCase
         $this->assertInstanceOf(LogRecord::class, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUuidIsNonEmptyString(): void
     {
@@ -57,9 +67,12 @@ final class RamseyUuidProcessorTest extends TestCase
         $result = ($this->processor)($record);
 
         $this->assertTrue(is_string($result->extra['uuid']));
-        $this->assertGreaterThan(0, strlen((string) $result->extra['uuid']));
+        $this->assertGreaterThan(0, strlen( $result->extra['uuid']));
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUuidIsUniqueForDifferentDatetimes(): void
     {
@@ -72,6 +85,7 @@ final class RamseyUuidProcessorTest extends TestCase
         $this->assertNotSame($result1->extra['uuid'], $result2->extra['uuid']);
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->processor = new RamseyUuidProcessor();

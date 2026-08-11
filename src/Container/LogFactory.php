@@ -17,7 +17,9 @@ namespace Webware\Log\Container;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\ConfigProvider;
 use Webware\Log\Handler;
@@ -29,6 +31,10 @@ use Webware\Log\Processor;
  */
 final class LogFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
         /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */

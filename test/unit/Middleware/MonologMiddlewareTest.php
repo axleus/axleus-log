@@ -31,6 +31,9 @@ use Webware\Log\Middleware\MonologMiddleware;
 #[CoversMethod(MonologMiddleware::class, 'process')]
 final class MonologMiddlewareTest extends TestCase
 {
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processAttachesLoggerToRequest(): void
     {
@@ -52,6 +55,9 @@ final class MonologMiddlewareTest extends TestCase
         $this->assertSame($response, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processDoesNotPushProcessorWhenNoUserAttribute(): void
     {
@@ -70,6 +76,9 @@ final class MonologMiddlewareTest extends TestCase
         (new MonologMiddleware($logger))->process($request, $handler);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processPushesProcessorWhenUserAttributePresent(): void
     {
@@ -90,6 +99,9 @@ final class MonologMiddlewareTest extends TestCase
         (new MonologMiddleware($logger))->process($request, $handler);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processUsesCustomAuthAttributeKey(): void
     {

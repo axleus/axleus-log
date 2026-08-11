@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Middleware;
 
-
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Middleware\MonologMiddleware;
 use Webware\Log\Middleware\MonologMiddlewareFactory;
@@ -29,6 +30,11 @@ use Webware\Log\Middleware\MonologMiddlewareFactory;
 #[CoversMethod(MonologMiddlewareFactory::class, '__invoke')]
 final class MonologMiddlewareFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToUserInterfaceClassWhenNoConfig(): void
     {
@@ -36,12 +42,10 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($logger): mixed {
-                    return match ($id) {
-                        LoggerInterface::class => $logger,
-                        'config' => [],
-                        default => null,
-                    };
+                static fn(string $id) => match ($id) {
+                    LoggerInterface::class => $logger,
+                    'config' => [],
+                    default => null,
                 },
             );
 
@@ -53,6 +57,11 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(MonologMiddleware::class, $middleware);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsMonologMiddleware(): void
     {
@@ -79,6 +88,11 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(MonologMiddleware::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesAuthAttributeFromConfig(): void
     {

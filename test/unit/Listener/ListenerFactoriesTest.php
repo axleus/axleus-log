@@ -19,7 +19,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Listener\Psr3LogLaminasListener;
 use Webware\Log\Listener\Psr3LogLaminasListenerFactory;
@@ -32,6 +34,11 @@ use Webware\Log\Listener\Psr3LogPsr14ListenerFactory;
 #[CoversMethod(Psr3LogLaminasListenerFactory::class, '__invoke')]
 final class ListenerFactoriesTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function laminasFactoryReturnsLaminasListener(): void
     {
@@ -44,6 +51,11 @@ final class ListenerFactoriesTest extends TestCase
         $this->assertInstanceOf(Psr3LogLaminasListener::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function psr14FactoryReturnsPsr14Listener(): void
     {
@@ -56,6 +68,9 @@ final class ListenerFactoriesTest extends TestCase
         $this->assertInstanceOf(Psr3LogPsr14Listener::class, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeContainer(Logger $logger): ContainerInterface
     {
         $container = $this->createStub(ContainerInterface::class);

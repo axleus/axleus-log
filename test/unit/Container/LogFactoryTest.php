@@ -22,7 +22,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Container\LogFactory;
 use Webware\Log\Handler\PhpDbHandler;
@@ -32,6 +34,11 @@ use Webware\Log\Processor\LaminasI18nProcessor;
 #[CoversMethod(LogFactory::class, '__invoke')]
 final class LogFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToDefaultsWhenNoConfig(): void
     {
@@ -49,6 +56,11 @@ final class LogFactoryTest extends TestCase
         $this->assertSame('app', $logger->getName());
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokePushesTranslationProcessorWhenConfigured(): void
     {
@@ -81,6 +93,11 @@ final class LogFactoryTest extends TestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLoggerInterface(): void
     {
@@ -96,6 +113,11 @@ final class LogFactoryTest extends TestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesConfiguredChannel(): void
     {
@@ -125,6 +147,9 @@ final class LogFactoryTest extends TestCase
     /**
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
+     */
+    /**
+     * @throws \PHPUnit\Exception
      */
     private function makeContainer(array $config, array $services = []): ContainerInterface
     {

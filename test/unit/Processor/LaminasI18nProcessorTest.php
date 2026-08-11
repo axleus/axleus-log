@@ -25,6 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Webware\Log\Processor\LaminasI18nProcessor;
+use Override;
 
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]
@@ -33,6 +34,9 @@ final class LaminasI18nProcessorTest extends TestCase
 {
     private LaminasI18nProcessor $processor;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokePreservesContextAndExtraWhenTranslating(): void
     {
@@ -56,6 +60,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $result->extra);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLogRecord(): void
     {
@@ -65,6 +72,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertInstanceOf(LogRecord::class, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsRecordUnchangedWhenNoTranslatorSet(): void
     {
@@ -74,6 +84,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame('original message', $result->message);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeTranslatesMessageWhenTranslatorIsSet(): void
     {
@@ -92,6 +105,7 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame('Hola mundo', $result->message);
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->processor = new LaminasI18nProcessor();

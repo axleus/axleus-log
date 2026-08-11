@@ -19,7 +19,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Handler\PhpDbHandler;
 use Webware\Log\Handler\PhpDbHandlerFactory;
@@ -28,6 +30,11 @@ use Webware\Log\Handler\PhpDbHandlerFactory;
 #[CoversMethod(PhpDbHandlerFactory::class, '__invoke')]
 final class PhpDbHandlerFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToDefaultTableWhenNoConfig(): void
     {
@@ -38,6 +45,11 @@ final class PhpDbHandlerFactoryTest extends TestCase
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsPhpDbHandler(): void
     {
@@ -48,6 +60,11 @@ final class PhpDbHandlerFactoryTest extends TestCase
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesTableFromConfig(): void
     {
@@ -70,6 +87,9 @@ final class PhpDbHandlerFactoryTest extends TestCase
 
     /**
      * @param array<string, mixed> $config
+     */
+    /**
+     * @throws \PHPUnit\Exception
      */
     private function makeContainer(array $config): ContainerInterface
     {
