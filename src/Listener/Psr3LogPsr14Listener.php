@@ -29,7 +29,7 @@ final class Psr3LogPsr14Listener
     {
         $channel = $event->getChannel();
 
-        if ($channel !== LogChannel::App) {
+        if (LogChannel::App !== $channel) {
             $this->logger = $this->logger->withName($channel->value);
         }
 

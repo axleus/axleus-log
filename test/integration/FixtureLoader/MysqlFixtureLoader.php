@@ -51,7 +51,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->pdo->exec('USE ' . getenv('TESTS_ADAPTER_MYSQL_DATABASE'));
 
         $sql = file_get_contents($this->fixtureFile);
-        if ($sql === false || false === $this->pdo->exec($sql)) {
+        if (false === $sql || false === $this->pdo->exec($sql)) {
             throw new Exception(sprintf(
                 'I cannot create the table for %s database. Check the %s file. %s ',
                 getenv('TESTS_ADAPTER_MYSQL_DATABASE'),

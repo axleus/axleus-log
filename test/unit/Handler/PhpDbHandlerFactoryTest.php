@@ -78,11 +78,11 @@ final class PhpDbHandlerFactoryTest extends TestCase
         $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $adapter): mixed {
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return $config;
                     }
 
-                    if ($id === AdapterInterface::class) {
+                    if (AdapterInterface::class === $id) {
                         return $adapter;
                     }
 

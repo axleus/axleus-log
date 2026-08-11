@@ -36,12 +36,12 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
 
         $container->method('has')
             ->willReturnCallback(
-                static fn(string $id): bool => $id === TranslatorInterface::class,
+                static fn(string $id): bool => TranslatorInterface::class === $id,
             );
 
         $container->method('get')
             ->willReturnCallback(
-                static fn(string $id): mixed => $id === TranslatorInterface::class ? $translator : null,
+                static fn(string $id): mixed => TranslatorInterface::class === $id ? $translator : null,
             );
 
         $factory = new LaminasI18nProcessorFactory();

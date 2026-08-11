@@ -95,7 +95,7 @@ final class ListenerProviderAggregateFactoryTest extends TestCase
         $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $services): mixed {
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return $config;
                     }
 

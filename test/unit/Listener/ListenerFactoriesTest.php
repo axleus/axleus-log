@@ -61,7 +61,7 @@ final class ListenerFactoriesTest extends TestCase
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnCallback(
-                static fn(string $id): mixed => $id === LoggerInterface::class ? $logger : null,
+                static fn(string $id): mixed => LoggerInterface::class === $id ? $logger : null,
             );
 
         return $container;

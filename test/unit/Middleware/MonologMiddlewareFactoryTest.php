@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Middleware;
 
-use Mezzio\Authentication\UserInterface;
+
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
@@ -61,11 +61,11 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($logger): mixed {
-                    if ($id === LoggerInterface::class) {
+                    if (LoggerInterface::class === $id) {
                         return $logger;
                     }
 
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return [];
                     }
 
@@ -87,11 +87,11 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($logger): mixed {
-                    if ($id === LoggerInterface::class) {
+                    if (LoggerInterface::class === $id) {
                         return $logger;
                     }
 
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return [
                             LoggerInterface::class => [
                                 'auth_attribute' => 'my_user',

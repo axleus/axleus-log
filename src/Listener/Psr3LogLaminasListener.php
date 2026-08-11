@@ -44,7 +44,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events, mixed $priority = 1): void
     {
         $sharedEvents = $events->getSharedManager();
-        if ($sharedEvents === null) {
+        if (null === $sharedEvents) {
             return;
         }
 
@@ -67,7 +67,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
         $channel = $event->getParam('channel', LogChannel::App);
         assert($channel instanceof LogChannel);
 
-        if ($channel !== LogChannel::App) {
+        if (LogChannel::App !== $channel) {
             $this->logger = $this->logger->withName($channel->value);
         }
 
