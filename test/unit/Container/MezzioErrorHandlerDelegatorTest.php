@@ -21,7 +21,9 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Container\MezzioErrorHandlerDelegator;
 use Webware\Log\Listener\MezzioErrorListener;
@@ -30,6 +32,11 @@ use Webware\Log\Listener\MezzioErrorListener;
 #[CoversMethod(MezzioErrorHandlerDelegator::class, '__invoke')]
 final class MezzioErrorHandlerDelegatorTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeAttachesListenerWhenLogErrorsTrue(): void
     {
@@ -41,12 +48,12 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         $container = $this->makeContainer(
             [
                 LoggerInterface::class => [
-                    'log_errors'          => true,
-                    'channel'             => 'app',
-                    'process_uuid'        => false,
+                    'log_errors' => true,
+                    'channel' => 'app',
+                    'process_uuid' => false,
                     'process_translation' => false,
-                    'table'               => 'log',
-                    'auth_attribute'      => 'attr',
+                    'table' => 'log',
+                    'auth_attribute' => 'attr',
                 ],
             ],
             [LoggerInterface::class => $logger],
@@ -57,44 +64,54 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
             ->with($this->isInstanceOf(MezzioErrorListener::class));
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToDefaultsWhenNoLoggerConfig(): void
     {
         $errorHandler = $this->makeHandler();
-        $container    = $this->makeContainer([]);
+        $container = $this->makeContainer([]);
 
         $errorHandler->expects($this->never())->method('attachListener');
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsErrorHandlerUnchangedWhenLogErrorsFalse(): void
     {
         $errorHandler = $this->makeHandler();
-        $container    = $this->makeContainer([
+        $container = $this->makeContainer([
             LoggerInterface::class => [
-                'log_errors'          => false,
-                'channel'             => 'app',
-                'process_uuid'        => false,
+                'log_errors' => false,
+                'channel' => 'app',
+                'process_uuid' => false,
                 'process_translation' => false,
-                'table'               => 'log',
-                'auth_attribute'      => 'attr',
+                'table' => 'log',
+                'auth_attribute' => 'attr',
             ],
         ]);
 
         $errorHandler->expects($this->never())->method('attachListener');
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }
@@ -103,14 +120,16 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
      * @param array<string, mixed> $config
      * @param array<string, mixed> $services
      */
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeContainer(array $config, array $services = []): ContainerInterface
     {
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $services): mixed {
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return $config;
                     }
 
@@ -121,6 +140,9 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         return $container;
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeHandler(): ErrorHandler&MockObject
     {
         return $this->createMock(ErrorHandler::class);

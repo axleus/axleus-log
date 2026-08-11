@@ -15,11 +15,17 @@ declare(strict_types=1);
 namespace Webware\Log\Listener;
 
 use Monolog\Logger;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 final class Psr3LogPsr14ListenerFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): Psr3LogPsr14Listener
     {
         /** @var Logger $logger */

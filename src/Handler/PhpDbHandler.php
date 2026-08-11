@@ -16,6 +16,7 @@ namespace Webware\Log\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
+use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Sql\Sql;
 
@@ -39,22 +40,24 @@ final class PhpDbHandler extends AbstractProcessingHandler
         $this->sql = new Sql($adapter, $this->table);
     }
 
+    #[Override]
     protected function write(LogRecord $record): void
     {
         $context = array_filter([
             'context' => $record->context,
-            'extra'   => array_diff_key($record->extra, ['uuid' => true, $this->extraAuthIdentifier => true]),
+            'extra' => array_diff_key($record->extra, ['uuid' => true, $this->extraAuthIdentifier => true]),
         ]);
 
-        $insert = $this->sql->insert()
+        $insert = $this->sql
+            ->insert()
             ->values([
-                'channel'         => $record->channel,
-                'level'           => $record->level->getName(),
-                'uuid'            => $record->extra['uuid'] ?? null,
-                'message'         => $record->message,
-                'time'            => $record->datetime->format('U'),
+                'channel' => $record->channel,
+                'level' => $record->level->getName(),
+                'uuid' => $record->extra['uuid'] ?? null,
+                'message' => $record->message,
+                'time' => $record->datetime->format('U'),
                 'user_identifier' => $record->extra[$this->extraAuthIdentifier] ?? null,
-                'context'         => $context !== []
+                'context' => [] !== $context
                     ? json_encode($context, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
                     : null,
             ]);

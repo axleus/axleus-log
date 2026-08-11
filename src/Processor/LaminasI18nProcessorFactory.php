@@ -17,13 +17,19 @@ namespace Webware\Log\Processor;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Processor\ProcessorInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 final class LaminasI18nProcessorFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): ProcessorInterface
     {
-        if (! $container->has(TranslatorInterface::class)) {
+        if (!$container->has(TranslatorInterface::class)) {
             throw new ServiceNotFoundException(TranslatorInterface::class . ' was not found in the container');
         }
 

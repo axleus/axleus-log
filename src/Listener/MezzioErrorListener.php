@@ -32,8 +32,8 @@ final readonly class MezzioErrorListener
     ): void {
         $this->logger->error($e->getMessage(), [
             'exception' => $e,
-            'request'   => $request,
-            'response'  => $response,
+            'request' => $request,
+            'response' => $response,
         ]);
     }
 }

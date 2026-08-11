@@ -17,6 +17,7 @@ namespace Webware\Log\Middleware;
 use Mezzio\Authentication\UserInterface;
 use Monolog\Logger;
 use Monolog\LogRecord;
+use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,6 +31,7 @@ class MonologMiddleware implements MiddlewareInterface
         private readonly string $authAttribute = UserInterface::class,
     ) {}
 
+    #[Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var UserInterface|null */
@@ -37,7 +39,7 @@ class MonologMiddleware implements MiddlewareInterface
 
         if ($userInterface instanceof UserInterface) {
             $this->logger->pushProcessor(static function (LogRecord $record) use ($userInterface): LogRecord {
-                $extra          = $record->extra;
+                $extra = $record->extra;
                 $extra['email'] = $userInterface->getIdentity();
 
                 return $record->with(extra: $extra);

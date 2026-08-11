@@ -16,6 +16,7 @@ namespace Webware\Log\Processor;
 
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
+use Override;
 use Ramsey\Uuid\Exception\UnsupportedOperationException;
 use Ramsey\Uuid\Uuid;
 
@@ -24,6 +25,7 @@ final class RamseyUuidProcessor implements ProcessorInterface
     /**
      * @throws UnsupportedOperationException
      */
+    #[Override]
     public function __invoke(LogRecord $record): LogRecord
     {
         $record->extra['uuid'] = Uuid::uuid7($record->datetime)->toString();

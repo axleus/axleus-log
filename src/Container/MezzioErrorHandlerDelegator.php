@@ -16,7 +16,9 @@ namespace Webware\Log\Container;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Monolog\Logger;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\ConfigProvider;
 use Webware\Log\Listener\MezzioErrorListener;
@@ -27,6 +29,10 @@ use Webware\Log\LogChannel;
  */
 final class MezzioErrorHandlerDelegator
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container, string $name, callable $callback): ErrorHandler
     {
         /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
@@ -37,12 +43,12 @@ final class MezzioErrorHandlerDelegator
 
         /** @var ErrorHandler $handler */
         $handler = $callback();
-        if (! $config['log_errors']) {
+        if (!$config['log_errors']) {
             return $handler;
         }
 
         /** @var Logger $logger */
-        $logger   = $container->get(LoggerInterface::class);
+        $logger = $container->get(LoggerInterface::class);
         $listener = new MezzioErrorListener(
             $logger->withName(LogChannel::Error->value),
         );

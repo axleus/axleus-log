@@ -1,0 +1,397 @@
+variant = "loose"
+
+[[issues]]
+file = "src/ConfigProvider.php"
+code = "class-must-be-final"
+message = 'Class `Webware\Log\ConfigProvider` should be declared `final`.'
+count = 1
+
+[[issues]]
+file = "src/ConfigProvider.php"
+code = "invalid-return-statement"
+message = '''Invalid return type for function `Webware\Log\ConfigProvider::__invoke`: expected `array{'dependencies': array{'aliases': array{Psr\EventDispatcher\EventDispatcherInterface::class: class-string, Psr\EventDispatcher\ListenerProviderInterface::class: class-string}, 'delegators': array{Laminas\Stratigility\Middleware\ErrorHandler::class: list<class-string>}, 'factories': array{Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate::class: class-string, Psr\Log\LoggerInterface::class: class-string, Webware\Log\LaminasI18nProcessor::class: class-string, Webware\Log\MonologMiddleware::class: class-string, Webware\Log\PhpDbHandler::class: class-string, Webware\Log\Psr3LogLaminasListener::class: class-string, Webware\Log\Psr3LogPsr14Listener::class: class-string}, 'invokables': array{Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider::class: class-string, Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider::class: class-string, Webware\Log\RamseyUuidProcessor::class: class-string}}, 'listener_providers': array<array-key, array{}|false|float(0.0)|int(0)|null|string('')|string('0')>, 'listeners': array<class-string, list<array{'listener': class-string, 'priority': int}>>, 'templates': array{'paths': array{'log': list<string>}}, Psr\Log\LoggerInterface::class: array{'auth_attribute': string, 'channel': string, 'log_errors': bool, 'process_translation': bool, 'process_uuid': bool, 'table': string}}`, but found `array{'Psr\Log\LoggerInterface': array{'auth_attribute': string, 'channel': string, 'log_errors': bool, 'process_translation': bool, 'process_uuid': bool, 'table': string}, 'dependencies': array{'aliases': array{Psr\EventDispatcher\EventDispatcherInterface::class: class-string, Psr\EventDispatcher\ListenerProviderInterface::class: class-string}, 'delegators': array{Laminas\Stratigility\Middleware\ErrorHandler::class: list<class-string>}, 'factories': array{Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate::class: class-string, Psr\Log\LoggerInterface::class: class-string, Webware\Log\LaminasI18nProcessor::class: class-string, Webware\Log\MonologMiddleware::class: class-string, Webware\Log\PhpDbHandler::class: class-string, Webware\Log\Psr3LogLaminasListener::class: class-string, Webware\Log\Psr3LogPsr14Listener::class: class-string}, 'invokables': array{Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider::class: class-string, Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider::class: class-string, Webware\Log\RamseyUuidProcessor::class: class-string}}, 'listener_providers': array{}, 'listeners': array<class-string, list<array{'listener': class-string, 'priority': int}>>, 'templates': array{'paths': array{'log': list<string>}}}`.'''
+count = 1
+
+[[issues]]
+file = "src/ConfigProvider.php"
+code = "invalid-return-statement"
+message = '''Invalid return type for function `Webware\Log\ConfigProvider::getDependencies`: expected `array{'aliases': array{Psr\EventDispatcher\EventDispatcherInterface::class: class-string, Psr\EventDispatcher\ListenerProviderInterface::class: class-string}, 'delegators': array{Laminas\Stratigility\Middleware\ErrorHandler::class: list<class-string>}, 'factories': array{Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate::class: class-string, Psr\Log\LoggerInterface::class: class-string, Webware\Log\LaminasI18nProcessor::class: class-string, Webware\Log\MonologMiddleware::class: class-string, Webware\Log\PhpDbHandler::class: class-string, Webware\Log\Psr3LogLaminasListener::class: class-string, Webware\Log\Psr3LogPsr14Listener::class: class-string}, 'invokables': array{Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider::class: class-string, Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider::class: class-string, Webware\Log\RamseyUuidProcessor::class: class-string}}`, but found `array{'aliases': array{'Psr\EventDispatcher\EventDispatcherInterface': class-string('Phly\EventDispatcher\EventDispatcher'), 'Psr\EventDispatcher\ListenerProviderInterface': class-string('Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate')}, 'delegators': array{'Laminas\Stratigility\Middleware\ErrorHandler': list{class-string('Webware\Log\Container\MezzioErrorHandlerDelegator')}}, 'factories': array{'Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate': class-string('Webware\Log\Container\ListenerProviderAggregateFactory'), 'Psr\Log\LoggerInterface': class-string('Webware\Log\Container\LogFactory'), 'Webware\Log\Handler\PhpDbHandler': class-string('Webware\Log\Handler\PhpDbHandlerFactory'), 'Webware\Log\Listener\Psr3LogLaminasListener': class-string('Webware\Log\Listener\Psr3LogLaminasListenerFactory'), 'Webware\Log\Listener\Psr3LogPsr14Listener': class-string('Webware\Log\Listener\Psr3LogPsr14ListenerFactory'), 'Webware\Log\Middleware\MonologMiddleware': class-string('Webware\Log\Middleware\MonologMiddlewareFactory'), 'Webware\Log\Processor\LaminasI18nProcessor': class-string('Webware\Log\Processor\LaminasI18nProcessorFactory')}, 'invokables': array{'Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider': class-string('Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider'), 'Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider': class-string('Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider'), 'Webware\Log\Processor\RamseyUuidProcessor': class-string('Webware\Log\Processor\RamseyUuidProcessor')}}`.'''
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "impossible-type-comparison"
+message = "Impossible type assertion: `$listener` of type `class-string` can never be `(callable(...mixed): mixed)`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "no-value"
+message = 'Argument #2 passed to method `Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider::listen` has type `never`, meaning it cannot produce a value.'
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key accessed on `array{'listener': (callable(...mixed): mixed)|class-string, 'priority'?: int}|array{0: class-string|object, 1: non-empty-string}`."
+count = 2
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$attachableProvider`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$eventType`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$prioritizedProvider`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$provider`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-logical-operation"
+message = "Redundant `&&` operation: left operand is evaluated and right operand is always truthy."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "redundant-type-comparison"
+message = "Redundant type assertion: `$listener['priority']` is already `int`."
+count = 1
+
+[[issues]]
+file = "src/Container/ListenerProviderAggregateFactory.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 3
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "invalid-docblock"
+message = "Invalid type in `@var` tag for variable `expression`."
+count = 2
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$i18nProcessor`."
+count = 1
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$phpDbHandler`."
+count = 1
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "redundant-null-coalesce"
+message = "Redundant null coalesce: left-hand side can never be `null` or undefined."
+count = 2
+
+[[issues]]
+file = "src/Container/LogFactory.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 2
+
+[[issues]]
+file = "src/Container/MezzioErrorHandlerDelegator.php"
+code = "invalid-docblock"
+message = "Invalid type in `@var` tag for variable `expression`."
+count = 2
+
+[[issues]]
+file = "src/Container/MezzioErrorHandlerDelegator.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Container/MezzioErrorHandlerDelegator.php"
+code = "unused-parameter"
+message = "Parameter `$name` is never used."
+count = 1
+
+[[issues]]
+file = "src/Event/LogEvent.php"
+code = "class-must-be-final"
+message = 'Class `Webware\Log\Event\LogEvent` should be declared `final`.'
+count = 1
+
+[[issues]]
+file = "src/Handler/PhpDbHandlerFactory.php"
+code = "invalid-docblock"
+message = "Invalid type in `@var` tag for variable `expression`."
+count = 2
+
+[[issues]]
+file = "src/Handler/PhpDbHandlerFactory.php"
+code = "mixed-argument"
+message = 'Invalid argument type for argument #3 of `Webware\Log\Handler\PhpDbHandler::__construct`: expected `string`, but found `nonnull`.'
+count = 1
+
+[[issues]]
+file = "src/Handler/PhpDbHandlerFactory.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Handler/PhpDbHandlerFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$adapter`."
+count = 1
+
+[[issues]]
+file = "src/Listener/Psr3LogLaminasListener.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 2
+
+[[issues]]
+file = "src/Listener/Psr3LogLaminasListenerFactory.php"
+code = "deprecated-class"
+message = 'Class `Webware\Log\Listener\Psr3LogLaminasListener` is deprecated and should no longer be used.'
+count = 1
+
+[[issues]]
+file = "src/Middleware/MonologMiddleware.php"
+code = "class-must-be-final"
+message = 'Class `Webware\Log\Middleware\MonologMiddleware` should be declared `final`.'
+count = 1
+
+[[issues]]
+file = "src/Middleware/MonologMiddlewareFactory.php"
+code = "class-must-be-final"
+message = 'Class `Webware\Log\Middleware\MonologMiddlewareFactory` should be declared `final`.'
+count = 1
+
+[[issues]]
+file = "src/Middleware/MonologMiddlewareFactory.php"
+code = "invalid-docblock"
+message = "Invalid type in `@var` tag for variable `expression`."
+count = 2
+
+[[issues]]
+file = "src/Middleware/MonologMiddlewareFactory.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "src/Processor/LaminasI18nProcessorFactory.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$processor`."
+count = 1
+
+[[issues]]
+file = "src/Processor/LaminasI18nProcessorFactory.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 1
+
+[[issues]]
+file = "test/integration/Extension/IntegrationTestStartedListener.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 2
+
+[[issues]]
+file = "test/integration/Extension/IntegrationTestStoppedListener.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 2
+
+[[issues]]
+file = "test/integration/FixtureLoader/MysqlFixtureLoader.php"
+code = "possibly-false-operand"
+message = "Possibly false right operand used in string concatenation (type `false|string`)."
+count = 3
+
+[[issues]]
+file = "test/integration/FixtureLoader/MysqlFixtureLoader.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 6
+
+[[issues]]
+file = "test/integration/Handler/PhpDbHandlerTest.php"
+code = "invalid-method-access"
+message = "Attempting to access a method on a non-object type (`false`)."
+count = 8
+
+[[issues]]
+file = "test/integration/Handler/PhpDbHandlerTest.php"
+code = "side-effects-in-condition"
+message = "Impure function call inside condition."
+count = 5
+
+[[issues]]
+file = "test/unit/ConfigProviderTest.php"
+code = "possibly-null-argument"
+message = 'Argument #2 of method `PHPUnit\Framework\Assert::assertArrayHasKey` is possibly `null`, but parameter type `ArrayAccess<array-key, mixed>|array<array-key, mixed>` does not accept it.'
+count = 1
+
+[[issues]]
+file = "test/unit/ConfigProviderTest.php"
+code = "possibly-null-array-access"
+message = "Cannot perform array access on possibly `null` value."
+count = 5
+
+[[issues]]
+file = "test/unit/ConfigProviderTest.php"
+code = "possibly-undefined-int-array-index"
+message = "Possibly undefined array index accessed on `list<array{'listener': class-string, 'priority': int}>`."
+count = 3
+
+[[issues]]
+file = "test/unit/ConfigProviderTest.php"
+code = "possibly-undefined-string-array-index"
+message = '''Possibly undefined array key `class-string('Webware\Log\Event\LogEvent')` accessed on `array<class-string, list<array{'listener': class-string, 'priority': int}>>`.'''
+count = 3
+
+[[issues]]
+file = "test/unit/ConfigProviderTest.php"
+code = "undefined-string-array-index"
+message = '''Undefined array key 'Psr\Log\LoggerInterface' accessed on `array{'dependencies': array{'aliases': array{Psr\EventDispatcher\EventDispatcherInterface::class: class-string, Psr\EventDispatcher\ListenerProviderInterface::class: class-string}, 'delegators': array{Laminas\Stratigility\Middleware\ErrorHandler::class: list<class-string>}, 'factories': array{Phly\EventDispatcher\ListenerProvider\ListenerProviderAggregate::class: class-string, Psr\Log\LoggerInterface::class: class-string, Webware\Log\LaminasI18nProcessor::class: class-string, Webware\Log\MonologMiddleware::class: class-string, Webware\Log\PhpDbHandler::class: class-string, Webware\Log\Psr3LogLaminasListener::class: class-string, Webware\Log\Psr3LogPsr14Listener::class: class-string}, 'invokables': array{Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider::class: class-string, Phly\EventDispatcher\ListenerProvider\PrioritizedListenerProvider::class: class-string, Webware\Log\RamseyUuidProcessor::class: class-string}}, 'listener_providers': array<array-key, array{}|false|float(0.0)|int(0)|null|string('')|string('0')>, 'listeners': array<class-string, list<array{'listener': class-string, 'priority': int}>>, 'templates': array{'paths': array{'log': list<string>}}, Psr\Log\LoggerInterface::class: array{'auth_attribute': string, 'channel': string, 'log_errors': bool, 'process_translation': bool, 'process_uuid': bool, 'table': string}}`.'''
+count = 1
+
+[[issues]]
+file = "test/unit/Container/ListenerProviderAggregateFactoryTest.php"
+code = "invalid-iterator"
+message = "The expression provided to `foreach` is not iterable. It resolved to type `iterable<mixed, mixed>[(callable(...mixed): mixed)]`, which is not iterable."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/ListenerProviderAggregateFactoryTest.php"
+code = "mixed-assignment"
+message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/LogFactoryTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$config` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/LogFactoryTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$services` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/MezzioErrorHandlerDelegatorTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$config` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/MezzioErrorHandlerDelegatorTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$services` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Container/MezzioErrorHandlerDelegatorTest.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 3
+
+[[issues]]
+file = "test/unit/Event/LogEventTest.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 2
+
+[[issues]]
+file = "test/unit/Handler/PhpDbHandlerFactoryTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$config` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Listener/MezzioErrorListenerTest.php"
+code = "imprecise-type"
+message = "Type `array` in parameter `$context` is imprecise, equivalent to `array<array-key, mixed>`."
+count = 2
+
+[[issues]]
+file = "test/unit/Listener/MezzioErrorListenerTest.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 2
+
+[[issues]]
+file = "test/unit/Listener/MezzioErrorListenerTest.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string('exception')` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Listener/MezzioErrorListenerTest.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string('request')` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Listener/MezzioErrorListenerTest.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string('response')` accessed on `array<array-key, mixed>`."
+count = 1
+
+[[issues]]
+file = "test/unit/Middleware/MonologMiddlewareFactoryTest.php"
+code = "missing-return-type"
+message = "Function `arrow function` is missing a return type hint."
+count = 1
+
+[[issues]]
+file = "test/unit/Middleware/MonologMiddlewareTest.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$logger`."
+count = 2
+
+[[issues]]
+file = "test/unit/Processor/LaminasI18nProcessorFactoryTest.php"
+code = "unused-parameter"
+message = "Parameter `$id` is never used."
+count = 1
+
+[[issues]]
+file = "test/unit/Processor/LaminasI18nProcessorTest.php"
+code = "redundant-docblock-type"
+message = "Redundant docblock type for variable `$translator`."
+count = 2
+
+[[issues]]
+file = "test/unit/Processor/RamseyUuidProcessorTest.php"
+code = "possibly-undefined-string-array-index"
+message = "Possibly undefined array key `string('uuid')` accessed on `array<array-key, mixed>`."
+count = 3

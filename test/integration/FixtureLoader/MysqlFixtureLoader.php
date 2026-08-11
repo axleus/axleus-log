@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace WebwareTestIntegration\Log\FixtureLoader;
 
 use Exception;
+use Override;
 use PDO;
+use PDOException;
 
 use function file_get_contents;
 use function getenv;
@@ -31,6 +33,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
     /**
      * @throws Exception
      */
+    #[Override]
     public function createDatabase(): void
     {
         $this->connect();
@@ -51,7 +54,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->pdo->exec('USE ' . getenv('TESTS_ADAPTER_MYSQL_DATABASE'));
 
         $sql = file_get_contents($this->fixtureFile);
-        if ($sql === false || false === $this->pdo->exec($sql)) {
+        if (false === $sql || false === $this->pdo->exec($sql)) {
             throw new Exception(sprintf(
                 'I cannot create the table for %s database. Check the %s file. %s ',
                 getenv('TESTS_ADAPTER_MYSQL_DATABASE'),
@@ -63,6 +66,10 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->disconnect();
     }
 
+    /**
+     * @throws PDOException
+     */
+    #[Override]
     public function dropDatabase(): void
     {
         $this->connect();
@@ -76,6 +83,9 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
         $this->disconnect();
     }
 
+    /**
+     * @throws PDOException
+     */
     protected function connect(): void
     {
         $dsn = 'mysql:host=' . getenv('TESTS_ADAPTER_MYSQL_HOSTNAME');

@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Middleware;
 
-use Mezzio\Authentication\UserInterface;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Middleware\MonologMiddleware;
 use Webware\Log\Middleware\MonologMiddlewareFactory;
@@ -29,24 +30,26 @@ use Webware\Log\Middleware\MonologMiddlewareFactory;
 #[CoversMethod(MonologMiddlewareFactory::class, '__invoke')]
 final class MonologMiddlewareFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToUserInterfaceClassWhenNoConfig(): void
     {
-        $logger    = $this->createStub(Logger::class);
+        $logger = $this->createStub(Logger::class);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($logger): mixed {
-                    return match ($id) {
-                        LoggerInterface::class => $logger,
-                        'config'               => [],
-                        default                => null,
-                    };
+                static fn(string $id) => match ($id) {
+                    LoggerInterface::class => $logger,
+                    'config' => [],
+                    default => null,
                 },
             );
 
-        $factory    = new MonologMiddlewareFactory();
+        $factory = new MonologMiddlewareFactory();
         $middleware = $factory($container);
 
         // The default auth_attribute should be UserInterface::class — verify the
@@ -54,20 +57,24 @@ final class MonologMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(MonologMiddleware::class, $middleware);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsMonologMiddleware(): void
     {
-        $logger    = $this->createStub(Logger::class);
+        $logger = $this->createStub(Logger::class);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($logger): mixed {
-                    if ($id === LoggerInterface::class) {
+                    if (LoggerInterface::class === $id) {
                         return $logger;
                     }
 
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return [];
                     }
 
@@ -76,33 +83,37 @@ final class MonologMiddlewareFactoryTest extends TestCase
             );
 
         $factory = new MonologMiddlewareFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(MonologMiddleware::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesAuthAttributeFromConfig(): void
     {
-        $logger    = $this->createStub(Logger::class);
+        $logger = $this->createStub(Logger::class);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($logger): mixed {
-                    if ($id === LoggerInterface::class) {
+                    if (LoggerInterface::class === $id) {
                         return $logger;
                     }
 
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return [
                             LoggerInterface::class => [
-                                'auth_attribute'      => 'my_user',
-                                'channel'             => 'app',
-                                'log_errors'          => false,
-                                'process_uuid'        => false,
+                                'auth_attribute' => 'my_user',
+                                'channel' => 'app',
+                                'log_errors' => false,
+                                'process_uuid' => false,
                                 'process_translation' => false,
-                                'table'               => 'log',
+                                'table' => 'log',
                             ],
                         ];
                     }
@@ -112,7 +123,7 @@ final class MonologMiddlewareFactoryTest extends TestCase
             );
 
         $factory = new MonologMiddlewareFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(MonologMiddleware::class, $result);
     }

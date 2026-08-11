@@ -18,6 +18,7 @@ use DateTimeImmutable;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -28,11 +29,13 @@ use Webware\Log\Processor\LaminasI18nProcessor;
 
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]
-#[CoversMethod(LaminasI18nProcessor::class, 'setTranslator')]
 final class LaminasI18nProcessorTest extends TestCase
 {
     private LaminasI18nProcessor $processor;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokePreservesContextAndExtraWhenTranslating(): void
     {
@@ -43,11 +46,11 @@ final class LaminasI18nProcessorTest extends TestCase
 
         $record = new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel : 'test',
-            level   : Level::Info,
-            message : 'original',
-            context : ['key' => 'value'],
-            extra   : ['foo' => 'bar'],
+            channel: 'test',
+            level: Level::Info,
+            message: 'original',
+            context: ['key' => 'value'],
+            extra: ['foo' => 'bar'],
         );
 
         $result = ($this->processor)($record);
@@ -56,6 +59,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $result->extra);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLogRecord(): void
     {
@@ -65,6 +71,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertInstanceOf(LogRecord::class, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsRecordUnchangedWhenNoTranslatorSet(): void
     {
@@ -74,6 +83,9 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame('original message', $result->message);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeTranslatesMessageWhenTranslatorIsSet(): void
     {
@@ -92,6 +104,7 @@ final class LaminasI18nProcessorTest extends TestCase
         $this->assertSame('Hola mundo', $result->message);
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->processor = new LaminasI18nProcessor();
@@ -101,9 +114,9 @@ final class LaminasI18nProcessorTest extends TestCase
     {
         return new LogRecord(
             datetime: new DateTimeImmutable(),
-            channel : 'test',
-            level   : Level::Info,
-            message : $message,
+            channel: 'test',
+            level: Level::Info,
+            message: $message,
         );
     }
 }

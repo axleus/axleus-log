@@ -19,7 +19,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Handler\PhpDbHandler;
 use Webware\Log\Handler\PhpDbHandlerFactory;
@@ -28,42 +30,57 @@ use Webware\Log\Handler\PhpDbHandlerFactory;
 #[CoversMethod(PhpDbHandlerFactory::class, '__invoke')]
 final class PhpDbHandlerFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeFallsBackToDefaultTableWhenNoConfig(): void
     {
         $container = $this->makeContainer([]);
-        $factory   = new PhpDbHandlerFactory();
-        $result    = $factory($container);
+        $factory = new PhpDbHandlerFactory();
+        $result = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsPhpDbHandler(): void
     {
         $container = $this->makeContainer([]);
-        $factory   = new PhpDbHandlerFactory();
-        $result    = $factory($container);
+        $factory = new PhpDbHandlerFactory();
+        $result = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeUsesTableFromConfig(): void
     {
         $container = $this->makeContainer([
             LoggerInterface::class => [
-                'table'               => 'audit_log',
-                'channel'             => 'app',
-                'log_errors'          => false,
-                'process_uuid'        => false,
+                'table' => 'audit_log',
+                'channel' => 'app',
+                'log_errors' => false,
+                'process_uuid' => false,
                 'process_translation' => false,
-                'auth_attribute'      => 'attr',
+                'auth_attribute' => 'attr',
             ],
         ]);
 
         $factory = new PhpDbHandlerFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
@@ -71,19 +88,21 @@ final class PhpDbHandlerFactoryTest extends TestCase
     /**
      * @param array<string, mixed> $config
      */
+    /**
+     * @throws \PHPUnit\Exception
+     */
     private function makeContainer(array $config): ContainerInterface
     {
-        $adapter   = $this->createStub(AdapterInterface::class);
+        $adapter = $this->createStub(AdapterInterface::class);
         $container = $this->createStub(ContainerInterface::class);
-        $container
-            ->method('get')
+        $container->method('get')
             ->willReturnCallback(
                 static function (string $id) use ($config, $adapter): mixed {
-                    if ($id === 'config') {
+                    if ('config' === $id) {
                         return $config;
                     }
 
-                    if ($id === AdapterInterface::class) {
+                    if (AdapterInterface::class === $id) {
                         return $adapter;
                     }
 

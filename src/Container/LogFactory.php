@@ -17,7 +17,9 @@ namespace Webware\Log\Container;
 use Laminas\Translator\TranslatorInterface;
 use Monolog\Logger;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Webware\Log\ConfigProvider;
 use Webware\Log\Handler;
@@ -29,18 +31,22 @@ use Webware\Log\Processor;
  */
 final class LogFactory
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
         /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $config */
-        $config = ! empty($rawConfig[LoggerInterface::class])
+        $config = !empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
             : new ConfigProvider()->getConfigDefaults();
 
         $channel = LogChannel::tryFrom($config['channel']) ?? LogChannel::App;
-        $logger  = new Logger($channel->value);
+        $logger = new Logger($channel->value);
 
         if ($container->has(Handler\PhpDbHandler::class)) {
             /** @var Handler\PhpDbHandler $phpDbHandler */

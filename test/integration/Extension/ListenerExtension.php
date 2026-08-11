@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTestIntegration\Log\Extension;
 
+use Override;
 use PHPUnit\Runner\Extension\Extension;
 use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
@@ -23,6 +24,10 @@ use function extension_loaded;
 
 final class ListenerExtension implements Extension
 {
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Override]
     public function bootstrap(
         Configuration $configuration,
         Facade $facade,

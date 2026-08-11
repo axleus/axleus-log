@@ -31,12 +31,15 @@ use Webware\Log\Middleware\MonologMiddleware;
 #[CoversMethod(MonologMiddleware::class, 'process')]
 final class MonologMiddlewareTest extends TestCase
 {
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processAttachesLoggerToRequest(): void
     {
-        $logger   = $this->createStub(Logger::class);
-        $request  = $this->createMock(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createStub(Logger::class);
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->method('getAttribute')->willReturn(null);
@@ -52,13 +55,16 @@ final class MonologMiddlewareTest extends TestCase
         $this->assertSame($response, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processDoesNotPushProcessorWhenNoUserAttribute(): void
     {
         /** @var Logger&MockObject $logger */
-        $logger   = $this->createMock(Logger::class);
-        $request  = $this->createStub(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createMock(Logger::class);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->method('getAttribute')->willReturn(null);
@@ -70,15 +76,18 @@ final class MonologMiddlewareTest extends TestCase
         new MonologMiddleware($logger)->process($request, $handler);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processPushesProcessorWhenUserAttributePresent(): void
     {
         /** @var Logger&MockObject $logger */
-        $logger   = $this->createMock(Logger::class);
-        $request  = $this->createStub(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createMock(Logger::class);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
-        $user     = $this->createStub(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
 
         $user->method('getIdentity')->willReturn('user@example.com');
         $request->method('getAttribute')->willReturn($user);
@@ -90,12 +99,15 @@ final class MonologMiddlewareTest extends TestCase
         new MonologMiddleware($logger)->process($request, $handler);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function processUsesCustomAuthAttributeKey(): void
     {
-        $logger   = $this->createStub(Logger::class);
-        $request  = $this->createMock(ServerRequestInterface::class);
-        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $logger = $this->createStub(Logger::class);
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createStub(RequestHandlerInterface::class);
         $response = $this->createStub(ResponseInterface::class);
 
         $request->expects($this->once())

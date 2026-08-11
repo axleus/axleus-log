@@ -81,12 +81,12 @@ class ConfigProvider
     public function getConfigDefaults(): array
     {
         return [
-            'auth_attribute'      => UserInterface::class,
-            'channel'             => LogChannel::App->value,
-            'log_errors'          => false,
-            'process_uuid'        => false,
+            'auth_attribute' => UserInterface::class,
+            'channel' => LogChannel::App->value,
+            'log_errors' => false,
+            'process_uuid' => false,
             'process_translation' => false,
-            'table'               => 'log',
+            'table' => 'log',
         ];
     }
 
@@ -94,8 +94,8 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'aliases'    => [
-                EventDispatcherInterface::class  => EventDispatcher::class,
+            'aliases' => [
+                EventDispatcherInterface::class => EventDispatcher::class,
                 ListenerProviderInterface::class => ListenerProviderAggregate::class,
             ],
             'delegators' => [
@@ -103,18 +103,18 @@ class ConfigProvider
                     Container\MezzioErrorHandlerDelegator::class,
                 ],
             ],
-            'factories'  => [
-                ListenerProviderAggregate::class       => Container\ListenerProviderAggregateFactory::class,
+            'factories' => [
+                ListenerProviderAggregate::class => Container\ListenerProviderAggregateFactory::class,
                 Listener\Psr3LogLaminasListener::class => Listener\Psr3LogLaminasListenerFactory::class,
-                Listener\Psr3LogPsr14Listener::class   => Listener\Psr3LogPsr14ListenerFactory::class,
-                LoggerInterface::class                 => Container\LogFactory::class,
-                Middleware\MonologMiddleware::class    => Middleware\MonologMiddlewareFactory::class,
-                Handler\PhpDbHandler::class            => Handler\PhpDbHandlerFactory::class,
-                Processor\LaminasI18nProcessor::class  => Processor\LaminasI18nProcessorFactory::class,
+                Listener\Psr3LogPsr14Listener::class => Listener\Psr3LogPsr14ListenerFactory::class,
+                LoggerInterface::class => Container\LogFactory::class,
+                Middleware\MonologMiddleware::class => Middleware\MonologMiddlewareFactory::class,
+                Handler\PhpDbHandler::class => Handler\PhpDbHandlerFactory::class,
+                Processor\LaminasI18nProcessor::class => Processor\LaminasI18nProcessorFactory::class,
             ],
             'invokables' => [
-                AttachableListenerProvider::class    => AttachableListenerProvider::class,
-                PrioritizedListenerProvider::class   => PrioritizedListenerProvider::class,
+                AttachableListenerProvider::class => AttachableListenerProvider::class,
+                PrioritizedListenerProvider::class => PrioritizedListenerProvider::class,
                 Processor\RamseyUuidProcessor::class => Processor\RamseyUuidProcessor::class,
             ],
         ];
@@ -157,11 +157,11 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies'              => $this->getDependencies(),
-            self::LISTENER_KEY          => $this->getListeners(),
+            'dependencies' => $this->getDependencies(),
+            self::LISTENER_KEY => $this->getListeners(),
             self::LISTENER_PROVIDER_KEY => [],
             // 'middleware_pipeline' => $this->getPipelineConfig(),
-            'templates'            => $this->getTemplates(),
+            'templates' => $this->getTemplates(),
             LoggerInterface::class => $this->getConfigDefaults(),
         ];
     }

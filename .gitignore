@@ -1,6 +1,7 @@
 /.phpunit.cache
 /phpbench.json
 /clover.xml
+/coverage/
 /coverage.txt
 /phpunit.xml
 /infection.json5

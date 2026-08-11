@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace WebwareTestIntegration\Log\Extension;
 
+use Override;
+use PDOException;
 use PHPUnit\Event\TestSuite\Finished;
 use PHPUnit\Event\TestSuite\FinishedSubscriber;
 use WebwareTestIntegration\Log\FixtureLoader\MysqlFixtureLoader;
@@ -23,11 +25,15 @@ final class IntegrationTestStoppedListener implements FinishedSubscriber
     /** @var list<MysqlFixtureLoader> */
     private array $fixtureLoaders = [];
 
+    /**
+     * @throws PDOException
+     */
+    #[Override]
     public function notify(Finished $event): void
     {
         if (
             $event->testSuite()->name() !== 'integration test'
-                || empty($this->fixtureLoaders)
+            || empty($this->fixtureLoaders)
         ) {
             return;
         }

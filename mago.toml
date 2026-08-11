@@ -1,6 +1,12 @@
 #:schema https://mago.carthage.software/1.46.0/schema.json
 extends = "vendor/webware/webware-tools/mago.toml"
-php-version = "8.3.0"
+php-version = "8.4.1"
+
+[linter]
+baseline = "lint-baseline.toml"
+
+[analyzer]
+baseline = "analysis-baseline.toml"
 
 [source]
 paths = ["src", "test"]

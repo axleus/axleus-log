@@ -20,7 +20,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Webware\Log\Processor\LaminasI18nProcessor;
 use Webware\Log\Processor\LaminasI18nProcessorFactory;
 
@@ -28,28 +30,39 @@ use Webware\Log\Processor\LaminasI18nProcessorFactory;
 #[CoversMethod(LaminasI18nProcessorFactory::class, '__invoke')]
 final class LaminasI18nProcessorFactoryTest extends TestCase
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsLaminasI18nProcessorWhenTranslatorPresent(): void
     {
         $translator = $this->createStub(\Laminas\I18n\Translator\TranslatorInterface::class);
-        $container  = $this->createStub(ContainerInterface::class);
+        $container = $this->createStub(ContainerInterface::class);
 
         $container->method('has')
             ->willReturnCallback(
-                static fn(string $id): bool => $id === TranslatorInterface::class,
+                static fn(string $id): bool => TranslatorInterface::class === $id,
             );
 
         $container->method('get')
             ->willReturnCallback(
-                static fn(string $id): mixed => $id === TranslatorInterface::class ? $translator : null,
+                static fn(string $id): mixed => TranslatorInterface::class === $id ? $translator : null,
             );
 
         $factory = new LaminasI18nProcessorFactory();
-        $result  = $factory($container);
+        $result = $factory($container);
 
         $this->assertInstanceOf(LaminasI18nProcessor::class, $result);
+        $this->assertSame($translator, $result->getTranslator());
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeThrowsWhenTranslatorNotInContainer(): void
     {
@@ -62,6 +75,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
         $factory = new LaminasI18nProcessorFactory();
 
         $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionMessageIs(TranslatorInterface::class . ' was not found in the container');
 
         $factory($container);
     }

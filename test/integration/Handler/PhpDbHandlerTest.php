@@ -17,7 +17,10 @@ namespace WebwareTestIntegration\Log\Handler;
 use DateTimeImmutable;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use PDO;
+use PDOException;
+use PDOStatement;
 use PhpDb\Adapter\Adapter;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Adapter\Driver\Pdo\Result;
@@ -32,11 +35,11 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Log\Handler\PhpDbHandler;
 
+use function assert;
 use function getenv;
 use function sprintf;
 
 #[CoversClass(PhpDbHandler::class)]
-#[CoversMethod(PhpDbHandler::class, 'handle')]
 #[CoversMethod(PhpDbHandler::class, 'write')]
 #[RequiresPhpExtension('pdo_mysql')]
 final class PhpDbHandlerTest extends TestCase
@@ -45,11 +48,26 @@ final class PhpDbHandlerTest extends TestCase
 
     private PDO $pdo;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Test]
+    public function bubbleDefaultsToTrue(): void
+    {
+        $handler = new PhpDbHandler($this->adapter, 'log');
+
+        $this->assertTrue($handler->getBubble());
+    }
+
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writeInsertsLogRecord(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = $this->makeRecord('integration test write');
+        $record = $this->makeRecord('integration test write');
 
         $handler->handle($record);
 
@@ -66,17 +84,21 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('INFO', $row['level']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writePopulatesUserIdentifierWhenPresent(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'security',
-            level    : Level::Warning,
-            message  : 'user identifier test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'security',
+            level: Level::Warning,
+            message: 'user identifier test',
             formatted: 'user identifier test',
-            extra    : ['email' => 'user@example.com'],
+            extra: ['email' => 'user@example.com'],
         );
 
         $handler->handle($record);
@@ -93,17 +115,21 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('user@example.com', $row['user_identifier']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writePopulatesUuidWhenPresent(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Debug,
-            message  : 'uuid test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Debug,
+            message: 'uuid test',
             formatted: 'uuid test',
-            extra    : ['uuid' => 'test-uuid-value'],
+            extra: ['uuid' => 'test-uuid-value'],
         );
 
         $handler->handle($record);
@@ -120,17 +146,21 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertSame('test-uuid-value', $row['uuid']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function writeSerializesContextToJson(): void
     {
         $handler = new PhpDbHandler($this->adapter, 'log');
-        $record  = new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Error,
-            message  : 'context test',
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Error,
+            message: 'context test',
             formatted: 'context test',
-            context  : ['key' => 'value'],
+            context: ['key' => 'value', 'url' => 'https://example.com/path', 'name' => 'café'],
         );
 
         $handler->handle($record);
@@ -146,28 +176,67 @@ final class PhpDbHandlerTest extends TestCase
         $this->assertIsArray($row);
         $this->assertStringContainsString('"key"', $row['context']);
         $this->assertStringContainsString('"value"', $row['context']);
+        $this->assertStringContainsString('https://example.com/path', $row['context']);
+        $this->assertStringContainsString('café', $row['context']);
     }
 
+    /**
+     * @throws PDOException
+     * @throws \PHPUnit\Exception
+     */
+    #[Test]
+    public function writeExcludesUuidFromContextExtra(): void
+    {
+        $handler = new PhpDbHandler($this->adapter, 'log');
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Info,
+            message: 'extra exclusion test',
+            formatted: 'extra exclusion test',
+            extra: ['uuid' => 'test-uuid-value', 'request_id' => 'abc-123'],
+        );
+
+        $handler->handle($record);
+
+        $stmt = $this->pdo->prepare(
+            'SELECT context FROM log WHERE message = ? ORDER BY id DESC LIMIT 1',
+        );
+        assert($stmt instanceof PDOStatement, description: 'PDO::prepare() must return a Statement for a valid query');
+        $stmt->execute(['extra exclusion test']);
+
+        /** @var array{context: string}|false $row */
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->assertIsArray($row);
+        $this->assertStringContainsString('request_id', $row['context']);
+        $this->assertStringNotContainsString('uuid', $row['context']);
+    }
+
+    /**
+     * @throws PDOException
+     */
+    #[Override]
     protected function setUp(): void
     {
-        $hostname = (string) (getenv('TESTS_ADAPTER_MYSQL_HOSTNAME') ?: 'localhost');
-        $username = (string) (getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: 'root');
-        $password = (string) (getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: '');
-        $database = (string) (getenv('TESTS_ADAPTER_MYSQL_DATABASE') ?: 'webware_log_test');
-        $port     = (int) (getenv('TESTS_ADAPTER_MYSQL_PORT') ?: '3306');
+        $hostname = getenv('TESTS_ADAPTER_MYSQL_HOSTNAME') ?: 'localhost';
+        $username = getenv('TESTS_ADAPTER_MYSQL_USERNAME') ?: 'root';
+        $password = getenv('TESTS_ADAPTER_MYSQL_PASSWORD') ?: '';
+        $database = getenv('TESTS_ADAPTER_MYSQL_DATABASE') ?: 'webware_log_test';
+        $port = (int) (getenv('TESTS_ADAPTER_MYSQL_PORT') ?: '3306');
 
         $connection = new Connection([
             'hostname' => $hostname,
-            'port'     => $port,
+            'port' => $port,
             'username' => $username,
             'password' => $password,
             'database' => $database,
         ]);
-        $driver        = new Driver($connection, new Statement(), new Result());
-        $platform      = new AdapterPlatform($driver);
+        $driver = new Driver($connection, new Statement(), new Result());
+        $platform = new AdapterPlatform($driver);
         $this->adapter = new Adapter($driver, $platform);
 
-        $dsn       = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $hostname, $port, $database);
+        $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $hostname, $port, $database);
         $this->pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $this->pdo->exec('TRUNCATE TABLE `log`');
     }
@@ -175,10 +244,10 @@ final class PhpDbHandlerTest extends TestCase
     private function makeRecord(string $message = 'test message'): LogRecord
     {
         return new LogRecord(
-            datetime : new DateTimeImmutable(),
-            channel  : 'app',
-            level    : Level::Info,
-            message  : $message,
+            datetime: new DateTimeImmutable(),
+            channel: 'app',
+            level: Level::Info,
+            message: $message,
             formatted: $message,
         );
     }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -35,6 +36,9 @@ final class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getConfigDefaultsChannelDefaultsToApp(): void
     {
@@ -43,6 +47,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertSame(LogChannel::App->value, $defaults['channel']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getConfigDefaultsProcessFlagsDefaultToFalse(): void
     {
@@ -53,6 +60,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertFalse($defaults['process_translation']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getConfigDefaultsReturnsExpectedKeys(): void
     {
@@ -65,6 +75,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey('table', $defaults);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getConfigDefaultsTableDefaultsToLog(): void
     {
@@ -73,6 +86,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertSame('log', $defaults['table']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getDependenciesAliasesEventDispatcherInterface(): void
     {
@@ -81,6 +97,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(EventDispatcherInterface::class, $deps['aliases']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getDependenciesAliasesListenerProviderInterface(): void
     {
@@ -89,6 +108,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ListenerProviderInterface::class, $deps['aliases']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getListenersPsr14ListenerHasPriority(): void
     {
@@ -98,6 +120,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertIsInt($listeners[LogEvent::class][0]['priority']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function getListenersRegistersLogEventWithPsr14Listener(): void
     {
@@ -107,6 +132,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertSame(Psr3LogPsr14Listener::class, $listeners[LogEvent::class][0]['listener']);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeContainsListenerKey(): void
     {
@@ -115,6 +143,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ConfigProvider::LISTENER_KEY, $config);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeContainsListenerProviderKey(): void
     {
@@ -123,6 +154,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ConfigProvider::LISTENER_PROVIDER_KEY, $config);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeDoesNotContainLegacyConfigProviderKey(): void
     {
@@ -131,6 +165,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayNotHasKey(ConfigProvider::class, $config);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeDoesNotContainLogRuntime(): void
     {
@@ -139,6 +176,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayNotHasKey('log_runtime', $config);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeNestedLoggerConfigMatchesGetConfigDefaults(): void
     {
@@ -147,6 +187,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertSame($this->provider->getConfigDefaults(), $config[LoggerInterface::class]);
     }
 
+    /**
+     * @throws \PHPUnit\Exception
+     */
     #[Test]
     public function invokeReturnsArrayKeyedOnLoggerInterface(): void
     {
@@ -155,6 +198,7 @@ final class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(LoggerInterface::class, $config);
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->provider = new ConfigProvider();

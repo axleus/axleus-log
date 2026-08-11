@@ -18,15 +18,17 @@ use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
+use Override;
 
 final class LaminasI18nProcessor implements ProcessorInterface, TranslatorAwareInterface
 {
     use TranslatorAwareTrait;
 
+    #[Override]
     public function __invoke(LogRecord $record): LogRecord
     {
         $translator = $this->getTranslator();
-        if ($translator === null) {
+        if (null === $translator) {
             return $record;
         }
 
@@ -35,7 +37,7 @@ final class LaminasI18nProcessor implements ProcessorInterface, TranslatorAwareI
         return $record->with(
             message: $translated,
             context: $record->context,
-            extra  : $record->extra,
+            extra: $record->extra,
         );
     }
 }
