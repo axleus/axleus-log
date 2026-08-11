@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a08355fa3433ca396739056f15c9f82",
+    "content-hash": "9ad863c1adf43f810c9f7ce886d3fbb0",
     "packages": [
         {
             "name": "brick/math",
@@ -6967,12 +6967,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "f4f38b8750fb0db0242fb03d4727517e3611da8b"
+                "reference": "402124adeb517a169a63f4b03340d9a0f130bfba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/f4f38b8750fb0db0242fb03d4727517e3611da8b",
-                "reference": "f4f38b8750fb0db0242fb03d4727517e3611da8b",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/402124adeb517a169a63f4b03340d9a0f130bfba",
+                "reference": "402124adeb517a169a63f4b03340d9a0f130bfba",
                 "shasum": ""
             },
             "conflict": {
@@ -7611,6 +7611,7 @@
                 "php-standard-library/h2": ">=6.1,<6.1.2|>=6.2,<6.2.1",
                 "php-standard-library/php-standard-library": ">=6.1,<6.1.2|>=6.2,<6.2.1",
                 "phpbb/phpbb": "<3.3.16|==4.0.0.0-alpha1",
+                "phpcsstandards/phpcsutils": ">=1.0.0.0-alpha1,<1.2.3",
                 "phpems/phpems": ">=6,<=6.1.3",
                 "phpfastcache/phpfastcache": "<6.1.5|>=7,<7.1.2|>=8,<8.0.7",
                 "phpmailer/phpmailer": "<6.5",
@@ -8084,7 +8085,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T18:55:46+00:00"
+            "time": "2026-08-11T20:03:09+00:00"
         },
         {
             "name": "sanmai/di-container",
@@ -11293,6 +11294,56 @@
                 "source": "https://github.com/webmozarts/glob/tree/4.7.0"
             },
             "time": "2024-03-07T20:33:40+00:00"
+        },
+        {
+            "name": "webware/webware-tools",
+            "version": "0.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webinertia/webware-tools.git",
+                "reference": "2808fe4529e41a9212033dc5798531c1260a0ed3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webinertia/webware-tools/zipball/2808fe4529e41a9212033dc5798531c1260a0ed3",
+                "reference": "2808fe4529e41a9212033dc5798531c1260a0ed3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~8.4.0 || ~8.5.0"
+            },
+            "require-dev": {
+                "roave/security-advisories": "dev-master"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webware\\Tools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Joey Smith",
+                    "email": "jsmith@webinertia.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CI/CD tool config for the webware.",
+            "keywords": [
+                "mago",
+                "tools",
+                "webware"
+            ],
+            "support": {
+                "issues": "https://github.com/webinertia/webware-tools/issues",
+                "source": "https://github.com/webinertia/webware-tools/tree/0.1.x"
+            },
+            "time": "2026-08-11T18:30:47+00:00"
         }
     ],
     "aliases": [],
@@ -11300,7 +11351,8 @@
     "stability-flags": {
         "php": 20,
         "php-db/phpdb-mysql": 20,
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "webware/webware-tools": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
