@@ -35,6 +35,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Webware\Log\Handler\PhpDbHandler;
 
+use function assert;
 use function getenv;
 use function sprintf;
 
@@ -201,7 +202,7 @@ final class PhpDbHandlerTest extends TestCase
         $stmt = $this->pdo->prepare(
             'SELECT context FROM log WHERE message = ? ORDER BY id DESC LIMIT 1',
         );
-        assert($stmt instanceof PDOStatement);
+        assert($stmt instanceof PDOStatement, description: 'PDO::prepare() must return a Statement for a valid query');
         $stmt->execute(['extra exclusion test']);
 
         /** @var array{context: string}|false $row */

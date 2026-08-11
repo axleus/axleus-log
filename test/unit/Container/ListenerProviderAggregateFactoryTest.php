@@ -30,8 +30,6 @@ use Webware\Log\Container\ListenerProviderAggregateFactory;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\Listener\Psr3LogPsr14Listener;
 
-use function iterator_to_array;
-
 #[CoversClass(ListenerProviderAggregateFactory::class)]
 #[CoversMethod(ListenerProviderAggregateFactory::class, '__invoke')]
 final class ListenerProviderAggregateFactoryTest extends TestCase
