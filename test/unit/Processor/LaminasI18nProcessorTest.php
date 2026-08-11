@@ -29,7 +29,6 @@ use Webware\Log\Processor\LaminasI18nProcessor;
 
 #[CoversClass(LaminasI18nProcessor::class)]
 #[CoversMethod(LaminasI18nProcessor::class, '__invoke')]
-#[CoversMethod(LaminasI18nProcessor::class, 'setTranslator')]
 final class LaminasI18nProcessorTest extends TestCase
 {
     private LaminasI18nProcessor $processor;

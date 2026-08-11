@@ -38,7 +38,6 @@ use function getenv;
 use function sprintf;
 
 #[CoversClass(PhpDbHandler::class)]
-#[CoversMethod(PhpDbHandler::class, 'handle')]
 #[CoversMethod(PhpDbHandler::class, 'write')]
 #[RequiresPhpExtension('pdo_mysql')]
 final class PhpDbHandlerTest extends TestCase
