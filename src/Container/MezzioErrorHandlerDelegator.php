@@ -39,7 +39,7 @@ final class MezzioErrorHandlerDelegator
         $rawConfig = $container->get('config');
 
         /** @var LogDefaults $config */
-        $config = $rawConfig[LoggerInterface::class] ?? (new ConfigProvider())->getConfigDefaults();
+        $config = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
 
         /** @var ErrorHandler $handler */
         $handler = $callback();

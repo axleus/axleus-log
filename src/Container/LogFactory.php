@@ -43,7 +43,7 @@ final class LogFactory
         /** @var LogDefaults $config */
         $config = !empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
-            : (new ConfigProvider())->getConfigDefaults();
+            : new ConfigProvider()->getConfigDefaults();
 
         $channel = LogChannel::tryFrom($config['channel']) ?? LogChannel::App;
         $logger = new Logger($channel->value);

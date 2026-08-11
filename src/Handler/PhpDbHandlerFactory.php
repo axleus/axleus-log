@@ -38,7 +38,7 @@ final class PhpDbHandlerFactory
         /** @var LogDefaults $config */
         $config = !empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
-            : (new ConfigProvider())->getConfigDefaults();
+            : new ConfigProvider()->getConfigDefaults();
 
         // phpdb does not share laminas-db's configuration structure.
         // The adapter is wired independently by the host application under PhpDb\Adapter\AdapterInterface::class.
