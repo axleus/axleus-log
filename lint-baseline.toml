@@ -50,12 +50,6 @@ count = 1
 
 [[issues]]
 file = "src/Handler/PhpDbHandler.php"
-code = "ambiguous-function-call"
-message = "Ambiguous function call detected."
-count = 2
-
-[[issues]]
-file = "src/Handler/PhpDbHandler.php"
 code = "no-negated-ternary"
 message = "Negated ternary condition."
 count = 1

@@ -20,6 +20,8 @@ use Override;
 use PhpDb\Adapter\AdapterInterface;
 use PhpDb\Sql\Sql;
 
+use function array_diff_key;
+use function array_filter;
 use function json_encode;
 
 use const JSON_THROW_ON_ERROR;
