@@ -38,7 +38,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
     public function createDatabase(): void
     {
         $this->connect();
-        assert($this->pdo instanceof PDO);
+        assert($this->pdo instanceof PDO, 'PDO connection is not established');
         if (
             false === $this->pdo->exec(sprintf(
                 'CREATE DATABASE IF NOT EXISTS %s',
