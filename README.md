@@ -8,7 +8,7 @@
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fwebinertia%2Fwebware-log%2F1.1.x)](https://dashboard.stryker-mutator.io/reports/github.com/webinertia/webware-log/1.1.x)
 
 This package provides logging via Monolog for Mezzio (PSR-15) applications.
-It provides log handlers backed by `laminas-db` or `php-db/phpdb` for writing logs to a database table.
+It provides log handlers backed by `php-db/phpdb` for writing logs to a database table.
 It also provides a PSR-14 event listener and a Laminas EventManager bridge listener for error logging.
 
 ## Documentation
