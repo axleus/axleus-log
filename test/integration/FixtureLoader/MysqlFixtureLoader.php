@@ -19,6 +19,7 @@ use Override;
 use PDO;
 use PDOException;
 
+use function assert;
 use function file_get_contents;
 use function getenv;
 use function print_r;
