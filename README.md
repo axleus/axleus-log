@@ -2,7 +2,7 @@
 
 [![PHP Version](https://img.shields.io/packagist/php-v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
 [![Latest Stable Version](https://img.shields.io/packagist/v/webware/webware-log)](https://packagist.org/packages/webware/webware-log)
-[![License](https://img.shields.io/github/license/webware/webware-log)](LICENSE)
+[![License](https://img.shields.io/github/license/webinertia/webware-log)](LICENSE)
 [![Continuous Integration](https://github.com/webinertia/webware-log/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/webinertia/webware-log/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/webinertia/webware-log/graph/badge.svg)](https://codecov.io/gh/webinertia/webware-log)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fwebinertia%2Fwebware-log%2F1.1.x)](https://dashboard.stryker-mutator.io/reports/github.com/webinertia/webware-log/1.1.x)
