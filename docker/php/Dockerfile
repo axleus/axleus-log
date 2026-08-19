@@ -3,7 +3,7 @@ ARG PHP_VERSION=8.4.20
 FROM php:${PHP_VERSION}-apache-bookworm AS base
 
 # Copy Composer from the official Docker Hub repository to the local filesystem
-COPY --from=composer:2.9.8 /usr/bin/composer /usr/bin/
+COPY --from=composer:2.10.2 /usr/bin/composer /usr/bin/
 
 # Install the database extensions for MySQL, PostgreSQL, and SQLite, their
 # dependencies, and any other tools that are required for the environment to be
