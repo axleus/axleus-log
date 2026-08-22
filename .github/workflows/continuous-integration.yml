@@ -25,7 +25,7 @@ jobs:
       run-integration: true
       # Seeded MySQL container for integration tests; DB seeding itself is
       # handled by the ListenerExtension PHPUnit bootstrap, not this workflow.
-      db-image: "mysql:8.0"
+      db-image: "mysql:8.4"
       db-port: "3306"
       db-env-json: '{"MYSQL_ROOT_HOST":"%","MYSQL_DATABASE":"webware_log_test","MYSQL_ALLOW_EMPTY_PASSWORD":"true"}'
       db-health-cmd: "mysqladmin ping -h127.0.0.1 --silent"
