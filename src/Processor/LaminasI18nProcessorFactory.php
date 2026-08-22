@@ -29,11 +29,10 @@ final class LaminasI18nProcessorFactory
      */
     public function __invoke(ContainerInterface $container): ProcessorInterface
     {
-        if (!$container->has(TranslatorInterface::class)) {
+        if (! $container->has(TranslatorInterface::class)) {
             throw new ServiceNotFoundException(TranslatorInterface::class . ' was not found in the container');
         }
 
-        /** @var LaminasI18nProcessor */
         $processor = new LaminasI18nProcessor();
 
         /** @var \Laminas\I18n\Translator\TranslatorInterface $translator */

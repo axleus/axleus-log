@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Processor;
 
+use Laminas\I18n\Translator\TranslatorInterface as I18nTranslatorInterface;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\Translator\TranslatorInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -38,8 +39,8 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
     #[Test]
     public function invokeReturnsLaminasI18nProcessorWhenTranslatorPresent(): void
     {
-        $translator = $this->createStub(\Laminas\I18n\Translator\TranslatorInterface::class);
-        $container = $this->createStub(ContainerInterface::class);
+        $translator = $this->createStub(I18nTranslatorInterface::class);
+        $container  = $this->createStub(ContainerInterface::class);
 
         $container->method('has')
             ->willReturnCallback(
@@ -52,7 +53,7 @@ final class LaminasI18nProcessorFactoryTest extends TestCase
             );
 
         $factory = new LaminasI18nProcessorFactory();
-        $result = $factory($container);
+        $result  = $factory($container);
 
         $this->assertInstanceOf(LaminasI18nProcessor::class, $result);
         $this->assertSame($translator, $result->getTranslator());

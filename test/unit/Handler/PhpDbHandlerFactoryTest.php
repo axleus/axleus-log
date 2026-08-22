@@ -39,8 +39,8 @@ final class PhpDbHandlerFactoryTest extends TestCase
     public function invokeFallsBackToDefaultTableWhenNoConfig(): void
     {
         $container = $this->makeContainer([]);
-        $factory = new PhpDbHandlerFactory();
-        $result = $factory($container);
+        $factory   = new PhpDbHandlerFactory();
+        $result    = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
@@ -54,8 +54,8 @@ final class PhpDbHandlerFactoryTest extends TestCase
     public function invokeReturnsPhpDbHandler(): void
     {
         $container = $this->makeContainer([]);
-        $factory = new PhpDbHandlerFactory();
-        $result = $factory($container);
+        $factory   = new PhpDbHandlerFactory();
+        $result    = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
@@ -70,17 +70,17 @@ final class PhpDbHandlerFactoryTest extends TestCase
     {
         $container = $this->makeContainer([
             LoggerInterface::class => [
-                'table' => 'audit_log',
-                'channel' => 'app',
-                'log_errors' => false,
-                'process_uuid' => false,
+                'table'               => 'audit_log',
+                'channel'             => 'app',
+                'log_errors'          => false,
+                'process_uuid'        => false,
                 'process_translation' => false,
-                'auth_attribute' => 'attr',
+                'auth_attribute'      => 'attr',
             ],
         ]);
 
         $factory = new PhpDbHandlerFactory();
-        $result = $factory($container);
+        $result  = $factory($container);
 
         $this->assertInstanceOf(PhpDbHandler::class, $result);
     }
@@ -93,7 +93,7 @@ final class PhpDbHandlerFactoryTest extends TestCase
      */
     private function makeContainer(array $config): ContainerInterface
     {
-        $adapter = $this->createStub(AdapterInterface::class);
+        $adapter   = $this->createStub(AdapterInterface::class);
         $container = $this->createStub(ContainerInterface::class);
         $container->method('get')
             ->willReturnCallback(

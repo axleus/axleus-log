@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "422a4b0d8419ad0384b93d31c7239d69",
+    "content-hash": "5255ec2afe54b4e8592fd376f925e6c4",
     "packages": [
         {
             "name": "brick/math",
@@ -11303,12 +11303,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webinertia/webware-tools.git",
-                "reference": "878db74e96b65918ba70ede29bd5fc81ea9008a8"
+                "reference": "498b1f473b32d2226d4c2b1d143181aabd67f2cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webinertia/webware-tools/zipball/878db74e96b65918ba70ede29bd5fc81ea9008a8",
-                "reference": "878db74e96b65918ba70ede29bd5fc81ea9008a8",
+                "url": "https://api.github.com/repos/webinertia/webware-tools/zipball/498b1f473b32d2226d4c2b1d143181aabd67f2cd",
+                "reference": "498b1f473b32d2226d4c2b1d143181aabd67f2cd",
                 "shasum": ""
             },
             "require": {
@@ -11345,13 +11345,12 @@
                 "issues": "https://github.com/webinertia/webware-tools/issues",
                 "source": "https://github.com/webinertia/webware-tools/tree/0.1.x"
             },
-            "time": "2026-08-11T21:29:01+00:00"
+            "time": "2026-08-22T22:48:38+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "php": 20,
         "php-db/phpdb-mysql": 20,
         "roave/security-advisories": 20,
         "webware/webware-tools": 20
@@ -11359,7 +11358,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.4.1 || ~8.5.0 || 8.6.0-dev"
+        "php": "~8.4.1 || ~8.5.0"
     },
     "platform-dev": {},
     "platform-overrides": {

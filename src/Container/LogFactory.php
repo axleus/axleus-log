@@ -37,19 +37,17 @@ final class LogFactory
      */
     public function __invoke(ContainerInterface $container): LoggerInterface
     {
-        /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
+        /** @var array{LoggerInterface::class?: LogDefaults} */
         $rawConfig = $container->get('config');
 
-        /** @var LogDefaults $config */
-        $config = !empty($rawConfig[LoggerInterface::class])
+        $config = ! empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
             : new ConfigProvider()->getConfigDefaults();
 
         $channel = LogChannel::tryFrom($config['channel']) ?? LogChannel::App;
-        $logger = new Logger($channel->value);
+        $logger  = new Logger($channel->value);
 
         if ($container->has(Handler\PhpDbHandler::class)) {
-            /** @var Handler\PhpDbHandler $phpDbHandler */
             $phpDbHandler = $container->get(Handler\PhpDbHandler::class);
             $logger->pushHandler($phpDbHandler);
         }
@@ -63,7 +61,6 @@ final class LogFactory
         $logger->pushProcessor($processor);
 
         if (($config['process_translation'] ?? false) && $container->has(TranslatorInterface::class)) {
-            /** @var Processor\LaminasI18nProcessor $i18nProcessor */
             $i18nProcessor = $container->get(Processor\LaminasI18nProcessor::class);
             $logger->pushProcessor($i18nProcessor);
         }

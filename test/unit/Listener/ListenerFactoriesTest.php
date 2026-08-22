@@ -42,11 +42,11 @@ final class ListenerFactoriesTest extends TestCase
     #[Test]
     public function laminasFactoryReturnsLaminasListener(): void
     {
-        $logger = $this->createStub(Logger::class);
+        $logger    = $this->createStub(Logger::class);
         $container = $this->makeContainer($logger);
 
         $factory = new Psr3LogLaminasListenerFactory();
-        $result = $factory($container);
+        $result  = $factory($container);
 
         $this->assertInstanceOf(Psr3LogLaminasListener::class, $result);
     }
@@ -59,11 +59,11 @@ final class ListenerFactoriesTest extends TestCase
     #[Test]
     public function psr14FactoryReturnsPsr14Listener(): void
     {
-        $logger = $this->createStub(Logger::class);
+        $logger    = $this->createStub(Logger::class);
         $container = $this->makeContainer($logger);
 
         $factory = new Psr3LogPsr14ListenerFactory();
-        $result = $factory($container);
+        $result  = $factory($container);
 
         $this->assertInstanceOf(Psr3LogPsr14Listener::class, $result);
     }

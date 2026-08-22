@@ -48,12 +48,12 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
         $container = $this->makeContainer(
             [
                 LoggerInterface::class => [
-                    'log_errors' => true,
-                    'channel' => 'app',
-                    'process_uuid' => false,
+                    'log_errors'          => true,
+                    'channel'             => 'app',
+                    'process_uuid'        => false,
                     'process_translation' => false,
-                    'table' => 'log',
-                    'auth_attribute' => 'attr',
+                    'table'               => 'log',
+                    'auth_attribute'      => 'attr',
                 ],
             ],
             [LoggerInterface::class => $logger],
@@ -64,7 +64,7 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
             ->with($this->isInstanceOf(MezzioErrorListener::class));
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }
@@ -78,12 +78,12 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
     public function invokeFallsBackToDefaultsWhenNoLoggerConfig(): void
     {
         $errorHandler = $this->makeHandler();
-        $container = $this->makeContainer([]);
+        $container    = $this->makeContainer([]);
 
         $errorHandler->expects($this->never())->method('attachListener');
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }
@@ -97,21 +97,21 @@ final class MezzioErrorHandlerDelegatorTest extends TestCase
     public function invokeReturnsErrorHandlerUnchangedWhenLogErrorsFalse(): void
     {
         $errorHandler = $this->makeHandler();
-        $container = $this->makeContainer([
+        $container    = $this->makeContainer([
             LoggerInterface::class => [
-                'log_errors' => false,
-                'channel' => 'app',
-                'process_uuid' => false,
+                'log_errors'          => false,
+                'channel'             => 'app',
+                'process_uuid'        => false,
                 'process_translation' => false,
-                'table' => 'log',
-                'auth_attribute' => 'attr',
+                'table'               => 'log',
+                'auth_attribute'      => 'attr',
             ],
         ]);
 
         $errorHandler->expects($this->never())->method('attachListener');
 
         $delegator = new MezzioErrorHandlerDelegator();
-        $result = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
+        $result    = $delegator($container, ErrorHandler::class, static fn() => $errorHandler);
 
         $this->assertSame($errorHandler, $result);
     }

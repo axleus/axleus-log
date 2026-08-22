@@ -32,17 +32,15 @@ final class PhpDbHandlerFactory
      */
     public function __invoke(ContainerInterface $container): PhpDbHandler
     {
-        /** @var array{LoggerInterface::class?: LogDefaults, authentication?: array{username?: string}}&array<string, mixed> */
+        /** @var array{LoggerInterface::class?: LogDefaults, authentication?: array{username?: string}} */
         $rawConfig = $container->get('config');
 
-        /** @var LogDefaults $config */
-        $config = !empty($rawConfig[LoggerInterface::class])
+        $config = ! empty($rawConfig[LoggerInterface::class])
             ? $rawConfig[LoggerInterface::class]
             : new ConfigProvider()->getConfigDefaults();
 
         // phpdb does not share laminas-db's configuration structure.
         // The adapter is wired independently by the host application under PhpDb\Adapter\AdapterInterface::class.
-        /** @var AdapterInterface */
         $adapter = $container->get(AdapterInterface::class);
 
         return new PhpDbHandler(

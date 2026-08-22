@@ -22,10 +22,13 @@ use Monolog\Logger;
 use Override;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Stringable;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\LogChannel;
+
+use function assert;
 
 /**
  * @deprecated since 0.1.0; will be removed in 0.2.0. Use Psr3LogPsr14Listener instead.
@@ -63,6 +66,7 @@ final class Psr3LogLaminasListener extends AbstractListenerAggregate
 
     /**
      * @param EventInterface<object, array<string, mixed>> $event
+     * @throws InvalidArgumentException
      */
     public function onLog(EventInterface $event): void
     {

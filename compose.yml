@@ -40,7 +40,7 @@ services:
         PHP_VERSION: "8.4.24"
         # Keep in sync with the central mago.toml `version =` pin in
         # webware/webware-tools.
-        MAGO_VERSION: "1.47.2"
+        MAGO_VERSION: "1.47.3"
     # Keep the container alive so `docker compose exec` can attach to it.
     # (VS Code Dev Containers override this with their own command.)
     command: sleep infinity
@@ -79,7 +79,7 @@ services:
   # (MysqlFixtureLoader) at test time, not by this service.
   # -------------------------------------------------------------------------
   mysql:
-    image: mysql:8.4
+    image: mysql:9.7
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: webware_log_test

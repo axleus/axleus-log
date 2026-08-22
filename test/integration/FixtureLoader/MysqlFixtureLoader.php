@@ -39,7 +39,7 @@ final class MysqlFixtureLoader implements FixtureLoaderInterface
     {
         $this->connect();
         assert(
-            assertion: $this->pdo instanceof PDO,
+            assertion  : $this->pdo instanceof PDO,
             description: 'PDO connection is not established',
         );
         if (

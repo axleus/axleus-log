@@ -39,7 +39,7 @@ class MonologMiddleware implements MiddlewareInterface
 
         if ($userInterface instanceof UserInterface) {
             $this->logger->pushProcessor(static function (LogRecord $record) use ($userInterface): LogRecord {
-                $extra = $record->extra;
+                $extra          = $record->extra;
                 $extra['email'] = $userInterface->getIdentity();
 
                 return $record->with(extra: $extra);

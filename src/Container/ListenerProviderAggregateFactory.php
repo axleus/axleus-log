@@ -25,6 +25,7 @@ use Webware\Log\ConfigProvider;
 
 use function is_array;
 use function is_callable;
+use function is_int;
 use function is_string;
 
 final class ListenerProviderAggregateFactory
@@ -36,18 +37,15 @@ final class ListenerProviderAggregateFactory
     public function __invoke(ContainerInterface $container): ListenerProviderAggregate
     {
         /** @var array{listeners?: array<class-string, array<int, array{listener: callable|class-string, priority?: int}>>, listener_providers?: array<class-string>} $config */
-        $config = $container->get('config');
-        $listeners = $config[ConfigProvider::LISTENER_KEY] ?? [];
+        $config            = $container->get('config');
+        $listeners         = $config[ConfigProvider::LISTENER_KEY] ?? [];
         $listenerProviders = $config[ConfigProvider::LISTENER_PROVIDER_KEY] ?? [];
 
-        /** @var PrioritizedListenerProvider $prioritizedProvider */
         $prioritizedProvider = $container->get(PrioritizedListenerProvider::class);
 
-        /** @var AttachableListenerProvider $attachableProvider */
         $attachableProvider = $container->get(AttachableListenerProvider::class);
-        $aggregate = new ListenerProviderAggregate();
+        $aggregate          = new ListenerProviderAggregate();
 
-        /** @var class-string $eventType */
         /** @var array<int, array{listener: callable|class-string, priority?: int}|callable|class-string> $spec */
         foreach ($listeners as $eventType => $spec) {
             foreach ($spec as $listener) {
@@ -75,7 +73,7 @@ final class ListenerProviderAggregateFactory
                         continue;
                     }
 
-                    if (!empty($listener['priority']) && is_int($listener['priority'])) {
+                    if (! empty($listener['priority']) && is_int($listener['priority'])) {
                         $prioritizedProvider->listen($eventType, $resolvedListener, $listener['priority']);
                     } else {
                         $attachableProvider->listen($eventType, $resolvedListener);
@@ -86,7 +84,6 @@ final class ListenerProviderAggregateFactory
             }
         }
 
-        /** @var class-string $provider */
         foreach ($listenerProviders as $provider) {
             $providerInstance = $container->has($provider) ? $container->get($provider) : null;
 
