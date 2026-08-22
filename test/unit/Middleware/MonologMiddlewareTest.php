@@ -14,8 +14,11 @@ declare(strict_types=1);
 
 namespace WebwareTest\Log\Middleware;
 
+use DateTimeImmutable;
 use Mezzio\Authentication\UserInterface;
+use Monolog\Level;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
@@ -74,6 +77,52 @@ final class MonologMiddlewareTest extends TestCase
         $logger->expects($this->never())->method('pushProcessor');
 
         new MonologMiddleware($logger)->process($request, $handler);
+    }
+
+    /**
+     * @throws \PHPUnit\Exception
+     */
+    #[Test]
+    public function processorAddsEmailToRecordExtra(): void
+    {
+        /** @var Logger&MockObject $logger */
+        $logger   = $this->createMock(Logger::class);
+        $request  = $this->createStub(ServerRequestInterface::class);
+        $handler  = $this->createStub(RequestHandlerInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
+        $user     = $this->createStub(UserInterface::class);
+
+        $user->method('getIdentity')->willReturn('user@example.com');
+        $request->method('getAttribute')->willReturn($user);
+        $request->method('withAttribute')->willReturn($request);
+        $handler->method('handle')->willReturn($response);
+
+        $processor = null;
+        $logger->expects($this->once())
+            ->method('pushProcessor')
+            ->willReturnCallback(static function (callable $callback) use (&$processor, $logger): Logger {
+                $processor = $callback;
+
+                return $logger;
+            });
+
+        new MonologMiddleware($logger)->process($request, $handler);
+
+        self::assertIsCallable($processor);
+
+        /** @var callable(LogRecord): LogRecord $processor */
+        $record = new LogRecord(
+            datetime: new DateTimeImmutable(),
+            channel : 'test',
+            level   : Level::Debug,
+            message : 'test',
+            extra   : ['foo' => 'bar'],
+        );
+
+        $result = $processor($record);
+
+        $this->assertSame('user@example.com', $result->extra['email']);
+        $this->assertSame('bar', $result->extra['foo']);
     }
 
     /**
