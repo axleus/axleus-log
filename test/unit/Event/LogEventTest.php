@@ -24,6 +24,9 @@ use Psr\EventDispatcher\StoppableEventInterface;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\LogChannel;
 
+use function array_combine;
+use function array_map;
+
 #[CoversClass(LogEvent::class)]
 #[CoversMethod(LogEvent::class, '__construct')]
 #[CoversMethod(LogEvent::class, 'isPropagationStopped')]

@@ -97,9 +97,9 @@ final class RamseyUuidProcessorTest extends TestCase
     ): LogRecord {
         return new LogRecord(
             datetime: $datetime,
-            channel: 'test',
-            level: Level::Debug,
-            message: $message,
+            channel : 'test',
+            level   : Level::Debug,
+            message : $message,
         );
     }
 }

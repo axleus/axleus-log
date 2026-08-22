@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Webware\Log\Listener;
 
 use Monolog\Logger;
+use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Webware\Log\Event\LogEvent;
 use Webware\Log\LogChannel;
@@ -25,6 +26,9 @@ final class Psr3LogPsr14Listener
         private LoggerInterface&Logger $logger,
     ) {}
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __invoke(LogEvent $event): void
     {
         $channel = $event->getChannel();

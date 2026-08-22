@@ -35,11 +35,10 @@ class MonologMiddlewareFactory
         /** @var Logger */
         $logger = $container->get(LoggerInterface::class);
 
-        /** @var array{LoggerInterface::class?: LogDefaults}&array<string, mixed> */
+        /** @var array{LoggerInterface::class?: LogDefaults} */
         $rawConfig = $container->get('config');
 
-        /** @var LogDefaults $logConfig */
-        $logConfig = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
+        $logConfig     = $rawConfig[LoggerInterface::class] ?? new ConfigProvider()->getConfigDefaults();
         $authAttribute = $logConfig['auth_attribute'];
 
         return new MonologMiddleware($logger, $authAttribute);

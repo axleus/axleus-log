@@ -41,11 +41,10 @@ final class MezzioErrorListenerTest extends TestCase
     public function invokeIncludesExceptionInContext(): void
     {
         $exception = new RuntimeException('error');
-        $request = $this->createStub(ServerRequestInterface::class);
-        $response = $this->createStub(ResponseInterface::class);
+        $request   = $this->createStub(ServerRequestInterface::class);
+        $response  = $this->createStub(ResponseInterface::class);
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('error')
             ->with(
                 'error',
@@ -62,11 +61,10 @@ final class MezzioErrorListenerTest extends TestCase
     public function invokeIncludesRequestAndResponseInContext(): void
     {
         $exception = new RuntimeException('oops');
-        $request = $this->createStub(ServerRequestInterface::class);
-        $response = $this->createStub(ResponseInterface::class);
+        $request   = $this->createStub(ServerRequestInterface::class);
+        $response  = $this->createStub(ResponseInterface::class);
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('error')
             ->with(
                 'oops',
@@ -85,11 +83,10 @@ final class MezzioErrorListenerTest extends TestCase
     public function invokeLogsExceptionMessageAtErrorLevel(): void
     {
         $exception = new RuntimeException('something went wrong');
-        $request = $this->createStub(ServerRequestInterface::class);
-        $response = $this->createStub(ResponseInterface::class);
+        $request   = $this->createStub(ServerRequestInterface::class);
+        $response  = $this->createStub(ResponseInterface::class);
 
-        $this->logger
-            ->expects($this->once())
+        $this->logger->expects($this->once())
             ->method('error')
             ->with('something went wrong', $this->arrayHasKey('exception'));
 
@@ -102,7 +99,7 @@ final class MezzioErrorListenerTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->logger   = $this->createMock(LoggerInterface::class);
         $this->listener = new MezzioErrorListener($this->logger);
     }
 }
