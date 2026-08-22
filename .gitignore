@@ -9,5 +9,7 @@
 /summary.log
 /vendor/
 /.vscode
+/.specify/
+/specs/
 /mago-results.txt
 *:Zone.Identifier

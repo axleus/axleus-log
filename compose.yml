@@ -1,30 +1,118 @@
-services:
-  php:
-    build:
-      context: ./
-      dockerfile: docker/php/Dockerfile
-      args:
-        - PHP_VERSION=${PHP_VERSION:-8.4.20}
-    volumes:
-      - ./:/var/www/html
-    depends_on:
-      - mysql
+# ---------------------------------------------------------------------------
+# Webware Log local development environment
+#
+# A persistent, interactive development environment that runs the full Webware
+# toolchain (Composer, PHPUnit, Mago, Infection, PHPBench, roave BC-check)
+# inside a container, so the host never needs a native PHP install. Works
+# identically on Windows, WSL, Linux, and macOS.
+#
+# This compose file is the single source of truth for the environment. Two
+# ways to use it:
+#
+#   1. VS Code Dev Container — "Reopen in Container" uses
+#      .devcontainer/devcontainer.json, which is *backed by* this file (it
+#      references the `tooling` service rather than defining its own).
+#
+#   2. Plain Docker Compose (any editor / no VS Code):
+#        docker compose up -d                 # start the persistent container
+#        docker compose exec tooling bash     # attach an interactive shell
+#        docker compose exec tooling composer install
+#        docker compose exec tooling composer test
+#        docker compose exec tooling mago lint
+#        docker compose down                  # stop it
+#
+# Webware Log's integration tests exercise the MySQL-backed PhpDbHandler, so a
+# `mysql` service is enabled below (reachable from `tooling` as host `mysql`
+# on port 3306), plus a `phpmyadmin` web UI at http://localhost:8080. The
+# MySQL credentials mirror the CI `db-env-json` parameter (root / empty
+# password / `webware_log_test` database); test data is seeded by the PHPUnit
+# ListenerExtension, not by this file.
+# ---------------------------------------------------------------------------
 
-  mysql:
+services:
+  tooling:
     build:
-      context: ./
-      dockerfile: docker/databases/mysql/Dockerfile
+      context: .
       args:
-        - VERSION=${MYSQL_VERSION:-8.0.41}
-    ports:
-      - "3306:3306"
+        # PHP version to base the image on (latest 8.4 patch release). Keep
+        # in sync with the package's supported PHP versions and
+        # `config.platform.php`.
+        PHP_VERSION: "8.4.24"
+        # Keep in sync with the central mago.toml `version =` pin in
+        # webware/webware-tools.
+        MAGO_VERSION: "1.47.2"
+    # Keep the container alive so `docker compose exec` can attach to it.
+    # (VS Code Dev Containers override this with their own command.)
+    command: sleep infinity
+    stdin_open: true
+    tty: true
     environment:
-      - MYSQL_ROOT_HOST=%
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-webware_log_test}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      # Point Composer at the named volume so its cache and global config
+      # survive container rebuilds (and live on the fast Linux filesystem).
+      COMPOSER_HOME: /tmp/composer-cache
+      # Uncomment (or export in your shell) to enable step debugging:
+      # XDEBUG_MODE: debug
+    extra_hosts:
+      # Lets Xdebug connect back to the host IDE from Windows, macOS, or Linux
+      # (host-gateway resolves to the Docker host on every platform).
+      - "host.docker.internal:host-gateway"
     volumes:
-      - ./test/integration/TestFixtures/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+      # Bind-mount the source so edits are visible on both the host and the
+      # container. vendor/ is deliberately overridden below with a named
+      # volume — do not bind-mount it from the host.
+      - .:/app
+      # Named volumes keep vendor/ and the Composer cache on the Linux
+      # filesystem. Bind-mounting vendor/ from a Windows host is extremely
+      # slow, so vendor/ is owned by the container and populated by
+      # `composer install` (it is gitignored anyway).
+      - vendor:/app/vendor
+      - composer-cache:/tmp/composer-cache
+    depends_on:
+      mysql:
+        condition: service_healthy
+    working_dir: /app
+
+  # -------------------------------------------------------------------------
+  # MySQL — required by the PhpDbHandler integration tests. Credentials mirror
+  # the CI `db-env-json` (root, empty password, `webware_log_test` database).
+  # The test schema and data are created by the PHPUnit ListenerExtension
+  # (MysqlFixtureLoader) at test time, not by this service.
+  # -------------------------------------------------------------------------
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: webware_log_test
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      # Named volume keeps the data on the fast Linux filesystem and
+      # survives `docker compose down` (use `down -v` to wipe it).
+      - mysql-data:/var/lib/mysql
+
+  # -------------------------------------------------------------------------
+  # phpMyAdmin — web UI for the `mysql` service above. Reachable at
+  # http://localhost:8080 (auto-login as root). Note: root uses an empty
+  # password, matching the test/CI convention.
+  # -------------------------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ""
+    ports:
+      - "8080:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  vendor:
+  composer-cache:
+  mysql-data:
