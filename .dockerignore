@@ -1,0 +1,16 @@
+# Exclude everything that doesn't belong in the build context. This keeps the
+# context sent to the Docker daemon small and avoids copying host-only or
+# generated artifacts into the image.
+.git
+.github
+.gitignore
+.gitattributes
+.vscode
+.devcontainer
+vendor
+.specify
+specs
+.phpunit.cache
+coverage
+node_modules
+*.log

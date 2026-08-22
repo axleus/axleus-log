@@ -1,0 +1,17 @@
+{
+  "name": "Webware Log (PHP 8.4)",
+  "dockerComposeFile": "../compose.yml",
+  "service": "tooling",
+  "workspaceFolder": "/app",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "junstyle.php-cs-fixer",
+        "xdebug.php-debug",
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}

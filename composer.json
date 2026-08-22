@@ -34,7 +34,7 @@
         }
     },
     "require": {
-        "php": "~8.4.1 || ~8.5.0 || 8.6.0-dev",
+        "php": "~8.4.1 || ~8.5.0",
         "laminas/laminas-hydrator": "^4.15.0",
         "laminas/laminas-component-installer": "^3.2",
         "monolog/monolog": "^3.4",
@@ -80,7 +80,8 @@
     "scripts": {
         "test-all": [
             "@test",
-            "@test-integration"
+            "@test-integration",
+            "@mutation-test"
         ],
         "test": "phpunit --no-coverage --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml --coverage-html coverage/html --coverage-text",
