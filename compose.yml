@@ -58,14 +58,13 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       # Bind-mount the source so edits are visible on both the host and the
-      # container. vendor/ is deliberately overridden below with a named
-      # volume — do not bind-mount it from the host.
+      # container. vendor/ is NOT overridden — it is the host's own copy.
+      # Composer/installs inside the container write straight into the
+      # developer's working tree on disk.
       - .:/app
-      # Named volumes keep vendor/ and the Composer cache on the Linux
-      # filesystem. Bind-mounting vendor/ from a Windows host is extremely
-      # slow, so vendor/ is owned by the container and populated by
-      # `composer install` (it is gitignored anyway).
-      - vendor:/app/vendor
+      # The Composer cache lives in a named volume (Linux-native I/O, fast on
+      # Windows) so downloads survive container rebuilds. It is only a cache
+      # — the developer's real artifacts all live on the host.
       - composer-cache:/tmp/composer-cache
     depends_on:
       mysql:
@@ -113,6 +112,5 @@ services:
         condition: service_healthy
 
 volumes:
-  vendor:
   composer-cache:
   mysql-data:
